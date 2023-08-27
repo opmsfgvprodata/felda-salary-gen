@@ -162,6 +162,9 @@ namespace SalaryGeneratorServices
                     TotalDataCount = TotalPkjCount * TotalDateCount;
                     TotalDataCount2 = TotalDataCount + 17; //modified by kamalia 26/4/2022
                     WriteLog("Total Data Count. (Data - Total Data : " + TotalDataCount2 + ")", false, ServiceName, ServiceProcessID);
+                    var vw_KerjaInfoDetails = Step2Func.vw_KerjaInfoDetails(NegaraID,SyarikatID,WilayahID,LadangID, Month, Year);
+                    var vw_Kerja_Bonus = Step2Func.vw_Kerja_Bonus(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+
                     foreach (var Pkjmstlist in Pkjmstlists)
                     {
                         Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
@@ -290,7 +293,7 @@ namespace SalaryGeneratorServices
                                     Step3Func.UpdatePaymentMode(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_PaymentMode, MonthSalaryID);
                                     WriteLog("Update Payment Mode. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Payment Mode : " + Pkjmstlist.fld_PaymentMode + ")", false, ServiceName, ServiceProcessID);
                                     
-                                    var oRP = Step3Func.GetORPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, workerIncentifs, incentifsType);
+                                    var oRP = Step3Func.GetORPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, workerIncentifs, incentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus);
                                     WriteLog("Get ORP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + oRP + ")", false, ServiceName, ServiceProcessID);
 
                                     Step3Func.GetOtherContributionsFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, out TotalOthrContMjkCont, out TotalOthrContPkjCont);
