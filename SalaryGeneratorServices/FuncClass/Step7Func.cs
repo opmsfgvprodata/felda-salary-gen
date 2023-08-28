@@ -453,10 +453,10 @@ namespace SalaryGeneratorServices.FuncClass
 
             if (amountM2EPT + amountM2EPA > 0)
             {
+                i++;
                 var vendor = vendorList.Where(x => x.fld_VendorInd == "M2E").FirstOrDefault();
                 totalAmount = amountM2EPT + amountM2EPA;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -totalAmount, fld_Currency = "RM", fld_Desc = vendor.fld_Desc.ToUpper() + " (" + GetEstateCOde + ") " + Month + "/" + Year, fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = "", fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendor.fld_VendorNo });
-                i++;
                 flag++;
             }
 
@@ -468,6 +468,7 @@ namespace SalaryGeneratorServices.FuncClass
             var scTranMERCHANTRADEPT = ScTrans.Where(x => x.fld_Kategori == 13 && x.fld_PaySheetID == "PT").FirstOrDefault();
             if (scTranMERCHANTRADEPT != null)
             {
+                i++;
                 amountMERCHANTRADEPT = scTranMERCHANTRADEPT.fld_Amt.Value;
                 descActivity = scTranMERCHANTRADEPT.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 var sapClearing = GLClearing.Where(x => x.fld_KodAktiviti == scTranMERCHANTRADEPT.fld_KodAktvt && x.fld_Paysheet == "PT").FirstOrDefault();
@@ -478,20 +479,19 @@ namespace SalaryGeneratorServices.FuncClass
             var scTranMERCHANTRADEPA = ScTrans.Where(x => x.fld_Kategori == 13 && x.fld_PaySheetID == "PA").FirstOrDefault();
             if (scTranMERCHANTRADEPA != null)
             {
+                i++;
                 amountMERCHANTRADEPA = scTranMERCHANTRADEPA.fld_Amt.Value;
                 descActivity = scTranMERCHANTRADEPA.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 var sapClearing = GLClearing.Where(x => x.fld_KodAktiviti == scTranMERCHANTRADEPA.fld_KodAktvt && x.fld_Paysheet == "PA").FirstOrDefault();
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = amountMERCHANTRADEPA, fld_Currency = "RM", fld_Desc = descActivity.ToUpper(), fld_GL = sapClearing.fld_SAPCode, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = sapClearing.fld_KodAktiviti, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
-
-                i++;
             }
 
             if (amountMERCHANTRADEPT + amountMERCHANTRADEPA > 0)
             {
+                i++;
                 var vendor = vendorList.Where(x => x.fld_VendorInd == "MTA").FirstOrDefault();
                 totalAmount = amountMERCHANTRADEPT + amountMERCHANTRADEPA;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -totalAmount, fld_Currency = "RM", fld_Desc = vendor.fld_Desc.ToUpper() + " (" + GetEstateCOde + ") " + Month + "/" + Year, fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = "", fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendor.fld_VendorNo });
-                i++;
                 flag++;
             }
 
@@ -512,11 +512,11 @@ namespace SalaryGeneratorServices.FuncClass
 
             foreach (var scTranContribution in scTranContributions)
             {
+                i++;
                 var amount = ScTrans.Where(x => x.fld_KodAktvt == scTranContribution.fld_KodAktvt).Sum(s => s.fld_Amt);
                 descActivity = scTranContribution.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = amount, fld_Currency = "RM", fld_Desc = descActivity.ToUpper(), fld_GL = scTranContribution.fld_GL, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = scTranContribution.fld_KodAktvt, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
                 amountContribution += amount.Value;
-                i++;
             }
 
             //Deduction Water & Electric
@@ -531,11 +531,11 @@ namespace SalaryGeneratorServices.FuncClass
 
             foreach (var scTranDeduction in scTranDeductions)
             {
+                i++;
                 var amount = ScTrans.Where(x => x.fld_KodAktvt == scTranDeduction.fld_KodAktvt).Sum(s => s.fld_Amt);
                 descActivity = scTranDeduction.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = amount, fld_Currency = "RM", fld_Desc = descActivity.ToUpper(), fld_GL = scTranDeduction.fld_GL, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = scTranDeduction.fld_KodAktvt, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
                 amountDeduction += amount.Value;
-                i++;
             }
 
             //Salary
@@ -550,20 +550,20 @@ namespace SalaryGeneratorServices.FuncClass
 
             foreach (var scTranSalary in scTranSalaries)
             {
+                i++;
                 var amount = ScTrans.Where(x => x.fld_KodAktvt == scTranSalary.fld_KodAktvt && x.fld_Kategori == scTranSalary.fld_Kategori).Sum(s => s.fld_Amt);
                 descActivity = scTranSalary.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = amount, fld_Currency = "RM", fld_Desc = descActivity.ToUpper(), fld_GL = scTranSalary.fld_GL, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = scTranSalary.fld_KodAktvt, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
                 amountSalary += amount.Value;
-                i++;
             }
 
             totalAmount = amountContribution + amountDeduction + amountSalary;
             if (totalAmount > 0)
             {
+                i++;
                 var vendorNo = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahID && x.fld_ID == LadangID).Select(s => s.fld_CustCPD).FirstOrDefault();
                 descActivity = "FELDA TKT " + NamaLadang + " (" + GetEstateCOde + ") " + Month + "/" + Year; ;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -totalAmount, fld_Currency = "RM", fld_Desc = descActivity.ToUpper(), fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = "-", fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendorNo });
-                i++;
             }
 
             #endregion clearing batch 2 - ESTATE

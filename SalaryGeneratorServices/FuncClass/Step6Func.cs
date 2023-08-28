@@ -819,7 +819,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Tunai TKT";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PT").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 11, GetSalaryGL, "-", "", "PT"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -833,7 +833,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Cheque TKT";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PT").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 12, GetSalaryGL, "-", "", "PT"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -847,7 +847,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " eWallet TKT";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PT").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 13, GetSalaryGL, "-", "", "PT"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -861,7 +861,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Maybank CDMAS TKT";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PT").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 14, GetSalaryGL, "-", "", "PT"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -875,7 +875,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Maybank M2E Estate TKT";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PT").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 15, GetSalaryGL, "-", "", "PT"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -889,7 +889,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Maybank M2E HQ TKT";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PT").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 16, GetSalaryGL, "-", "", "PT"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -910,7 +910,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Tunai TKA";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PA").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 11, GetSalaryGL, "-", "", "PA"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -924,7 +924,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Cheque TKA";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PA").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 12, GetSalaryGL, "-", "", "PA"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -938,7 +938,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " - eWallet TKA";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PA").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 13, GetSalaryGL, "-", "", "PA"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -952,7 +952,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Maybank CDMAS TKA";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PA").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 14, GetSalaryGL, "-", "", "PA"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -966,7 +966,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Maybank M2E Estate TKA";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PA").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 15, GetSalaryGL, "-", "", "PA"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -980,7 +980,7 @@ namespace SalaryGeneratorServices.FuncClass
                 if (Amount != 0)
                 {
                     description = GetWorkerSalary.fldOptConfDesc + " Maybank M2E HQ TKA";
-                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode && x.fld_Paysheet == "PA").Select(s => s.fld_SAPCode).FirstOrDefault();
                     AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 16, GetSalaryGL, "-", "", "PA"); //modified  by kamalia 17/3/22
                     message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
                     Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
