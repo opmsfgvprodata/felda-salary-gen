@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace SalaryGeneratorServices.FuncClass
@@ -981,27 +979,32 @@ namespace SalaryGeneratorServices.FuncClass
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
 
+            decimal? WorkingPayment = 0m;
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
             var kerjaList = vw_KerjaInfoDetails.Where(x => x.fld_Nopkj == NoPkj && x.fld_Kdhdct == "H01").ToList();
-            var normalDateAtt = kerjaList.Select(s => s.fld_Tarikh).Distinct().ToList();
-            var byrKerja = kerjaList.Sum(s => s.fld_OverallAmount);
-            var byrBonus = vw_Kerja_Bonus.Where(x => x.fld_Nopkj == NoPkj && normalDateAtt.Contains(x.fld_Tarikh)).Sum(s=>s.fld_Jumlah_B);
-            var WorkingPayment = byrKerja + GajiBulanan.fld_ByrCuti + byrBonus;
-            var oRPIncentifsCode = IncentifsType.Where(x => x.fld_AdaORP == true).Select(s => s.fld_KodInsentif).ToList();
-            if (WorkerIncentifs.Count() > 0)
+            if (kerjaList.Count() > 0)
             {
-                var oRPWorkerIncentifs = WorkerIncentifs.Where(x => oRPIncentifsCode.Contains(x.fld_KodInsentif)).ToList();
-                if (oRPWorkerIncentifs.Count() > 0)
+                var normalDateAtt = kerjaList.Select(s => s.fld_Tarikh).Distinct().ToList();
+                var byrKerja = kerjaList.Sum(s => s.fld_OverallAmount);
+                var byrBonus = vw_Kerja_Bonus.Where(x => x.fld_Nopkj == NoPkj && normalDateAtt.Contains(x.fld_Tarikh)).Sum(s => s.fld_Jumlah_B);
+                WorkingPayment = byrKerja + GajiBulanan.fld_ByrCuti + byrBonus;
+                var oRPIncentifsCode = IncentifsType.Where(x => x.fld_AdaORP == true).Select(s => s.fld_KodInsentif).ToList();
+                if (WorkerIncentifs.Count() > 0)
                 {
-                    WorkingPayment = WorkingPayment + oRPWorkerIncentifs.Sum(s => s.fld_NilaiInsentif);
+                    var oRPWorkerIncentifs = WorkerIncentifs.Where(x => oRPIncentifsCode.Contains(x.fld_KodInsentif)).ToList();
+                    if (oRPWorkerIncentifs.Count() > 0)
+                    {
+                        WorkingPayment = WorkingPayment + oRPWorkerIncentifs.Sum(s => s.fld_NilaiInsentif);
+                    }
                 }
-            }
-            var workingNormalDay = normalDateAtt.Count();
-            WorkingPayment = WorkingPayment / workingNormalDay;
-            WorkingPayment = Math.Round(WorkingPayment.Value, 2);
+                var workingNormalDay = normalDateAtt.Count();
+                WorkingPayment = WorkingPayment / workingNormalDay;
+                WorkingPayment = Math.Round(WorkingPayment.Value, 2);
 
-            AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 6, WorkingPayment, DTProcess, UserID, GajiBulanan);
-            MonthSalaryID = AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 20, WorkingPayment, DTProcess, UserID, GajiBulanan);
+                AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 6, WorkingPayment, DTProcess, UserID, GajiBulanan);
+                MonthSalaryID = AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 20, WorkingPayment, DTProcess, UserID, GajiBulanan);
+
+            }
 
             db2.Dispose();
 
