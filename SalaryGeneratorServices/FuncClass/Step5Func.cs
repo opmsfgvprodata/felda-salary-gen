@@ -485,6 +485,14 @@ namespace SalaryGeneratorServices.FuncClass
 
             if (Amount5 > 0)
             {
+                if (flag == null)
+                {
+                    flag = 1;
+                }
+                else
+                {
+                    flag = flag + 1;
+                }
                 DescActvt = GetWorkActvt7.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 var GLNo = GLClearing.fld_SAPCode;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount5, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = GLNo, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLClearing.fld_KodAktiviti, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
@@ -493,7 +501,6 @@ namespace SalaryGeneratorServices.FuncClass
 
             if (Amount5 > 0)
             {
-                flag++;
                 var vendor = vendorList.Where(x => x.fld_VendorInd == "M2E").FirstOrDefault();
                 var totalAmount = Amount5;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -totalAmount, fld_Currency = "RM", fld_Desc = vendor.fld_Desc.ToUpper() + " (" + GetEstateCOde + ") " + Month + "/" + Year, fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = "", fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendor.fld_VendorNo });
