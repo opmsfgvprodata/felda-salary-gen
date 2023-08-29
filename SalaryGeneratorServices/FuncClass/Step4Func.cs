@@ -131,38 +131,6 @@ namespace SalaryGeneratorServices.FuncClass
             db2.Dispose();
         }
 
-        //add new function to retrieve all admin activity 15/2/22 by kamalia
-        //public List<CustMod_AdminSCTrans> GetWorkAdminPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList)
-        //{
-        //    GenSalaryModelHQ db = new GenSalaryModelHQ();
-        //    GetConnectFunc conn = new GetConnectFunc();
-        //    List<CustMod_AdminSCTrans> AdminSCTransList = new List<CustMod_AdminSCTrans>();
-        //    string host, catalog, user, pass = "";
-        //    string GLKod = "";
-        //    conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
-        //    GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
-        //    //var NoPkjList = PkjMastList.Select(s => s.fld_Nopkj).ToArray();
-        //    var vw_KerjaInfoDetails = db2.vw_KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt != null).ToList();
-        //    var kodpkt = vw_KerjaInfoDetails.Select(s => s.fld_KodPkt).ToArray();
-        //    var WorkDistincts = vw_KerjaInfoDetails.Select(s => new { s.fld_Nopkj, s.fld_KodPkt, s.fld_IOKod, s.fld_PaySheetID, s.fld_SAPType }).Distinct().ToList();
-
-        //    foreach (var WorkDistinct in WorkDistincts)
-        //    {
-        //        var Blok = db2.tbl_Blok.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => s.fld_KodPktutama).FirstOrDefault(); //Updated by Kamy 26/4/2022
-        //        var subPkt = db2.tbl_SubPkt.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => s.fld_KodPktUtama).FirstOrDefault(); //Updated by Kamy 26/4/2022
-        //        var PktUtama = db2.tbl_PktUtama.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_PktUtama == WorkDistinct.fld_KodPkt || x.fld_PktUtama == subPkt || x.fld_PktUtama == Blok).Select(s => s.fld_JnsLot).ToArray(); //Updated by Kamy 26/4/2022
-        //        var sapType = string.IsNullOrEmpty(WorkDistinct.fld_SAPType) ? "IO" : WorkDistinct.fld_SAPType;
-        //        GLKod = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Paysheet == WorkDistinct.fld_PaySheetID && PktUtama.Contains(x.fld_JnsLot)).Select(s => s.fld_SAPCode).FirstOrDefault();
-        //        var totalWorking = vw_KerjaInfoDetails.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_KodPkt == WorkDistinct.fld_KodPkt && x.fld_IOKod == WorkDistinct.fld_IOKod && x.fld_PaySheetID == WorkDistinct.fld_PaySheetID).Count();
-        //        AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_SAPIO = WorkDistinct.fld_IOKod, fld_PaySheetID = WorkDistinct.fld_PaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
-        //    }
-
-        //    db.Dispose();
-        //    db2.Dispose();
-
-        //    return AdminSCTransList;
-        //}
-
         public List<CustMod_AdminSCTrans> GetWorkAdminPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList, string compCode)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();

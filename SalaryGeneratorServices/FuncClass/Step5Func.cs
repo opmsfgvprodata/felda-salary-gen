@@ -473,6 +473,35 @@ namespace SalaryGeneratorServices.FuncClass
                 }
             }
 
+            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode).ToList();
+            //clearing batch 5 - Maybank M2E
+            Amount5 = 0;
+            var GetWorkActvt7 = ScTrans.Where(x => x.fld_Kategori == 16).FirstOrDefault();
+            if (GetWorkActvt7 != null)
+            {
+                Amount5 = GetWorkActvt7.fld_Amt;
+            }
+
+
+            if (Amount5 > 0)
+            {
+                DescActvt = GetWorkActvt7.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
+                var GLNo = GLClearing.fld_SAPCode;
+                tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount5, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = GLNo, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLClearing.fld_KodAktiviti, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
+                i++;
+            }
+
+            if (Amount5 > 0)
+            {
+                flag++;
+                var vendor = vendorList.Where(x => x.fld_VendorInd == "M2E").FirstOrDefault();
+                var totalAmount = Amount5;
+                tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -totalAmount, fld_Currency = "RM", fld_Desc = vendor.fld_Desc.ToUpper() + " (" + GetEstateCOde + ") " + Month + "/" + Year, fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = "", fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendor.fld_VendorNo });
+                i++;
+            }
+
+            Amount5 = 0;
+
             //clearing batch 4 - Rancangan
             var GetWorkActvt4 = ScTrans.Where(x => x.fld_Kategori == 11 || x.fld_Kategori == 12).ToList();
             if (GetWorkActvt4.Count() > 0)
@@ -545,24 +574,6 @@ namespace SalaryGeneratorServices.FuncClass
             if (Amount5 > 0)
             {
                 DescActvt = GetWorkActvt6.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
-                var GLNo = GLClearing.fld_SAPCode;
-                tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount5, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = GLNo, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLClearing.fld_KodAktiviti, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
-                i++;
-            }
-
-            //clearing batch 5 - Maybank M2E
-            Amount5 = 0;
-            var GetWorkActvt7 = ScTrans.Where(x => x.fld_Kategori == 16).FirstOrDefault();
-            if (GetWorkActvt7 != null)
-            {
-                Amount5 = GetWorkActvt7.fld_Amt;
-                Amount4 += Amount5;
-            }
-
-
-            if (Amount5 > 0)
-            {
-                DescActvt = GetWorkActvt7.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 var GLNo = GLClearing.fld_SAPCode;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount5, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = GLNo, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLClearing.fld_KodAktiviti, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
                 i++;

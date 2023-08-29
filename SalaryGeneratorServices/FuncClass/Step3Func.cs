@@ -96,15 +96,6 @@ namespace SalaryGeneratorServices.FuncClass
                 AverageSalary = 0;
             }
 
-            //if (GetAverageSalary.Count != 0)
-            //{
-            //    AverageSalary = GetAverageSalary.Sum(s => s.fld_ByrKerja) / GetAverageSalary.Count;
-            //}
-            //else
-            //{
-            //    AverageSalary = db2.tbl_GajiBulanan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Month == Month && x.fld_Year == Year).Select(s => s.fld_PurataGaji).FirstOrDefault();
-            //}
-
             AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 18, Math.Round(decimal.Parse(AverageSalary.ToString()), 2), DTProcess, UserID, GajiBulanan);
             db.Dispose();
             db2.Dispose();
