@@ -368,6 +368,7 @@ namespace SalaryGeneratorServices.FuncClass
             var ScTrans = db2.tbl_Sctran.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_Keterangan, s.fld_Kategori }).ToList();
             var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt }).ToList();
             var GLClearing = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Flag == "3" && x.fld_TypeCode == "GL" && x.fld_compcode == compCode).Select(s => new { s.fld_SAPCode, s.fld_KodAktiviti }).FirstOrDefault();
+            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode).ToList();
             DescActvt = GLKeteranganGajiKawalan;
             Amount = ScTrans.Where(x => GetNotWorkCodeAct1s.Contains(x.fld_KodAktvt)).Sum(s => s.fld_Amt);
             if (Amount != 0)
@@ -462,18 +463,17 @@ namespace SalaryGeneratorServices.FuncClass
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount3, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = GLNo, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLClearing.fld_KodAktiviti, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
                 i++;
 
-                var vendorNo3 = db.tbl_VDSAP.Where(x => x.fld_Desc.ToLower().Contains("merchantrade")).Select(s => s.fld_VendorNo).FirstOrDefault();
+                var vendor = vendorList.Where(x => x.fld_VendorInd == "MTA").FirstOrDefault();
                 DescActvt = "MERCHANTRADE ASIA" + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 Amount = db.tblSokPermhnWang.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Sum(s => s.fld_JumlahEwallet);
                 if (Amount != 0)
                 {
                     var GLNo1 = GetNotWorkActs3.Where(x => x.fld_KodAktiviti == GetNotWorkCodeActs3).Select(s => s.fld_SAPCode).FirstOrDefault();
-                    tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -Amount3, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLNo1, fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendorNo3 });
+                    tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = -Amount3, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = null, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = GLNo1, fld_SAPPostRefID = SAPPostID2, fld_flag = flag, fld_VendorCode = vendor.fld_VendorNo });
                     i++;
                 }
             }
 
-            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode).ToList();
             //clearing batch 5 - Maybank M2E
             Amount5 = 0;
             var GetWorkActvt7 = ScTrans.Where(x => x.fld_Kategori == 16).FirstOrDefault();
