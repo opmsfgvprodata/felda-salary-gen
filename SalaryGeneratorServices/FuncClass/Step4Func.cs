@@ -202,7 +202,7 @@ namespace SalaryGeneratorServices.FuncClass
                 {
                     GLKod = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Paysheet == GetPaySheetID && x.fld_JnsLot == getLot && x.fld_compcode == compCode && x.fld_SAPType == null).Select(s => s.fld_SAPCode).FirstOrDefault();
                 }
-                var totalWorking = vw_KerjaInfoDetails.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
+                var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
                 AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
             }
 
