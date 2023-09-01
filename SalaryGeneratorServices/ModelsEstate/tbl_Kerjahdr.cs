@@ -38,5 +38,8 @@ namespace SalaryGeneratorServices.ModelsEstate
         public int? fld_CreatedBy { get; set; }
 
         public DateTime? fld_CreatedDT { get; set; }
+
+        [StringLength(50)]
+        public string fld_SAPChargeCode { get; set; }
     }
 }

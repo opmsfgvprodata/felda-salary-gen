@@ -140,8 +140,7 @@ namespace SalaryGeneratorServices.FuncClass
             string GLKod = "";
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
-            var KerjaInfoDetails = db2.vw_KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year).ToList();
-            var vw_KerjaInfoDetails = KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt != null).ToList();
+            var vw_KerjaInfoDetails = db2.vw_KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt != null).ToList();
             var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID).ToList();
             var getSubPkts = db2.tbl_SubPkt.Where(x => x.fld_LadangID == LadangID).ToList();
             var getBlokPkts = db2.tbl_Blok.Where(x => x.fld_LadangID == LadangID).ToList();
@@ -181,7 +180,7 @@ namespace SalaryGeneratorServices.FuncClass
                 AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_SAPIO = WorkDistinct.fld_IOKod, fld_PaySheetID = WorkDistinct.fld_PaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
             }
 
-            var vw_KerjaInfoDetails2 = KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt == null && !string.IsNullOrEmpty(x.fld_SAPChargeCode)).ToList();
+            var vw_KerjaInfoDetails2 = db2.tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode)).ToList();
             var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode }).Distinct().ToList();
 
             foreach (var WorkDistinct in WorkDistincts2)

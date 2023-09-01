@@ -103,7 +103,7 @@ namespace SalaryGeneratorServices.ModelsEstate
         [StringLength(10)]
         public string fld_SAPType { get; set; }
 
-        [StringLength(20)]
+        [StringLength(50)]
         public string fld_SAPChargeCode { get; set; }
     }
 }
