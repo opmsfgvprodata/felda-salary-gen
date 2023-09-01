@@ -162,8 +162,8 @@ namespace SalaryGeneratorServices
                     TotalDataCount = TotalPkjCount * TotalDateCount;
                     TotalDataCount2 = TotalDataCount + 17; //modified by kamalia 26/4/2022
                     WriteLog("Total Data Count. (Data - Total Data : " + TotalDataCount2 + ")", false, ServiceName, ServiceProcessID);
-                    var vw_KerjaInfoDetails = Step2Func.vw_KerjaInfoDetails(NegaraID,SyarikatID,WilayahID,LadangID, Month, Year);
-
+                    var vw_KerjaInfoDetails = Step2Func.vw_KerjaInfoDetails(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                    var tbl_Kerja = Step2Func.tbl_Kerja(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                     foreach (var Pkjmstlist in Pkjmstlists)
                     {
                         Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
@@ -203,7 +203,7 @@ namespace SalaryGeneratorServices
                                     AttendStatus = Step2Func.GetAttendStatusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out AttCode);
                                     if (AttendStatus)
                                     {
-                                        Step2Func.GetDailyBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaBonus, JenisAktiviti, bonusHarian);
+                                        Step2Func.GetDailyBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaBonus, JenisAktiviti, bonusHarian, tbl_Kerja);
                                         if (KerjaBonus != null)
                                         {
                                             WriteLog("Get Daily Bonus. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Bonus Price : RM " + KerjaBonus.fld_Jumlah + ")", false, ServiceName, ServiceProcessID);
@@ -214,7 +214,7 @@ namespace SalaryGeneratorServices
                                             WriteLog("No Daily Bonus.", false, ServiceName, ServiceProcessID);
                                         }
 
-                                        Step2Func.GetOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaOT, AttCode, JenisAktiviti);
+                                        Step2Func.GetOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaOT, AttCode, JenisAktiviti, tbl_Kerja);
 
                                         if (KerjaOT != null)
                                         {
@@ -633,7 +633,7 @@ namespace SalaryGeneratorServices
                             WriteLog("No worker found)", false, ServiceName, ServiceProcessID);
                         }
                     }
-                    
+
                     Percentage = 100; //added by faeza 08.10.2021
                 }
                 //Ashahri - 27/02/2022

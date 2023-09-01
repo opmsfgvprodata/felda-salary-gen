@@ -41,7 +41,7 @@ namespace SalaryGeneratorServices.FuncClass
             return PaidLeave;
         }
 
-        public void GetDailyBonusFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, out tbl_KerjaBonus KerjaBonus, List<tbl_JenisAktiviti> JenisAktiviti, decimal bonusHarian)
+        public void GetDailyBonusFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, out tbl_KerjaBonus KerjaBonus, List<tbl_JenisAktiviti> JenisAktiviti, decimal bonusHarian, List<tbl_Kerja> tbl_Kerja)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             GetConnectFunc conn = new GetConnectFunc();
@@ -63,7 +63,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             var JenisAktvkod = JenisAktiviti.Select(s => s.fld_KodJnsAktvt).ToList();
 
-            var KerjaData = db2.tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj && JenisAktvkod.Contains(x.fld_JnisAktvt)).ToList();
+            var KerjaData = tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj && JenisAktvkod.Contains(x.fld_JnisAktvt)).ToList();
 
             if (KerjaData.Count != 0)
             {
@@ -119,7 +119,7 @@ namespace SalaryGeneratorServices.FuncClass
             db2.SaveChanges();
             db2.Dispose();
         }
-        public void GetOTFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, out tbl_KerjaOT KerjaOT, string AttCode, List<tbl_JenisAktiviti> JenisAktiviti)
+        public void GetOTFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, out tbl_KerjaOT KerjaOT, string AttCode, List<tbl_JenisAktiviti> JenisAktiviti, List<tbl_Kerja> tbl_Kerja)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             GetConnectFunc conn = new GetConnectFunc();
@@ -161,9 +161,7 @@ namespace SalaryGeneratorServices.FuncClass
             var SalaryIncrement = db2.tbl_PkjIncrmntSalary.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_AppStatus == true).Select(s => s.fld_IncrmntSalary).FirstOrDefault();
             var JenisAktvkod = JenisAktiviti.Select(s => s.fld_KodJnsAktvt).ToList();
             //modified by kamalia 3/5/2021
-            //  var tbl_JenisAktiviti = db2.tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID  && JenisAktvkod.Contains(x.fld_KodJenisAktvt) && x.fld_DisabledFlag ==3).ToList();
-            // var DataKerja = db2.tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj).Select(s => s.fld_JnisAktvt).FirstOrDefault();
-            var DataKerja = db2.tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == DTProcess && x.fld_Nopkj == NoPkj && JenisAktvkod.Contains(x.fld_JnisAktvt)).Select(s => s.fld_JnisAktvt).FirstOrDefault();
+            var DataKerja = tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == DTProcess && x.fld_Nopkj == NoPkj && JenisAktvkod.Contains(x.fld_JnisAktvt)).Select(s => s.fld_JnisAktvt).FirstOrDefault();
 
             var tbl_JenisAktiviti = db.tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && DataKerja.Contains(x.fld_KodJenisAktvt)).Select(s => s.fld_Unit).FirstOrDefault();
 
@@ -187,7 +185,7 @@ namespace SalaryGeneratorServices.FuncClass
             //end
 
             OTRate = Math.Round(decimal.Parse(AfterRounded.ToString()), 2) * thirdNo;
-            var KerjaData = db2.tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj).ToList();
+            var KerjaData = tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj).ToList();
 
             if (KerjaData.Count != 0)
             {
@@ -295,6 +293,16 @@ namespace SalaryGeneratorServices.FuncClass
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
 
             return db2.vw_KerjaInfoDetails.Where(x => x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_OverallAmount != null).ToList();
+        }
+
+        public List<tbl_Kerja> tbl_Kerja(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? Month, int? Year)
+        {
+
+            GetConnectFunc conn = new GetConnectFunc();
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+            return db2.tbl_Kerja.Where(x => x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year).ToList();
         }
 
         public List<vw_Kerja_Bonus> vw_Kerja_Bonus(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? Month, int? Year, string NoPkj)
