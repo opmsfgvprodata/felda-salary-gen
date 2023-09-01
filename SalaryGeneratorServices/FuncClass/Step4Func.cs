@@ -181,8 +181,8 @@ namespace SalaryGeneratorServices.FuncClass
                 AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_SAPIO = WorkDistinct.fld_IOKod, fld_PaySheetID = WorkDistinct.fld_PaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
             }
 
-            vw_KerjaInfoDetails = KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt == null && !string.IsNullOrEmpty(x.fld_SAPChargeCode)).ToList();
-            var WorkDistincts2 = vw_KerjaInfoDetails.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode }).Distinct().ToList();
+            var vw_KerjaInfoDetails2 = KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt == null && !string.IsNullOrEmpty(x.fld_SAPChargeCode)).ToList();
+            var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode }).Distinct().ToList();
 
             foreach (var WorkDistinct in WorkDistincts2)
             {
