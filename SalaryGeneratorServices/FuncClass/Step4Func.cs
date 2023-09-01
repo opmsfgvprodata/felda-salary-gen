@@ -267,7 +267,7 @@ namespace SalaryGeneratorServices.FuncClass
                 foreach (var GetLeaveIOs in getGL)
                 {
                     var getAmount = AdminSCTransList.Where(x => x.fld_KodGL == GetLeaveIOs.fld_KodGL && x.fld_SAPIO == GetLeaveIOs.fld_SAPIO && x.fld_KodPkt == GetLeaveIOs.fld_KodPkt).Sum(s => s.fld_Jumlah);
-                    if (getAmount != 0 || Amount != 0)
+                    if (getAmount != 0)
                     {
 
                         AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, getAmount, 0, GetLeaveIOs.fld_KodPkt, Leave.fld_KodAktvt.Substring(0, 2), Leave.fld_KodAktvt, Leave.fld_KodGL, FirstCharToUpper(Leave.fld_KeteranganCuti.ToLower()), DTProcess, UserID, Month, Year, "D", 4, GetLeaveIOs.fld_KodGL, GetLeaveIOs.fld_SAPIO, GetLeaveIOs.fld_SAPType);
