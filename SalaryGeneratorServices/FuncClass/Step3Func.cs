@@ -590,6 +590,10 @@ namespace SalaryGeneratorServices.FuncClass
                     }
                     else
                     {
+                        if (AverageSalary < Kong)
+                        {
+                            AverageSalary = Kong;
+                        }
                         LeavePayment = Math.Round(decimal.Parse(AverageSalary.ToString()), 2);
                         KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary, fld_Jumlah = LeavePayment, fld_Nopkj = WorkerPaidLeaveList.fld_Nopkj, fld_KerjahdrID = WorkerPaidLeaveList.fld_KerjahdrID, fld_Kum = WorkerPaidLeaveList.fld_Kum, fld_Tarikh = WorkerPaidLeaveList.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
                     }
