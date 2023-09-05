@@ -180,29 +180,34 @@ namespace SalaryGeneratorServices.FuncClass
                 AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_SAPIO = WorkDistinct.fld_IOKod, fld_PaySheetID = WorkDistinct.fld_PaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
             }
 
-            var vw_KerjaInfoDetails2 = db2.tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode)).ToList();
+            var getKodCutiBrbayar = db.tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).Select(s => s.fld_KodCuti).ToList();
+            var vw_KerjaInfoDetails2 = db2.tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode) && getKodCutiBrbayar.Contains(x.fld_Kdhdct)).ToList();
             var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode }).Distinct().ToList();
 
             foreach (var WorkDistinct in WorkDistincts2)
             {
-                var getLot = "";
-                var PktUtama = new tbl_PktUtama();
-                PktUtama = getMainPkts.Where(x => x.fld_IOcode == WorkDistinct.fld_SAPChargeCode).FirstOrDefault();
-                getLot = PktUtama.fld_JnsLot;
-                var fld_SAPType = PktUtama.fld_SAPType;
+                if (!AdminSCTransList.Any(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPIO == WorkDistinct.fld_SAPChargeCode))
+                {
+                    var getLot = "";
+                    var PktUtama = new tbl_PktUtama();
+                    PktUtama = getMainPkts.Where(x => x.fld_IOcode == WorkDistinct.fld_SAPChargeCode).FirstOrDefault();
+                    getLot = PktUtama.fld_JnsLot;
+                    var fld_SAPType = PktUtama.fld_SAPType;
 
-                var sapType = string.IsNullOrEmpty(fld_SAPType) ? "IO" : fld_SAPType;
-                var GetPaySheetID = db.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "statusTanaman" && x.fldOptConfValue == PktUtama.fld_StatusTnmn && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).Select(s => s.fldOptConfFlag2).FirstOrDefault();
-                if (sapType == "CC")
-                {
-                    GLKod = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_compcode == compCode && x.fld_SAPType == sapType).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    var sapType = string.IsNullOrEmpty(fld_SAPType) ? "IO" : fld_SAPType;
+                    var GetPaySheetID = db.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "statusTanaman" && x.fldOptConfValue == PktUtama.fld_StatusTnmn && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).Select(s => s.fldOptConfFlag2).FirstOrDefault();
+                    if (sapType == "CC")
+                    {
+                        GLKod = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_compcode == compCode && x.fld_SAPType == sapType).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    }
+                    else
+                    {
+                        GLKod = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Paysheet == GetPaySheetID && x.fld_JnsLot == getLot && x.fld_compcode == compCode && x.fld_SAPType == null).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    }
+                    var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
+                    AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
+
                 }
-                else
-                {
-                    GLKod = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Paysheet == GetPaySheetID && x.fld_JnsLot == getLot && x.fld_compcode == compCode && x.fld_SAPType == null).Select(s => s.fld_SAPCode).FirstOrDefault();
-                }
-                var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
-                AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType });
             }
 
             db.Dispose();
