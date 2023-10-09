@@ -433,7 +433,7 @@ namespace SalaryGeneratorServices.FuncClass
             {
                 if (WorkerPaidLeaveList.fld_PaidPeriod != 0) // if 0 kira hujung
                 {
-                    if (WorkerPaidLeaveList.fld_Kdhdct == "C01")
+                    if (WorkerPaidLeaveList.fld_Kdhdct == "C01" || WorkerPaidLeaveList.fld_Kdhdct == "C10")
                     {
                         //DateTime? TwoDayBefore = WorkerPaidLeaveList.fld_Tarikh.Value.AddDays(-2);
                         //DateTime? TwoDayAfter = WorkerPaidLeaveList.fld_Tarikh.Value.AddDays(2);
@@ -459,27 +459,28 @@ namespace SalaryGeneratorServices.FuncClass
                                   Kadar = AverageSalary;
                               }
                               LeavePayment = Kadar;*/
-                            if (AverageSalary == 0)
-                            {
-                                if (AverageSalaryLastMonth == 0 || AverageSalaryLastMonth < Kong)
-                                {
-                                    //Kong = 42.310m;
-                                    LeavePayment = Kong;
-                                }
-                                else
-                                {
-                                    LeavePayment = Math.Round(decimal.Parse(AverageSalaryLastMonth.ToString()), 2);
-                                }
-                            }
-                            else if (AverageSalary < Kong)
-                            {
-                                //Kong = 42.310m;
-                                LeavePayment = Kong;
-                            }
-                            else
-                            {
-                                LeavePayment = Math.Round(decimal.Parse(AverageSalary.ToString()), 2);
-                            }
+                            //if (AverageSalary == 0)
+                            //{
+                            //    if (AverageSalaryLastMonth == 0 || AverageSalaryLastMonth < Kong)
+                            //    {
+                            //        //Kong = 42.310m;
+                            //        LeavePayment = Kong;
+                            //    }
+                            //    else
+                            //    {
+                            //        LeavePayment = Math.Round(decimal.Parse(AverageSalaryLastMonth.ToString()), 2);
+                            //    }
+                            //}
+                            //else if (AverageSalary < Kong)
+                            //{
+                            //    //Kong = 42.310m;
+                            //    LeavePayment = Kong;
+                            //}
+                            //else
+                            //{
+                            //    LeavePayment = Math.Round(decimal.Parse(AverageSalary.ToString()), 2);
+                            //}
+                            LeavePayment = Kong;
 
                             KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary, fld_Jumlah = LeavePayment, fld_Nopkj = WorkerPaidLeaveList.fld_Nopkj, fld_KerjahdrID = WorkerPaidLeaveList.fld_KerjahdrID, fld_Kum = WorkerPaidLeaveList.fld_Kum, fld_Tarikh = WorkerPaidLeaveList.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
                         }
@@ -494,7 +495,7 @@ namespace SalaryGeneratorServices.FuncClass
                     }
                     //add by Faeza on 02.07.2020
                     //modified bt faeza 0n 03.11.2020 - add condition utk C10
-                    else if (WorkerPaidLeaveList.fld_Kdhdct == "C03" || WorkerPaidLeaveList.fld_Kdhdct == "C04" || WorkerPaidLeaveList.fld_Kdhdct == "C10")
+                    else if (WorkerPaidLeaveList.fld_Kdhdct == "C03" || WorkerPaidLeaveList.fld_Kdhdct == "C04")
                     {
                         //modified by Faeza on 03.09.2020
                         if (AverageSalary == 0)
@@ -965,7 +966,7 @@ namespace SalaryGeneratorServices.FuncClass
             db2.Dispose();
         }
 
-        public decimal? GetORPFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus)
+        public decimal? GetORPFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus, List<tbl_CutiKategori> tbl_CutiKategori, List<tbl_Kerjahdr> tbl_Kerjahdr)
         {
             GetConnectFunc conn = new GetConnectFunc();
             Guid MonthSalaryID = new Guid();
@@ -976,7 +977,9 @@ namespace SalaryGeneratorServices.FuncClass
 
             decimal? WorkingPayment = 0m;
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
+            var codeCuti = tbl_CutiKategori.Select(s=>s.fld_KodCuti).ToList();
             var kerjaList = vw_KerjaInfoDetails.Where(x => x.fld_Nopkj == NoPkj && x.fld_Kdhdct == "H01").ToList();
+            var cutiBerbayarCount = tbl_Kerjahdr.Where(x => x.fld_Nopkj == NoPkj && codeCuti.Contains(x.fld_Kdhdct)).Count();
             if (kerjaList.Count() > 0)
             {
                 var normalDateAtt = kerjaList.Select(s => s.fld_Tarikh).Distinct().ToList();
@@ -992,7 +995,7 @@ namespace SalaryGeneratorServices.FuncClass
                         WorkingPayment = WorkingPayment + oRPWorkerIncentifs.Sum(s => s.fld_NilaiInsentif);
                     }
                 }
-                var workingNormalDay = normalDateAtt.Count();
+                var workingNormalDay = normalDateAtt.Count() + cutiBerbayarCount;
                 WorkingPayment = WorkingPayment / workingNormalDay;
                 WorkingPayment = Math.Round(WorkingPayment.Value, 2);
 

@@ -420,7 +420,7 @@ namespace SalaryGeneratorServices.FuncClass
             var ScTrans = db2.tbl_Sctran.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).ToList();
 
             var GLClearing = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && (x.fld_Flag == "3" || x.fld_Flag == "4") && x.fld_TypeCode == "GL" && x.fld_compcode == compCode).Select(s => new { s.fld_SAPCode, s.fld_KodAktiviti, s.fld_Paysheet }).ToList();
-            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode).ToList();
+            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode && x.fld_Deleted == false).ToList();
 
             var descActivity = "";
             var totalAmount = 0M;

@@ -368,7 +368,7 @@ namespace SalaryGeneratorServices.FuncClass
             var ScTrans = db2.tbl_Sctran.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_Keterangan, s.fld_Kategori }).ToList();
             var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt }).ToList();
             var GLClearing = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Flag == "3" && x.fld_TypeCode == "GL" && x.fld_compcode == compCode).Select(s => new { s.fld_SAPCode, s.fld_KodAktiviti }).FirstOrDefault();
-            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode).ToList();
+            var vendorList = db.tbl_VDSAP.Where(x => x.fld_CompanyCode == compCode && x.fld_Deleted == false).ToList();
             DescActvt = GLKeteranganGajiKawalan;
             Amount = ScTrans.Where(x => GetNotWorkCodeAct1s.Contains(x.fld_KodAktvt)).Sum(s => s.fld_Amt);
             if (Amount != 0)
