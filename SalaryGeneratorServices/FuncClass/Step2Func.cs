@@ -54,10 +54,20 @@ namespace SalaryGeneratorServices.FuncClass
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
 
+            if (NoPkj == "TI10523001")
+            {
+
+            }
+
             DateTime CurrentMonth = new DateTime(Year.Value, Month.Value, 15);
 
-            int LastMonth = CurrentMonth.AddMonths(-1).Month;
-            int LastYear = CurrentMonth.AddMonths(-1).Year;
+            //commented by faeza 13.10.2023
+            //int LastMonth = CurrentMonth.AddMonths(-1).Month;
+            //int LastYear = CurrentMonth.AddMonths(-1).Year;
+
+            //added by faeza 13.10.2023
+            int LastMonth = CurrentMonth.Month;
+            int LastYear = CurrentMonth.Year;
 
             BonusRate = db.tbl_HargaSawitSemasa.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Bulan == LastMonth && x.fld_Tahun == LastYear).Select(s => s.fld_Insentif).FirstOrDefault();
 

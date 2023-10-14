@@ -426,7 +426,10 @@ namespace SalaryGeneratorServices.FuncClass
             Kong = getgajiminima != null ? getgajiminima.fld_NilaiGajiMinima : Math.Round(decimal.Parse(getgajiminima.fld_NilaiGajiMinima.ToString()), 2);
             AverageSalary = AverageSalary == 0 ? Kong : AverageSalary;
 
+            if(NoPkj == "TI05923008")
+            {
 
+            }
 
             //modified by kamalia 2/3/2021
             foreach (var WorkerPaidLeaveList in WorkerPaidLeaveLists)
