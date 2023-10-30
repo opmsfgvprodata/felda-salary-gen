@@ -420,16 +420,10 @@ namespace SalaryGeneratorServices.FuncClass
             AverageSalary = AverageSalary == null ? 0 : AverageSalary;
             AverageSalaryLastMonth = AverageSalaryLastMonth == null ? 0 : AverageSalaryLastMonth;
 
-
             //modified by kamalia 30/11/21
             var getgajiminima = db.tbl_GajiMinimaLdg.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).FirstOrDefault();
             Kong = getgajiminima != null ? getgajiminima.fld_NilaiGajiMinima : Math.Round(decimal.Parse(getgajiminima.fld_NilaiGajiMinima.ToString()), 2);
             AverageSalary = AverageSalary == 0 ? Kong : AverageSalary;
-
-            if(NoPkj == "TI05923008")
-            {
-
-            }
 
             //modified by kamalia 2/3/2021
             foreach (var WorkerPaidLeaveList in WorkerPaidLeaveLists)

@@ -175,7 +175,7 @@ namespace SalaryGeneratorServices
                         DateLists = Step1Func.GetDateListFunc(Month, Year);
                         WriteLog("Get Date List. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Date From : " + string.Format("{0:dd/MM/yyyy}", DateLists.OrderBy(o => o.Date).Select(s => s.Date).Take(1).FirstOrDefault()) + ", Date Until : " + string.Format("{0:dd/MM/yyyy}", DateLists.OrderByDescending(o => o.Date).Select(s => s.Date).Take(1).FirstOrDefault()) + ")", false, ServiceName, ServiceProcessID);
                         LastDateLoop = DateLists.OrderByDescending(o => o.Date).Select(s => s.Date).Take(1).FirstOrDefault();
-                        StartWorkDate = Step1Func.GetDateStarkWorkingFunc(NegaraID, SyarikatID, WilayahID, LadangID, Pkjmstlist.fld_Nopkj.Trim());
+                        StartWorkDate = Step1Func.GetDateStarkWorkingFunc(NegaraID, SyarikatID, WilayahID, LadangID, Pkjmstlist.fld_Nopkj.Trim(), tbl_Kerja, tbl_Kerjahdr, CutiKategoriList);
                         if (StartWorkDate != null)
                         {
                             if (LoopCountData == 1)
@@ -341,7 +341,7 @@ namespace SalaryGeneratorServices
                             WriteLog("Get Work Data By Activity & Peringkat. (Data - Total Data : " + WorkSCTransList.Count + ")", false, ServiceName, ServiceProcessID);
 
                             //added by kamalia 16/2/22
-                            AdminSCTransList = Step6Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode);
+                            AdminSCTransList = Step6Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, CutiKategoriList, tbl_Kerjahdr);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             Percentage = ((DataCount / TotalDataCount) * 19.5m) + 80;

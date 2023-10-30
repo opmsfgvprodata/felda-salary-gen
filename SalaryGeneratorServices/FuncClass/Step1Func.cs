@@ -110,20 +110,18 @@ namespace SalaryGeneratorServices.FuncClass
             return DateList;
         }
 
-        public DateTime? GetDateStarkWorkingFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, string PkjNo)
+        public DateTime? GetDateStarkWorkingFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, string PkjNo, List<tbl_Kerja> tbl_Kerja, List<tbl_Kerjahdr> tbl_Kerjahdr, List<tbl_CutiKategori> tbl_CutiKategori)
         {
-            GenSalaryModelHQ db = new GenSalaryModelHQ();
-            GetConnectFunc conn = new GetConnectFunc();
-            string host, catalog, user, pass = "";
             DateTime? startworkdate = new DateTime();
 
-            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
-            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+            startworkdate = tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == PkjNo).OrderBy(o => o.fld_Tarikh).Select(s => s.fld_Tarikh).Take(1).SingleOrDefault();
 
-            startworkdate = db2.tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == PkjNo).OrderBy(o => o.fld_Tarikh).Select(s => s.fld_Tarikh).Take(1).SingleOrDefault();
+            if (startworkdate == null)
+            {
+                var kodCuti = tbl_CutiKategori.Select(s => s.fld_KodCuti).ToList();
+                startworkdate = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == PkjNo && kodCuti.Contains(x.fld_Kdhdct)).OrderBy(o => o.fld_Tarikh).Select(s => s.fld_Tarikh).Take(1).SingleOrDefault();
+            }
 
-            db.Dispose();
-            db2.Dispose();
             return startworkdate;
         }
 
@@ -155,7 +153,7 @@ namespace SalaryGeneratorServices.FuncClass
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             List<tbl_JenisAktiviti> JenisAktiviti = new List<tbl_JenisAktiviti>();
 
-            JenisAktiviti = db.tbl_JenisAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID  && x.fld_Deleted == false).ToList();
+            JenisAktiviti = db.tbl_JenisAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
 
             db.Dispose();
             return JenisAktiviti;
@@ -175,7 +173,7 @@ namespace SalaryGeneratorServices.FuncClass
         public decimal GetBonusHarianBukanMenuai(int? NegaraID, int? SyarikatID)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
-            var bonusHarianBukanMenuai = decimal.Parse(db.tblOptionConfigsWebs.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false && x.fldOptConfFlag1 == "bonusHarian").Select(s=>s.fldOptConfValue).FirstOrDefault());
+            var bonusHarianBukanMenuai = decimal.Parse(db.tblOptionConfigsWebs.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false && x.fldOptConfFlag1 == "bonusHarian").Select(s => s.fldOptConfValue).FirstOrDefault());
             return bonusHarianBukanMenuai;
         }
     }

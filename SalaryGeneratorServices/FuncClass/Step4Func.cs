@@ -944,6 +944,20 @@ namespace SalaryGeneratorServices.FuncClass
             }
             #endregion
 
+            #region eWallet TnG - fld_Kategori - 17
+            Amount = salariesList.Where(x => x.fld_PaymentMode == "7").Sum(s => s.fld_GajiBersih);
+            Amount = Amount == null ? 0 : Amount;
+            if (Amount != 0)
+            {
+                description = GetWorkerSalary.fldOptConfDesc + " eWallet TnG";
+                var GetSalaryGL = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodAktiviti == GetWorkerSalary.fldOptConfValue && x.fld_Flag == "4" && x.fld_TypeCode == "GL" && x.fld_Deleted == false && x.fld_compcode == compCode).Select(s => s.fld_SAPCode).FirstOrDefault();
+                AddTo_tbl_Sctran(db2, NegaraID, SyarikatID, WilayahID, LadangID, Amount, 0, "-", GetWorkerSalary.fldOptConfValue.Substring(0, 2), GetWorkerSalary.fldOptConfValue, GetWorkerSalary.fldOptConfFlag2, description, DTProcess, UserID, Month, Year, "C", 17, GetSalaryGL, "-", ""); //modified  by kamalia 17/3/22
+                message = "Transaction Listing (Worker Salary). (Data - Code Activity : " + GetWorkerSalary.fldOptConfValue + ", Amount : RM " + Amount + ")";
+                Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
+                totalAmount += Amount;
+            }
+            #endregion
+
 
             if (totalAmount > 0)
             {

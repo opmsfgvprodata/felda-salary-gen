@@ -54,11 +54,6 @@ namespace SalaryGeneratorServices.FuncClass
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
 
-            if (NoPkj == "TI10523001")
-            {
-
-            }
-
             DateTime CurrentMonth = new DateTime(Year.Value, Month.Value, 15);
 
             //commented by faeza 13.10.2023
