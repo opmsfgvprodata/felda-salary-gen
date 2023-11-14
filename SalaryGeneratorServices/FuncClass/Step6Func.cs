@@ -14,7 +14,7 @@ namespace SalaryGeneratorServices.FuncClass
     class Step6Func
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
-        public List<CustMod_WorkSCTrans> GetWorkActvtyPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList, string compCode)
+        public List<CustMod_WorkSCTrans> GetWorkActvtyPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList, string compCode, List<tbl_UpahAktiviti> tbl_UpahAktiviti)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             GetConnectFunc conn = new GetConnectFunc();
@@ -31,7 +31,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             foreach (var WorkDistinct in WorkDistincts)
             {
-                keterangan = db.tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodJenisAktvt == WorkDistinct.fld_JnisAktvt && x.fld_KodAktvt == WorkDistinct.fld_KodAktvt && x.fld_compcode == compCode).Select(s => s.fld_Desc).FirstOrDefault();
+                keterangan = tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodJenisAktvt == WorkDistinct.fld_JnisAktvt && x.fld_KodAktvt == WorkDistinct.fld_KodAktvt && x.fld_compcode == compCode).Select(s => s.fld_Desc).FirstOrDefault();
                 var sapType = string.IsNullOrEmpty(WorkDistinct.fld_SAPType) ? "IO" : WorkDistinct.fld_SAPType;
                 WorkSCTransList.Add(new CustMod_WorkSCTrans() { fld_ID = ID, fld_KodGL = WorkDistinct.fld_KodGL, fld_JnisAktvt = WorkDistinct.fld_JnisAktvt, fld_KodAktvt = WorkDistinct.fld_KodAktvt, fld_JnsPkt = WorkDistinct.fld_JnsPkt, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_Keterangan = keterangan, fld_SAPGL = WorkDistinct.fld_GLKod, fld_SAPIO = WorkDistinct.fld_IOKod, fld_SAPType = sapType, fld_PaySheetID = WorkDistinct.fld_PaySheetID });
                 ID++;
@@ -91,7 +91,7 @@ namespace SalaryGeneratorServices.FuncClass
             db2.Dispose();
         }
 
-        public void GetAmountOTFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<CustMod_WorkSCTrans> WorkSCTransList, out string Log, List<tbl_Pkjmast> PkjMastList, string compCode)
+        public void GetAmountOTFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<CustMod_WorkSCTrans> WorkSCTransList, out string Log, List<tbl_Pkjmast> PkjMastList, string compCode, List<tbl_UpahAktiviti> tbl_UpahAktiviti)
         {
             GetConnectFunc conn = new GetConnectFunc();
             string host, catalog, user, pass = "";
@@ -111,7 +111,7 @@ namespace SalaryGeneratorServices.FuncClass
             string keterangan = "";
             foreach (var WorkDistinct in WorkDistincts)
             {
-                keterangan = db.tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodJenisAktvt == WorkDistinct.fld_JnisAktvt && x.fld_KodAktvt == WorkDistinct.fld_KodAktvt && x.fld_compcode == compCode).Select(s => s.fld_Desc).FirstOrDefault();
+                keterangan = tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodJenisAktvt == WorkDistinct.fld_JnisAktvt && x.fld_KodAktvt == WorkDistinct.fld_KodAktvt && x.fld_compcode == compCode).Select(s => s.fld_Desc).FirstOrDefault();
                 WorkSCTransList2.Add(new CustMod_WorkSCTrans() { fld_ID = ID, fld_KodGL = WorkDistinct.fld_KodGL, fld_JnisAktvt = WorkDistinct.fld_JnisAktvt, fld_KodAktvt = WorkDistinct.fld_KodAktvt, fld_JnsPkt = WorkDistinct.fld_JnsPkt, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_Keterangan = keterangan, fld_SAPGL = WorkDistinct.fld_GLKod, fld_SAPIO = WorkDistinct.fld_IOKod, fld_SAPType = WorkDistinct.fld_SAPType, fld_PaySheetID = WorkDistinct.fld_PaySheetID });
                 ID++;
             }

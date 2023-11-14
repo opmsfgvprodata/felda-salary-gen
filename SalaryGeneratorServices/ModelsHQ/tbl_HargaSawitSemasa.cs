@@ -26,10 +26,6 @@ namespace SalaryGeneratorServices.ModelsHQ
 
         public int? fld_SyarikatID { get; set; }
 
-        public int? fld_WilayahID { get; set; }
-
-        public int? fld_LadangID { get; set; }
-
         public bool? fld_Deleted { get; set; }
     }
 }

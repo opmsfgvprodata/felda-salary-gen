@@ -153,6 +153,17 @@ namespace SalaryGeneratorServices
                     JenisAktiviti = Step1Func.GetActvtyTypeBonusStatusFunc(NegaraID, SyarikatID, WilayahID, LadangID);
                     incentifsType = Step1Func.GetIncentifsTypeFunc(NegaraID, SyarikatID);
                     var bonusHarian = Step1Func.GetBonusHarianBukanMenuai(NegaraID, SyarikatID);
+                    var tbl_HargaSawitSemasa = Step1Func.GetHargaSawitSemasa(NegaraID, SyarikatID, Month, Year);
+                    string[] flag1 = new string[] { "kadarot", "kiraot", "cuti", "sbbTakAktif" };
+                    List<tblOptionConfigsWeb> tblOptionConfigsWeb = Step1Func.GetWebConfigList(flag1, NegaraID, SyarikatID);
+                    var tbl_GajiMinimaLdg = Step1Func.GetGajiMinimaLdg(LadangID);
+                    var tbl_UpahAktiviti = Step1Func.tbl_UpahAktiviti(NegaraID, SyarikatID);
+                    var tbl_JenisInsentif = Step1Func.tbl_JenisInsentif(NegaraID, SyarikatID);
+                    var tbl_Kwsp = Step1Func.tbl_Kwsp(NegaraID, SyarikatID);
+                    var tbl_Socso = Step1Func.tbl_Socso(NegaraID, SyarikatID);
+                    var tbl_CarumanTambahan = Step1Func.tbl_CarumanTambahan(NegaraID, SyarikatID);
+                    var tbl_SubCarumanTambahan = Step1Func.tbl_SubCarumanTambahan(NegaraID, SyarikatID);
+                    var tbl_JadualCarumanTambahan = Step1Func.tbl_JadualCarumanTambahan(NegaraID, SyarikatID);
 
                     TotalPkjCount = Pkjmstlists.Count;
                     WriteLog("Total Pkj Count. (Data - Total Data : " + TotalPkjCount + ")", false, ServiceName, ServiceProcessID);
@@ -165,6 +176,11 @@ namespace SalaryGeneratorServices
                     var vw_KerjaInfoDetails = Step2Func.vw_KerjaInfoDetails(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                     var tbl_Kerja = Step2Func.tbl_Kerja(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                     var tbl_Kerjahdr = Step2Func.tbl_Kerjahdr(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                    var tbl_GajiBulanan_Lepas = Step2Func.tbl_GajiBulanan_Lepas(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                    var tbl_PkjIncrmntSalary = Step2Func.tbl_PkjIncrmntSalary(NegaraID, SyarikatID, WilayahID, LadangID);
+                    var tbl_Insentif = Step2Func.tbl_Insentif(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                    var tbl_Produktiviti = Step2Func.tbl_Produktiviti(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                    var tbl_CutiPeruntukan = Step2Func.tbl_CutiPeruntukan(NegaraID, SyarikatID, WilayahID, LadangID);
                     foreach (var Pkjmstlist in Pkjmstlists)
                     {
                         Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
@@ -191,7 +207,7 @@ namespace SalaryGeneratorServices
                                 WriteLog("Total Loop Data Count. (Data - Total Data : " + DataCount2 + ")", false, ServiceName, ServiceProcessID);
                                 Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
                                 WriteLog("Get Date. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Date : " + string.Format("{0:dd/MM/yyyy}", DateList.Date) + ")", false, ServiceName, ServiceProcessID);
-                                TakePaidLeave = Step2Func.GetWorkingPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, CutiKategoriList, out PaidPeriod, out WorkingAtt, out KumCode);
+                                TakePaidLeave = Step2Func.GetWorkingPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, CutiKategoriList, out PaidPeriod, out WorkingAtt, out KumCode, tbl_Kerjahdr);
                                 WriteLog("Get Paid Leave. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Paid Leave : " + TakePaidLeave + ")", false, ServiceName, ServiceProcessID);
                                 if (TakePaidLeave)
                                 {
@@ -201,10 +217,10 @@ namespace SalaryGeneratorServices
                                 }
                                 else
                                 {
-                                    AttendStatus = Step2Func.GetAttendStatusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out AttCode);
+                                    AttendStatus = Step2Func.GetAttendStatusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out AttCode, tblOptionConfigsWeb, tbl_Kerjahdr);
                                     if (AttendStatus)
                                     {
-                                        Step2Func.GetDailyBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaBonus, JenisAktiviti, bonusHarian, tbl_Kerja);
+                                        Step2Func.GetDailyBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaBonus, JenisAktiviti, bonusHarian, tbl_Kerja, tbl_HargaSawitSemasa);
                                         if (KerjaBonus != null)
                                         {
                                             WriteLog("Get Daily Bonus. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Bonus Price : RM " + KerjaBonus.fld_Jumlah + ")", false, ServiceName, ServiceProcessID);
@@ -215,7 +231,7 @@ namespace SalaryGeneratorServices
                                             WriteLog("No Daily Bonus.", false, ServiceName, ServiceProcessID);
                                         }
 
-                                        Step2Func.GetOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaOT, AttCode, JenisAktiviti, tbl_Kerja);
+                                        Step2Func.GetOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaOT, AttCode, JenisAktiviti, tbl_Kerja, tbl_GajiBulanan_Lepas, tblOptionConfigsWeb, tbl_GajiMinimaLdg, tbl_PkjIncrmntSalary, tbl_UpahAktiviti);
 
                                         if (KerjaOT != null)
                                         {
@@ -239,53 +255,53 @@ namespace SalaryGeneratorServices
                                     WriteLog("Insert To tbl_KerjaBonus. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Data : " + KerjaBonusList.Count + ")", false, ServiceName, ServiceProcessID);
                                     Step2Func.AddTo_tbl_KerjaOT(NegaraID, SyarikatID, WilayahID, LadangID, KerjaOTList);
                                     WriteLog("Insert To tbl_KerjaOT. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Data : " + KerjaOTList.Count + ")", false, ServiceName, ServiceProcessID);
-                                    MonthSalaryID = Step3Func.GetPaidWorkingFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), out WorkingPayment, out DiffAreaPayment);
+                                    MonthSalaryID = Step3Func.GetPaidWorkingFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), out WorkingPayment, out DiffAreaPayment, tbl_Kerja);
                                     WriteLog("Get Daily Work Payment. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + WorkingPayment + ")", false, ServiceName, ServiceProcessID);
-                                    AveragePayment = Step3Func.GetAveragePaidFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID);
+                                    AveragePayment = Step3Func.GetAveragePaidFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, tblOptionConfigsWeb, tbl_Kerjahdr);
                                     WriteLog("Get Average Payment. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + AveragePayment + ")", false, ServiceName, ServiceProcessID);
-                                    DailyBonusPayment = Step3Func.GetPaidDailyBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID);
+                                    DailyBonusPayment = Step3Func.GetPaidDailyBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, KerjaBonusList);
                                     WriteLog("Get Daily Bonus Payment. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + DailyBonusPayment + ")", false, ServiceName, ServiceProcessID);
-                                    OTPayment = Step3Func.GetPaidOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID);
+                                    OTPayment = Step3Func.GetPaidOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, KerjaOTList);
                                     WriteLog("Get OT Payment. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + OTPayment + ")", false, ServiceName, ServiceProcessID);
                                     var workerIncentifs = new List<tbl_Insentif>();
-                                    OthrInsPayment = Step3Func.GetPaidInsentifFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, out workerIncentifs);
+                                    OthrInsPayment = Step3Func.GetPaidInsentifFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, out workerIncentifs, tbl_JenisInsentif, tbl_Insentif);
                                     WriteLog("Get Other Insentif Payment. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + OthrInsPayment + ")", false, ServiceName, ServiceProcessID);
-                                    DeductInsPayment = Step3Func.GetDeductInsentifFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID);
+                                    DeductInsPayment = Step3Func.GetDeductInsentifFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, tbl_JenisInsentif, tbl_Insentif);
                                     WriteLog("Get Insentif Deduction. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Deduction : RM " + DeductInsPayment + ")", false, ServiceName, ServiceProcessID);
-                                    AIPSPayment = Step3Func.GetAIPSFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID);
+                                    AIPSPayment = Step3Func.GetAIPSFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, tbl_Produktiviti);
                                     WriteLog("Get AIPS Insentif. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + AIPSPayment + ")", false, ServiceName, ServiceProcessID);
                                     if (WorkerPaidLeaveLists.Count > 0)
                                     {
                                         //modified by kamalia 1/6/2021
-                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, false, CutiKategoriList, Pkjmstlist);
+                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, false, CutiKategoriList, Pkjmstlist, tbl_GajiMinimaLdg, tbl_GajiBulanan_Lepas, tbl_Kerjahdr, tblOptionConfigsWeb, tbl_CutiPeruntukan);
                                         WriteLog("Get Leave Payment (Have Count Leave). (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + LeavePayment + ")", false, ServiceName, ServiceProcessID);
                                     }
                                     else
                                     {
                                         //modified by kamalia 1/6/2021
-                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, true, CutiKategoriList, Pkjmstlist);
+                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, true, CutiKategoriList, Pkjmstlist, tbl_GajiMinimaLdg, tbl_GajiBulanan_Lepas, tbl_Kerjahdr, tblOptionConfigsWeb, tbl_CutiPeruntukan);
                                         WriteLog("Get Leave Payment (No Count Leave). (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + LeavePayment + ")", false, ServiceName, ServiceProcessID);
                                     }
 
                                     if (Pkjmstlist.fld_StatusKwspSocso == "1")
                                     {
-                                        Step3Func.GetKWSPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodKWSP, out KWSPMjkn, out KWSPPkj, false);
+                                        Step3Func.GetKWSPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodKWSP, out KWSPMjkn, out KWSPPkj, false, tbl_JenisInsentif, tbl_Insentif, tbl_Kwsp);
                                         WriteLog("Get KWSP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + KWSPMjkn + ", Employee : RM " + KWSPPkj + ")", false, ServiceName, ServiceProcessID);
                                     }
                                     else
                                     {
-                                        Step3Func.GetKWSPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodKWSP, out KWSPMjkn, out KWSPPkj, true);
+                                        Step3Func.GetKWSPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodKWSP, out KWSPMjkn, out KWSPPkj, true, tbl_JenisInsentif, tbl_Insentif, tbl_Kwsp);
                                         WriteLog("No KWSP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ")", false, ServiceName, ServiceProcessID);
                                     }
 
                                     if (Pkjmstlist.fld_StatusKwspSocso == "1")
                                     {
-                                        Step3Func.GetSocsoFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodSocso, out SocsoMjkn, out SocsoPkj, false);
+                                        Step3Func.GetSocsoFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodSocso, out SocsoMjkn, out SocsoPkj, false, tbl_JenisInsentif, tbl_Insentif, tbl_Socso);
                                         WriteLog("Get Socso. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + SocsoMjkn + ", Employee : RM " + SocsoPkj + ")", false, ServiceName, ServiceProcessID);
                                     }
                                     else
                                     {
-                                        Step3Func.GetSocsoFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodSocso, out SocsoMjkn, out SocsoPkj, true);
+                                        Step3Func.GetSocsoFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, Pkjmstlist.fld_KodSocso, out SocsoMjkn, out SocsoPkj, true, tbl_JenisInsentif, tbl_Insentif, tbl_Socso);
                                         WriteLog("No Socso. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ")", false, ServiceName, ServiceProcessID);
                                     }
 
@@ -297,7 +313,7 @@ namespace SalaryGeneratorServices
                                     var oRP = Step3Func.GetORPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, workerIncentifs, incentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus, CutiKategoriList, tbl_Kerjahdr);
                                     WriteLog("Get ORP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + oRP + ")", false, ServiceName, ServiceProcessID);
 
-                                    Step3Func.GetOtherContributionsFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, out TotalOthrContMjkCont, out TotalOthrContPkjCont);
+                                    Step3Func.GetOtherContributionsFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, out TotalOthrContMjkCont, out TotalOthrContPkjCont, tbl_JenisInsentif, tbl_Insentif, tbl_CarumanTambahan, tbl_SubCarumanTambahan, tbl_JadualCarumanTambahan);
                                     WriteLog("Get Other Contribution. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + TotalOthrContMjkCont + ", Employee : RM " + TotalOthrContPkjCont + ")", false, ServiceName, ServiceProcessID);
                                     Step3Func.GetOverallSalaryFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, out OverallSalary, out Salary);
                                     WriteLog("Get Overall Salary. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + OverallSalary + ")", false, ServiceName, ServiceProcessID);
@@ -331,7 +347,7 @@ namespace SalaryGeneratorServices
                             Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
                             WriteLog("Removed Transaction Listing Data. (Data - Total Data Removed : " + ScTranRemoveCount + ")", false, ServiceName, ServiceProcessID);
 
-                            WorkSCTransList = Step6Func.GetWorkActvtyPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode);
+                            WorkSCTransList = Step6Func.GetWorkActvtyPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, tbl_UpahAktiviti);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021
@@ -367,7 +383,7 @@ namespace SalaryGeneratorServices
                             Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
                             WriteLog2(Log, ServiceName, ServiceProcessID);
 
-                            Step6Func.GetAmountOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, WorkSCTransList, out Log, Pkjmstlists, compCode);
+                            Step6Func.GetAmountOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, WorkSCTransList, out Log, Pkjmstlists, compCode, tbl_UpahAktiviti);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021
@@ -491,7 +507,7 @@ namespace SalaryGeneratorServices
                             Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
                             WriteLog("Removed Transaction Listing Data. (Data - Total Data Removed : " + ScTranRemoveCount + ")", false, ServiceName, ServiceProcessID);
 
-                            WorkSCTransList = Step4Func.GetWorkActvtyPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode);
+                            WorkSCTransList = Step4Func.GetWorkActvtyPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, tbl_UpahAktiviti);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021
@@ -527,7 +543,7 @@ namespace SalaryGeneratorServices
                             Step1Func.UpdateServicesProcessPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
                             WriteLog2(Log, ServiceName, ServiceProcessID);
 
-                            Step4Func.GetAmountOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, WorkSCTransList, out Log, Pkjmstlists, compCode);
+                            Step4Func.GetAmountOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, WorkSCTransList, out Log, Pkjmstlists, compCode, tbl_UpahAktiviti);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021

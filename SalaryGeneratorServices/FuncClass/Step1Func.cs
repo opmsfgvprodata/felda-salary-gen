@@ -170,11 +170,79 @@ namespace SalaryGeneratorServices.FuncClass
             return insentifsType;
         }
 
+        public tbl_HargaSawitSemasa GetHargaSawitSemasa(int? NegaraID, int? SyarikatID, int? Month, int? Year)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            DateTime CurrentMonth = new DateTime(Year.Value, Month.Value, 15);
+
+            //added by faeza 13.10.2023
+            int LastMonth = CurrentMonth.Month;
+            int LastYear = CurrentMonth.Year;
+            return db.tbl_HargaSawitSemasa.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Bulan == LastMonth && x.fld_Tahun == LastYear).FirstOrDefault();
+        }
+
         public decimal GetBonusHarianBukanMenuai(int? NegaraID, int? SyarikatID)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             var bonusHarianBukanMenuai = decimal.Parse(db.tblOptionConfigsWebs.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false && x.fldOptConfFlag1 == "bonusHarian").Select(s => s.fldOptConfValue).FirstOrDefault());
             return bonusHarianBukanMenuai;
+        }
+
+        public List<tblOptionConfigsWeb> GetWebConfigList(string[] flag1, int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            var getConfigList = db.tblOptionConfigsWebs
+                .Where(x => flag1.Contains(x.fldOptConfFlag1) && x.fldDeleted == false &&
+                            x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID)
+                .ToList();
+
+            return getConfigList;
+        }
+
+        public tbl_GajiMinimaLdg GetGajiMinimaLdg(int? LadangID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_GajiMinimaLdg.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).FirstOrDefault();
+        }
+
+        public List<tbl_UpahAktiviti> tbl_UpahAktiviti(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID).ToList();
+        }
+
+        public List<tbl_JenisInsentif> tbl_JenisInsentif(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+        }
+
+        public List<tbl_Kwsp> tbl_Kwsp(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_Kwsp.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+        }
+
+        public List<tbl_Socso> tbl_Socso(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_Socso.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+        }
+
+        public List<tbl_CarumanTambahan> tbl_CarumanTambahan(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_CarumanTambahan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+        }
+        public List<tbl_SubCarumanTambahan> tbl_SubCarumanTambahan(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_SubCarumanTambahan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+        }
+        public List<tbl_JadualCarumanTambahan> tbl_JadualCarumanTambahan(int? NegaraID, int? SyarikatID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            return db.tbl_JadualCarumanTambahan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
         }
     }
 }
