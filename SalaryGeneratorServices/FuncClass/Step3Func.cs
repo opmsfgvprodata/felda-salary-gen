@@ -966,7 +966,7 @@ namespace SalaryGeneratorServices.FuncClass
             db2.Dispose();
         }
 
-        public decimal? GetORPFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus, List<tbl_CutiKategori> tbl_CutiKategori, List<tbl_Kerjahdr> tbl_Kerjahdr)
+        public decimal? GetORPFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus, List<tbl_CutiKategori> tbl_CutiKategori, List<tbl_Kerjahdr> tbl_Kerjahdr, List<CustMod_WorkerPaidLeave> CustMod_WorkerPaidLeave)
         {
             GetConnectFunc conn = new GetConnectFunc();
             Guid MonthSalaryID = new Guid();
@@ -977,16 +977,16 @@ namespace SalaryGeneratorServices.FuncClass
 
             decimal? WorkingPayment = 0m;
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
-            var codeCuti = tbl_CutiKategori.Select(s=>s.fld_KodCuti).ToList();
+            var codeCuti = tbl_CutiKategori.Select(s => s.fld_KodCuti).ToList();
             var kerjaList = vw_KerjaInfoDetails.Where(x => x.fld_Nopkj == NoPkj && x.fld_Kdhdct == "H01").ToList();
             var cutiBerbayarCount = tbl_Kerjahdr.Where(x => x.fld_Nopkj == NoPkj && codeCuti.Contains(x.fld_Kdhdct)).Count();
+            var oRPIncentifsCode = IncentifsType.Where(x => x.fld_AdaORP == true).Select(s => s.fld_KodInsentif).ToList();
             if (kerjaList.Count() > 0)
             {
                 var normalDateAtt = kerjaList.Select(s => s.fld_Tarikh).Distinct().ToList();
                 var byrKerja = kerjaList.Sum(s => s.fld_OverallAmount);
                 var byrBonus = vw_Kerja_Bonus.Where(x => x.fld_Nopkj == NoPkj && normalDateAtt.Contains(x.fld_Tarikh)).Sum(s => s.fld_Jumlah_B);
                 WorkingPayment = byrKerja + GajiBulanan.fld_ByrCuti + byrBonus;
-                var oRPIncentifsCode = IncentifsType.Where(x => x.fld_AdaORP == true).Select(s => s.fld_KodInsentif).ToList();
                 if (WorkerIncentifs.Count() > 0)
                 {
                     var oRPWorkerIncentifs = WorkerIncentifs.Where(x => oRPIncentifsCode.Contains(x.fld_KodInsentif)).ToList();
@@ -1001,7 +1001,24 @@ namespace SalaryGeneratorServices.FuncClass
 
                 AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 6, WorkingPayment, DTProcess, UserID, GajiBulanan);
                 MonthSalaryID = AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 20, WorkingPayment, DTProcess, UserID, GajiBulanan);
+            }
+            else if (kerjaList.Count() == 0 && CustMod_WorkerPaidLeave.Count() > 0)
+            {
+                WorkingPayment = GajiBulanan.fld_ByrCuti;
+                if (WorkerIncentifs.Count() > 0)
+                {
+                    var oRPWorkerIncentifs = WorkerIncentifs.Where(x => oRPIncentifsCode.Contains(x.fld_KodInsentif)).ToList();
+                    if (oRPWorkerIncentifs.Count() > 0)
+                    {
+                        WorkingPayment = WorkingPayment + oRPWorkerIncentifs.Sum(s => s.fld_NilaiInsentif);
+                    }
+                }
+                var workingNormalDay = CustMod_WorkerPaidLeave.Count();
+                WorkingPayment = WorkingPayment / workingNormalDay;
+                WorkingPayment = Math.Round(WorkingPayment.Value, 2);
 
+                AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 6, WorkingPayment, DTProcess, UserID, GajiBulanan);
+                MonthSalaryID = AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 20, WorkingPayment, DTProcess, UserID, GajiBulanan);
             }
 
             db2.Dispose();
