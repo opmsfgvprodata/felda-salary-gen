@@ -162,7 +162,7 @@ namespace SalaryGeneratorServices.FuncClass
             var SalaryIncrement = tbl_PkjIncrmntSalary.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_AppStatus == true).Select(s => s.fld_IncrmntSalary).FirstOrDefault();
             var JenisAktvkod = JenisAktiviti.Select(s => s.fld_KodJnsAktvt).ToList();
             //modified by kamalia 3/5/2021
-            var DataKerja = tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj && JenisAktvkod.Contains(x.fld_JnisAktvt)).Select(s => s.fld_JnisAktvt).FirstOrDefault();
+            var DataKerja = tbl_Kerja.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh == tarikh && x.fld_Nopkj == NoPkj).Select(s => s.fld_JnisAktvt).FirstOrDefault();
             if (DataKerja != null)
             {
                 var tbl_JenisAktiviti = tbl_UpahAktiviti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && DataKerja.Contains(x.fld_KodJenisAktvt)).Select(s => s.fld_Unit).FirstOrDefault();
