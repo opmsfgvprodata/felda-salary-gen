@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class Step4Func
+    public class Step4Func
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
         public List<CustMod_WorkSCTrans> GetWorkActvtyPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList, string compCode, List<tbl_UpahAktiviti> tbl_UpahAktiviti)

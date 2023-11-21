@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class Step7Func
+    public class Step7Func
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
 

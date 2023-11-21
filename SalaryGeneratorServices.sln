@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalaryGeneratorServices", "SalaryGeneratorServices\SalaryGeneratorServices.csproj", "{829C0E30-BD97-47E5-9700-2FA364F25185}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalaryGeneratorScheduler", "SalaryGeneratorScheduler\SalaryGeneratorScheduler.csproj", "{64A1E260-BC70-48FF-AFDB-74133E4A8759}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{829C0E30-BD97-47E5-9700-2FA364F25185}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{829C0E30-BD97-47E5-9700-2FA364F25185}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{829C0E30-BD97-47E5-9700-2FA364F25185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A1E260-BC70-48FF-AFDB-74133E4A8759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A1E260-BC70-48FF-AFDB-74133E4A8759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A1E260-BC70-48FF-AFDB-74133E4A8759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A1E260-BC70-48FF-AFDB-74133E4A8759}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

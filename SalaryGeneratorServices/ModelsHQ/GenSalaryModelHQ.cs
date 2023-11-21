@@ -99,6 +99,8 @@ namespace SalaryGeneratorServices.ModelsHQ
         //Added by kamalia - 15/2/2022
         public virtual DbSet<tbl_SokPermhnWang> tblSokPermhnWang { get; set; }
         public virtual DbSet<tbl_VDSAP> tbl_VDSAP { get; set; }
+        public virtual DbSet<tbl_SevicesProcess_Scheduler> tbl_SevicesProcess_Scheduler { get; set; }
+        public virtual DbSet<tbl_SevicesProcessHistory_Scheduler> tbl_SevicesProcessHistory_Scheduler { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

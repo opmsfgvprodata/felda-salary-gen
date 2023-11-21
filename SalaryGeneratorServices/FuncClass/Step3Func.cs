@@ -9,7 +9,7 @@ using System.Web.Script.Serialization;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class Step3Func
+    public class Step3Func
     {
         public Guid GetPaidWorkingFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, out decimal? WorkingPayment, out decimal? DiffAreaPayment, List<tbl_Kerja> tbl_Kerja)
         {
@@ -68,7 +68,7 @@ namespace SalaryGeneratorServices.FuncClass
             //var AveragePaid = GajiBulanan.fld_ByrKerja / TotalWorkingDay;
 
             //modified by Faeza on 10.04.2020
-            if (GajiBulanan.fld_ByrKerja > 0)
+            if (GajiBulanan.fld_ByrKerja > 0 && TotalWorkingDay > 0)
             {
                 AveragePaid = GajiBulanan.fld_ByrKerja / TotalWorkingDay;
             }
@@ -87,7 +87,7 @@ namespace SalaryGeneratorServices.FuncClass
             //AverageSalary = TotalSalary / TotalAtt;
 
             //modified by Faeza on 10.04.2020
-            if (TotalSalary > 0)
+            if (TotalSalary > 0 && TotalAtt > 0)
             {
                 AverageSalary = TotalSalary / TotalAtt;
             }

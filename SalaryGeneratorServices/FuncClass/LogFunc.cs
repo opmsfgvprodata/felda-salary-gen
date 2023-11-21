@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class LogFunc
+    public class LogFunc
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
 

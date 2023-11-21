@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class GetConnectFunc
+    public class GetConnectFunc
     {
         public void GetConnection(out string host, out string catalog, out string user, out string pass, int? wlyhID, int? syrktID, int? ngrID)
         {

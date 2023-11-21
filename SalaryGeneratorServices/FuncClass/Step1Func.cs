@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class Step1Func
+    public class Step1Func
     {
         public void AddServicesProcessFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID)
         {
@@ -243,6 +243,44 @@ namespace SalaryGeneratorServices.FuncClass
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             return db.tbl_JadualCarumanTambahan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+        }
+
+        public ModelsHQ.tbl_SevicesProcess_Scheduler GetServiceProcessSchedulerDetail(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            ModelsHQ.tbl_SevicesProcess_Scheduler SevicesProcess = new ModelsHQ.tbl_SevicesProcess_Scheduler();
+
+            SevicesProcess = db.tbl_SevicesProcess_Scheduler.Where(x => x.fld_ServicesName == servicesname && x.fld_ProcessName == processname && x.fld_Flag == 1).FirstOrDefault();
+
+            return SevicesProcess;
+        }
+
+        public void UpdateAllServiceProcessScheduler(List<ModelsHQ.tbl_ServicesList> tbl_ServicesList, DateTime DTProcess, int? Month, int? Year, int? ClientID)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+
+            var ServicesName = tbl_ServicesList.Select(s => s.fld_ServicesName).ToList();
+            var tbl_SevicesProcess = db.tbl_SevicesProcess_Scheduler.Where(x => ServicesName.Contains(x.fld_ServicesName) && x.fld_Month == Month && x.fld_Year == Year).ToList();
+            db.tbl_SevicesProcess_Scheduler.RemoveRange(tbl_SevicesProcess);
+            db.SaveChanges();
+
+            tbl_SevicesProcess = new List<ModelsHQ.tbl_SevicesProcess_Scheduler>();
+            foreach (var x in tbl_ServicesList)
+            {
+                tbl_SevicesProcess.Add(new ModelsHQ.tbl_SevicesProcess_Scheduler { fld_ClientID = ClientID, fld_ProcessName = x.fld_SevicesActivity, fld_ServicesName = x.fld_ServicesName, fld_Month = Month, fld_Year = Year, fld_Flag = 1, fld_LadangID = x.fldLadangID, fld_WilayahID = x.fldWilayahID, fld_SyarikatID = x.fldSyarikatID, fld_NegaraID = x.fldNegaraID, fld_DTProcess = DTProcess, fld_UserID = ClientID });
+            }
+            db.tbl_SevicesProcess_Scheduler.AddRange(tbl_SevicesProcess);
+            db.SaveChanges();
+        }
+
+        public void UpdateServicesProcessSchedulerPercFunc(ModelsHQ.tbl_SevicesProcess_Scheduler tbl_SevicesProcess, decimal Percentage, int Flag, GenSalaryModelHQ db, int TotalData, int RunningData)
+        {
+            string DataToProcess = RunningData + "/" + TotalData;
+            tbl_SevicesProcess.fld_ProcessPercentage = Percentage;
+            tbl_SevicesProcess.fld_DataToProcess = DataToProcess;
+            tbl_SevicesProcess.fld_Flag = Flag;
+            db.Entry(tbl_SevicesProcess).State = EntityState.Modified;
+            db.SaveChanges();
         }
     }
 }

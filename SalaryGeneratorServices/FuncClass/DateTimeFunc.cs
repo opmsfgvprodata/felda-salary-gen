@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class DateTimeFunc
+    public class DateTimeFunc
     {
         public DateTime GetDateTime()
         {

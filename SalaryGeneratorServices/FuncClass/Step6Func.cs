@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class Step6Func
+    public class Step6Func
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
         public List<CustMod_WorkSCTrans> GetWorkActvtyPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList, string compCode, List<tbl_UpahAktiviti> tbl_UpahAktiviti)

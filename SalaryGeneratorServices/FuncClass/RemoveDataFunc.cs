@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class RemoveDataFunc
+    public class RemoveDataFunc
     {
         private GetConnectFunc conn = new GetConnectFunc();
         public int RemoveData_tbl_KerjaBonus(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID)

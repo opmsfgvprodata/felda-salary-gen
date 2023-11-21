@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class Step2Func
+    public class Step2Func
     {
         public bool GetWorkingPaidLeaveFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, List<tbl_CutiKategori> CutiKategoriList, out byte? PaidPeriod, out tbl_Kerjahdr WorkingAtt, out string KumCode, List<tbl_Kerjahdr> tbl_Kerjahdr)
         {

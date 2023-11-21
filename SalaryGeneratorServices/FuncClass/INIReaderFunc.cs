@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SalaryGeneratorServices.FuncClass
 {
-    class INIReaderFunc
+    public class INIReaderFunc
     {
         private Hashtable keyPairs = new Hashtable();
         private String iniFilePath;

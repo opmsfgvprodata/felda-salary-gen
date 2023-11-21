@@ -209,6 +209,8 @@
     <Compile Include="ModelsHQ\tbl_ServicesList.cs" />
     <Compile Include="ModelsHQ\tbl_SevicesProcess.cs" />
     <Compile Include="ModelsHQ\tbl_SevicesProcessHistory.cs" />
+    <Compile Include="ModelsHQ\tbl_SevicesProcessHistory_Scheduler.cs" />
+    <Compile Include="ModelsHQ\tbl_SevicesProcess_Scheduler.cs" />
     <Compile Include="ModelsHQ\tbl_Socso.cs" />
     <Compile Include="ModelsHQ\tbl_SokPermhnWang.cs" />
     <Compile Include="ModelsHQ\tbl_SubCarumanTambahan.cs" />
