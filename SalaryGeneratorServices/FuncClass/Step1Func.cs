@@ -271,6 +271,15 @@ namespace SalaryGeneratorServices.FuncClass
             return SevicesProcess;
         }
 
+        public void RemoveServiceProcessSchedulerDetail(tbl_SevicesProcess_Scheduler tbl_SevicesProcess_Scheduler)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            ModelsHQ.tbl_SevicesProcess_Scheduler SevicesProcess = new ModelsHQ.tbl_SevicesProcess_Scheduler();
+
+            db.tbl_SevicesProcess_Scheduler.Remove(tbl_SevicesProcess_Scheduler);
+            db.SaveChanges();
+        }
+
         public void UpdateAllServiceProcessScheduler(List<ModelsHQ.tbl_ServicesList> tbl_ServicesList, DateTime DTProcess, int? Month, int? Year, int? ClientID)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();

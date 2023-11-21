@@ -521,9 +521,11 @@ namespace SalaryGeneratorServices.FuncClass
 
             //Deduction Water & Electric
             //3502 - POTONGAN BEKALAN AIR
-            //3503 - POTONGAN BEKALAN ELEKTRIK    
+            //3503 - POTONGAN BEKALAN ELEKTRIK
+            //3505 - POTONGAN PENDAHULUAN GAJI
+            //3510 - POTONGAN AIPS 
 
-            string[] deduction = new string[] { "3502", "3503" };
+            string[] deduction = new string[] { "3502", "3503", "3505", "3510" };
 
             var scTranDeductions = ScTrans.Where(x => deduction.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_Keterangan, s.fld_GL, s.fld_KodAktvt }).Distinct().ToList();
 
