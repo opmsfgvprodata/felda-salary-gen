@@ -94,6 +94,22 @@ namespace SalaryGeneratorServices.FuncClass
             return Pkjmstlist;
         }
 
+        public bool IsCloseTransactionFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? Month, int? Year)
+        {
+            GetConnectFunc conn = new GetConnectFunc();
+            LogFunc LogFunc = new LogFunc();
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            List<tbl_Pkjmast> Pkjmstlist = new List<tbl_Pkjmast>();
+
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+
+            var result = db2.tbl_TutupUrusNiaga.Any(x => x.fld_LadangID == LadangID && x.fld_Year == Year && x.fld_Month == Month && x.fld_StsTtpUrsNiaga == true);
+
+            db2.Dispose();
+            return result;
+        }
+
         public List<CustMod_DateList> GetDateListFunc(int? month, int? year)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();

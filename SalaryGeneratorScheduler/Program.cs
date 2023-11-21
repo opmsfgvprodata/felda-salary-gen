@@ -116,6 +116,11 @@ namespace SalaryGeneratorScheduler
                     SevicesProcess = Step1Func.GetServiceProcessSchedulerDetail(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID);
                     if (SevicesProcess != null)
                     {
+                        var isCloseTransaction = Step1Func.IsCloseTransactionFunc(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                        if (!isCloseTransaction)
+                        {
+
+                        }
                         NegaraID = SevicesProcess.fld_NegaraID;
                         SyarikatID = SevicesProcess.fld_SyarikatID;
                         WilayahID = SevicesProcess.fld_WilayahID;
