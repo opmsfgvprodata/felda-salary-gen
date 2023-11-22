@@ -70,10 +70,49 @@ namespace SalaryGeneratorServices.FuncClass
             string path = "";
             
             stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
-            stringday = (stringday.Length == 1 ? "0" + stringday : stringmonth);
+            stringday = (stringday.Length == 1 ? "0" + stringday : stringday);
             processid = ServiceProcessID;
             path = AppDomain.CurrentDomain.BaseDirectory + "ProcessLog\\" + ServicesName + "_" + stringday + stringmonth + year + "_" + processid + ".txt";
             
+            if (!File.Exists(path))
+            {
+                using (StreamWriter writer = File.CreateText(path))
+                {
+                    writer.WriteLine(Log);
+                    writer.Close();
+                }
+            }
+            else
+            {
+                using (StreamWriter writer = new StreamWriter(path, true))
+                {
+                    writer.WriteLine(Log);
+                    writer.Close();
+                }
+            }
+        }
+
+        public void WriteProcessSchedulerLog(string Log, string ServicesName, long ServiceProcessID)
+        {
+            DateTime GetDateTime = DateTimeFunc.GetDateTime();
+            int year = GetDateTime.Year;
+            int month = GetDateTime.Month;
+            int day = GetDateTime.Day;
+            long processid = 0;
+            string stringmonth = month.ToString();
+            string stringday = day.ToString();
+            string path = "";
+
+            stringmonth = (stringmonth.Length == 1 ? "0" + stringmonth : stringmonth);
+            stringday = (stringday.Length == 1 ? "0" + stringday : stringday);
+            processid = ServiceProcessID;
+            path = AppDomain.CurrentDomain.BaseDirectory + "ProcessLog\\" + stringday + stringmonth + year + "\\" + ServicesName + "_" + processid + ".txt";
+
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+            }
+
             if (!File.Exists(path))
             {
                 using (StreamWriter writer = File.CreateText(path))

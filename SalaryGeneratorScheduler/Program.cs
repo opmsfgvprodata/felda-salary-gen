@@ -134,6 +134,7 @@ namespace SalaryGeneratorScheduler
                     try
                     {
                         var getservicesdetail = tbl_ServicesList;
+                        ServiceName = getservicesdetail.fld_ServicesName;
                         SevicesProcess = Step1Func.GetServiceProcessSchedulerDetail(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID);
 
                         if (SevicesProcess != null)
@@ -723,7 +724,7 @@ namespace SalaryGeneratorScheduler
                 msg += DateTimeFunc.GetDateTime() + " - " + message;
             }
             Console.WriteLine(msg);
-            LogFunc.WriteProcessLog(msg, ServicesName, ServiceProcessID);
+            LogFunc.WriteProcessSchedulerLog(msg, ServicesName, ServiceProcessID);
         }
 
         public static void WriteLog2(string message, string ServicesName, long ServiceProcessID)
@@ -732,7 +733,7 @@ namespace SalaryGeneratorScheduler
             if (message != "")
             {
                 msg += message;
-                LogFunc.WriteProcessLog(msg, ServicesName, ServiceProcessID);
+                LogFunc.WriteProcessSchedulerLog(msg, ServicesName, ServiceProcessID);
             }
             Console.WriteLine(msg);
         }
