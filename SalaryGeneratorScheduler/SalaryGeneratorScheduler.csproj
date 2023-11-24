@@ -68,5 +68,9 @@
       <Name>SalaryGeneratorServices</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="html\EndProcessEmailSend.html" />
+    <Content Include="html\StartProcessEmailSend.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

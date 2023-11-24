@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -306,6 +308,33 @@ namespace SalaryGeneratorServices.FuncClass
             tbl_SevicesProcess.fld_Flag = Flag;
             db.Entry(tbl_SevicesProcess).State = EntityState.Modified;
             db.SaveChanges();
+        }
+
+        public void SendEmail(string to, string subject, string body)
+        {
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.From = new MailAddress("checkroll.info@fgvholdings.com");
+            mailMessage.To.Add(to);
+            mailMessage.Subject = subject;
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = body;
+
+            SmtpClient smtpClient = new SmtpClient();
+            smtpClient.Host = "mx.felda.net.my";
+            smtpClient.Port = 25;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential("checkroll.info@fgvholdings.com", "checkroll123");
+            smtpClient.EnableSsl = false;
+
+            try
+            {
+                smtpClient.Send(mailMessage);
+                Console.WriteLine("Email Sent Successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
         }
     }
 }

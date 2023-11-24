@@ -5,6 +5,7 @@ using SalaryGeneratorServices.ModelsHQ;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,6 +105,7 @@ namespace SalaryGeneratorScheduler
             int TotalDataCount2 = 0;
             int DataCount2 = 1;
 
+
             var dT = DateTimeFunc.GetDateTime();
 
             int startdate = int.Parse(ConfigurationManager.AppSettings["startday"]);
@@ -129,6 +131,8 @@ namespace SalaryGeneratorScheduler
                 var tbl_ServicesLists = db.tbl_ServicesList.Where(x => x.fld_SevicesActivity == "LadangSalaryGen" && x.fldNegaraID == 1 && x.fldSyarikatID == 1 && x.fld_Deleted == false).ToList();
                 Step1Func.UpdateAllServiceProcessScheduler(tbl_ServicesLists, dT, dT.Month, dT.Year, 99);
 
+                string sendEmailBody = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "html\\StartProcessEmailSend.html"));
+                Step1Func.SendEmail("ashahri90@gmail.com", "Generate Salary Started", sendEmailBody);
                 foreach (var tbl_ServicesList in tbl_ServicesLists)
                 {
                     try
