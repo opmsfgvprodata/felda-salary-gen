@@ -133,6 +133,59 @@ namespace SalaryGeneratorScheduler
                 {
                     try
                     {
+                        NegaraID = 0;
+                        SyarikatID = 0;
+                        WilayahID = 0;
+                        LadangID = 0;
+                        Month = 0;
+                        Year = 0;
+                        UserID = 0;
+                        compCode = "";
+                        KerjaBonusRemoveCount = 0;
+                        KerjaOTRemoveCount = 0;
+                        KerjahdrCutiRemoveCount = 0;
+                        KerjahdrCutiBlmAmbilRemoveCount = 0;
+                        GajiBulananRemoveCount = 0;
+                        ScTranRemoveCount = 0;
+                        ByrCrmnTmbhnRemoveCount = 0;
+                        StartWorkDate = new DateTime();
+                        LastDateLoop = new DateTime();
+                        PaidPeriod = 0;
+                        TakePaidLeave = false;
+                        WorkingPayment = 0;
+                        DiffAreaPayment = 0;
+                        DailyBonusPayment = 0;
+                        OTPayment = 0;
+                        OthrInsPayment = 0;
+                        DeductInsPayment = 0;
+                        AveragePayment = 0;
+                        AIPSPayment = 0;
+                        LeavePayment = 0;
+                        KWSPMjkn = 0;
+                        KWSPPkj = 0;
+                        SocsoMjkn = 0;
+                        SocsoPkj = 0;
+                        TotalOthrContMjkCont = 0;
+                        TotalOthrContPkjCont = 0;
+                        OverallSalary = 0;
+                        Salary = 0;
+                        AttendStatus = false;
+                        AttCode = "";
+                        KumCode = "";
+                        Log = "";
+                        ServiceName = "";
+                        Percentage = 0;
+                        CountData = 0;
+                        LoopCountData = 1;
+
+                        TotalPkjCount = 0;
+                        TotalDateCount = 0;
+                        TotalDataCount = 0;
+                        DataCount = 1;
+
+                        TotalDataCount2 = 0;
+                        DataCount2 = 1;
+
                         var getservicesdetail = tbl_ServicesList;
                         ServiceName = getservicesdetail.fld_ServicesName;
                         SevicesProcess = Step1Func.GetServiceProcessSchedulerDetail(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID);
