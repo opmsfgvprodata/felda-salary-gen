@@ -128,11 +128,12 @@ namespace SalaryGeneratorScheduler
 
             if ((dT.Day >= startdate && dT.Day <= lastDayMonth) || newMonth)
             {
+                var emailToSend = ConfigurationManager.AppSettings["emailsentto"];
                 var tbl_ServicesLists = db.tbl_ServicesList.Where(x => x.fld_SevicesActivity == "LadangSalaryGen" && x.fldNegaraID == 1 && x.fldSyarikatID == 1 && x.fld_Deleted == false).ToList();
                 Step1Func.UpdateAllServiceProcessScheduler(tbl_ServicesLists, dT, dT.Month, dT.Year, 99);
 
                 string sendEmailBody = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "html\\StartProcessEmailSend.html"));
-                Step1Func.SendEmail("ashahri90@gmail.com", "Generate Salary Started", sendEmailBody);
+                Step1Func.SendEmail(emailToSend, "Generate Salary Started", sendEmailBody);
                 foreach (var tbl_ServicesList in tbl_ServicesLists)
                 {
                     try
@@ -206,6 +207,7 @@ namespace SalaryGeneratorScheduler
                             var isCloseTransaction = Step1Func.IsCloseTransactionFunc(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                             if (!isCloseTransaction)
                             {
+                                Step1Func.UpdateServiceProcessDTScheduler(SevicesProcess, DateTimeFunc.GetDateTime(), true);
                                 compCode = db.tbl_Ladang.Where(x => x.fld_ID == LadangID).Select(s => s.fld_CostCentre).FirstOrDefault();
                                 ServiceProcessID = SevicesProcess.fld_ID;
 
@@ -732,6 +734,8 @@ namespace SalaryGeneratorScheduler
                                 Percentage = 100; //added by faeza 08.10.2021
 
                                 string msg = "Overall data process: " + DataCount2 + "/" + TotalDataCount2;
+
+                                Step1Func.UpdateServiceProcessDTScheduler(SevicesProcess, DateTimeFunc.GetDateTime(), false);
                             }
                             else
                             {
@@ -764,6 +768,10 @@ namespace SalaryGeneratorScheduler
                         WriteLog("End Process.", false, ServiceName, ServiceProcessID);
                     }
                 }
+                sendEmailBody = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "html\\EndProcessEmailSend.html"));
+                string result = Step1Func.ResultAfterProcess();
+                sendEmailBody = sendEmailBody.Replace("[[GENERATE_RESULT]]", result);
+                Step1Func.SendEmail(emailToSend, "Generate Salary Ended", sendEmailBody);
             }
         }
 

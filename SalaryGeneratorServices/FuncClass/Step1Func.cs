@@ -294,9 +294,26 @@ namespace SalaryGeneratorServices.FuncClass
             tbl_SevicesProcess = new List<ModelsHQ.tbl_SevicesProcess_Scheduler>();
             foreach (var x in tbl_ServicesList)
             {
-                tbl_SevicesProcess.Add(new ModelsHQ.tbl_SevicesProcess_Scheduler { fld_ClientID = ClientID, fld_ProcessName = x.fld_SevicesActivity, fld_ServicesName = x.fld_ServicesName, fld_Month = Month, fld_Year = Year, fld_Flag = 1, fld_LadangID = x.fldLadangID, fld_WilayahID = x.fldWilayahID, fld_SyarikatID = x.fldSyarikatID, fld_NegaraID = x.fldNegaraID, fld_DTProcess = DTProcess, fld_UserID = ClientID });
+                tbl_SevicesProcess.Add(new ModelsHQ.tbl_SevicesProcess_Scheduler { fld_ClientID = ClientID, fld_ProcessName = x.fld_SevicesActivity, fld_ServicesName = x.fld_ServicesName, fld_Month = Month, fld_Year = Year, fld_Flag = 1, fld_LadangID = x.fldLadangID, fld_WilayahID = x.fldWilayahID, fld_SyarikatID = x.fldSyarikatID, fld_NegaraID = x.fldNegaraID, fld_DTProcess = DTProcess, fld_EndDTProcess = DTProcess, fld_UserID = ClientID });
             }
             db.tbl_SevicesProcess_Scheduler.AddRange(tbl_SevicesProcess);
+            db.SaveChanges();
+        }
+
+        public void UpdateServiceProcessDTScheduler(tbl_SevicesProcess_Scheduler tbl_SevicesProcess_Scheduler, DateTime DTProcess, bool isStart)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+
+            if (isStart)
+            {
+                tbl_SevicesProcess_Scheduler.fld_DTProcess = DTProcess;
+            }
+            else
+            {
+                tbl_SevicesProcess_Scheduler.fld_EndDTProcess = DTProcess;
+            }
+
+            db.Entry(tbl_SevicesProcess_Scheduler).State = EntityState.Modified;
             db.SaveChanges();
         }
 
@@ -310,11 +327,33 @@ namespace SalaryGeneratorServices.FuncClass
             db.SaveChanges();
         }
 
+        public string ResultAfterProcess()
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            var tbl_SevicesProcess_Scheduler = db.tbl_SevicesProcess_Scheduler.Join(db.vw_NSWL, a => a.fld_LadangID, b => b.fld_LadangID, (a, b) =>
+            new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, startProcess = a.fld_DTProcess, endProcess = a.fld_DTProcess, result = a.fld_DataToProcess }).ToList();
+            string result = "";
+            foreach (var item in tbl_SevicesProcess_Scheduler)
+            {
+                result += "<tr>";
+                result += "<td>" + item.estateName + "</td>";
+                result += "<td>" + item.regionName + "</td>";
+                result += "<td>" + item.startProcess.Value.ToString("dd-MM-yyyy h:mm:ss tt") + "</td>";
+                result += "<td>" + item.endProcess.Value.ToString("dd-MM-yyyy h:mm:ss tt") + "</td>";
+                result += "<td>" + item.result + "</td>";
+                result += "</tr>";
+            }
+            return result;
+        }
+
         public void SendEmail(string to, string subject, string body)
         {
+
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress("checkroll.info@fgvholdings.com");
-            mailMessage.To.Add(to);
+            string[] sendToList = to.Split(';');
+            foreach (string sentTo in sendToList)
+                mailMessage.To.Add(sentTo);
             mailMessage.Subject = subject;
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = body;

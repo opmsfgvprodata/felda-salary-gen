@@ -4,11 +4,48 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <style>
+        table.GeneratedTable {
+            width: 100%;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            border-width: 2px;
+            border-color: #ffcc00;
+            border-style: solid;
+            color: #000000;
+        }
+
+            table.GeneratedTable td, table.GeneratedTable th {
+                border-width: 2px;
+                border-color: #ffcc00;
+                border-style: solid;
+                padding: 3px;
+            }
+
+            table.GeneratedTable thead {
+                background-color: #ffcc00;
+            }
+    </style>
 </head>
 <body>
     <h1>Salam All,</h1>
     <p>Scheduler for Felda &amp; FPM generate salary has been ended. Below is the result:</p>
-    <p>[[GENERATE_RESULT]]</p>
+    <p>
+        <table class="GeneratedTable">
+            <thead>
+                <tr>
+                    <th>Estate Name</th>
+                    <th>Region Name</th>
+                    <th>Start Process Time</th>
+                    <th>End Process Time</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                [[GENERATE_RESULT]]
+            </tbody>
+        </table>
+    </p>
     <p>Thank You</p>
 </body>
 </html>

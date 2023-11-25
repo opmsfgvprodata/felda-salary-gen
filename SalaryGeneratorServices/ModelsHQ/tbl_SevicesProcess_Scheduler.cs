@@ -22,6 +22,7 @@ namespace SalaryGeneratorServices.ModelsHQ
         public int? fld_UserID { get; set; }
 
         public DateTime? fld_DTProcess { get; set; }
+        public DateTime? fld_EndDTProcess { get; set; }
 
         public int? fld_Year { get; set; }
 
