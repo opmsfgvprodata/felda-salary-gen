@@ -68,6 +68,9 @@
         [StringLength(4)]
         public string fld_SAPComCode { get; set; }
 
+        [StringLength(50)]
+        public string fld_CostCentre { get; set; }
+
 
     }
 }
