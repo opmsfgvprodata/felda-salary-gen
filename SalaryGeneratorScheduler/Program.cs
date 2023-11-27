@@ -134,16 +134,16 @@ namespace SalaryGeneratorScheduler
                     var tbl_ServicesLists = db.tbl_ServicesList.Where(x => x.fld_SevicesActivity == "LadangSalaryGen" && x.fldNegaraID == 1 && x.fldSyarikatID == 1 && x.fld_Deleted == false).ToList();
                     Step1Func.UpdateAllServiceProcessScheduler(tbl_ServicesLists, dT, dT.Month, dT.Year, 99);
 
-                    string sendEmailBody1 = File.ReadAllText(Path.Combine(appDir, "html\\EndProcessEmailSend.html"));
-                    string result = Step1Func.ResultAfterProcess();
-                    Step1Func.WriteExcel(appDir, sendEmailBody1);
-                    sendEmailBody1 = sendEmailBody1.Replace("[[GENERATE_RESULT]]", result);
+                    //string sendEmailBody1 = File.ReadAllText(Path.Combine(appDir, "html\\EndProcessEmailSend.html"));
+                    //string result1 = Step1Func.ResultAfterProcess();
+                    //Step1Func.WriteExcel(appDir, sendEmailBody1);
+                    //sendEmailBody1 = sendEmailBody1.Replace("[[GENERATE_RESULT]]", result1);
 
-                    string attachmentBody1 = File.ReadAllText(Path.Combine(appDir, "html\\Attachment.html"));
-                    attachmentBody1 = attachmentBody1.Replace("[[GENERATE_RESULT]]", result);
-                    Step1Func.WriteExcel(appDir, attachmentBody1);
+                    //string attachmentBody1 = File.ReadAllText(Path.Combine(appDir, "html\\Attachment.html"));
+                    //attachmentBody1 = attachmentBody1.Replace("[[GENERATE_RESULT]]", result1);
+                    //Step1Func.WriteExcel(appDir, attachmentBody1);
 
-                    Step1Func.SendEmail(emailToSend, "Generate Salary Ended", sendEmailBody1, Path.Combine(appDir, "excel\\Result.xls"));
+                    //Step1Func.SendEmail(emailToSend, "Generate Salary Ended", sendEmailBody1, Path.Combine(appDir, "excel\\Result.xls"));
 
                     string sendEmailBody = File.ReadAllText(Path.Combine(appDir, "html\\StartProcessEmailSend.html"));
                     Step1Func.SendEmail(emailToSend, "Generate Salary Started", sendEmailBody, null);
