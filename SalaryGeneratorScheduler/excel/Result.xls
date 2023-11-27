@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table.GeneratedTable {
+            width: 100%;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            border-width: 2px;
+            border-color: #ffcc00;
+            border-style: solid;
+            color: #000000;
+        }
+
+            table.GeneratedTable td, table.GeneratedTable th {
+                border-width: 2px;
+                border-color: #ffcc00;
+                border-style: solid;
+                padding: 3px;
+            }
+
+            table.GeneratedTable thead {
+                background-color: #ffcc00;
+            }
+    </style>
+</head>
+<body>
+    <table class="GeneratedTable">
+        <thead>
+            <tr>
+                <th>Estate Name</th>
+                <th>Region Name</th>
+                <th>Company Code</th>
+                <th>Start Process Time</th>
+                <th>End Process Time</th>
+                <th>Result</th>
+                <th>Complete %</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>FPM CHIKU 7</td><td>GUA MUSANG</td><td style='text-align:center;'>8800</td><td style='text-align:center;'>27-11-2023 11:34:57 PM</td><td style='text-align:center;'>27-11-2023 11:34:57 PM</td><td style='text-align:center;'></td><td style='text-align:center;'></td></tr><tr><td>FPM JENGKA 25</td><td>JENGKA</td><td style='text-align:center;'>8800</td><td style='text-align:center;'>27-11-2023 11:34:57 PM</td><td style='text-align:center;'>27-11-2023 11:34:57 PM</td><td style='text-align:center;'></td><td style='text-align:center;'></td></tr>
+        </tbody>
+    </table>
+</body>
+</html>
