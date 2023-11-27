@@ -322,7 +322,7 @@ namespace SalaryGeneratorServices.FuncClass
         public void UpdateServicesProcessSchedulerPercFunc(ModelsHQ.tbl_SevicesProcess_Scheduler tbl_SevicesProcess, decimal Percentage, int Flag, GenSalaryModelHQ db, int TotalData, int RunningData)
         {
             string DataToProcess = RunningData + "/" + TotalData;
-            Percentage = RunningData / TotalData * 100;
+            Percentage = decimal.Parse(RunningData.ToString()) / decimal.Parse(TotalData.ToString()) * (decimal)100;
             tbl_SevicesProcess.fld_ProcessPercentage = Percentage;
             tbl_SevicesProcess.fld_DataToProcess = DataToProcess;
             tbl_SevicesProcess.fld_Flag = Flag;
