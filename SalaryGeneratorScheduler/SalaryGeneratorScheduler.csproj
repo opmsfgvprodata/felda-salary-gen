@@ -69,8 +69,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="html\Attachment.html" />
     <Content Include="html\EndProcessEmailSend.html" />
     <Content Include="html\StartProcessEmailSend.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="excel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

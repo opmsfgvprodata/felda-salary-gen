@@ -9,6 +9,8 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Net.Mime;
 
 namespace SalaryGeneratorServices.FuncClass
 {
@@ -320,6 +322,7 @@ namespace SalaryGeneratorServices.FuncClass
         public void UpdateServicesProcessSchedulerPercFunc(ModelsHQ.tbl_SevicesProcess_Scheduler tbl_SevicesProcess, decimal Percentage, int Flag, GenSalaryModelHQ db, int TotalData, int RunningData)
         {
             string DataToProcess = RunningData + "/" + TotalData;
+            Percentage = RunningData / TotalData * 100;
             tbl_SevicesProcess.fld_ProcessPercentage = Percentage;
             tbl_SevicesProcess.fld_DataToProcess = DataToProcess;
             tbl_SevicesProcess.fld_Flag = Flag;
@@ -331,7 +334,7 @@ namespace SalaryGeneratorServices.FuncClass
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             var tbl_SevicesProcess_Scheduler = db.tbl_SevicesProcess_Scheduler.Join(db.vw_NSWL, a => a.fld_LadangID, b => b.fld_LadangID, (a, b) =>
-            new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, companyCode = b.fld_CostCentre, startProcess = a.fld_DTProcess, endProcess = a.fld_EndDTProcess, result = a.fld_DataToProcess }).OrderBy(o => new { o.companyCode, o.regionName, o.estateName }).ToList();
+            new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, companyCode = b.fld_CostCentre, startProcess = a.fld_DTProcess, endProcess = a.fld_EndDTProcess, result = a.fld_DataToProcess, percentage = a.fld_ProcessPercentage }).OrderBy(o => new { o.companyCode, o.regionName, o.estateName }).ToList();
             string result = "";
             foreach (var item in tbl_SevicesProcess_Scheduler.ToList())
             {
@@ -342,12 +345,13 @@ namespace SalaryGeneratorServices.FuncClass
                 result += "<td style='text-align:center;'>" + item.startProcess.Value.ToString("dd-MM-yyyy h:mm:ss tt") + "</td>";
                 result += "<td style='text-align:center;'>" + item.endProcess.Value.ToString("dd-MM-yyyy h:mm:ss tt") + "</td>";
                 result += "<td style='text-align:center;'>" + item.result + "</td>";
+                result += "<td style='text-align:center;'>" + item.percentage + "</td>";
                 result += "</tr>";
             }
             return result;
         }
 
-        public void SendEmail(string to, string subject, string body)
+        public void SendEmail(string to, string subject, string body, string attachmentFile)
         {
 
             MailMessage mailMessage = new MailMessage();
@@ -359,6 +363,12 @@ namespace SalaryGeneratorServices.FuncClass
             mailMessage.IsBodyHtml = true;
             mailMessage.Body = body;
 
+            if (!string.IsNullOrEmpty(attachmentFile))
+            {
+                Attachment file = new Attachment(attachmentFile);
+                mailMessage.Attachments.Add(file);
+            }
+            
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Host = "mx.felda.net.my";
             smtpClient.Port = 25;
@@ -375,6 +385,11 @@ namespace SalaryGeneratorServices.FuncClass
             {
                 Console.WriteLine("Error: " + ex.Message);
             }
+        }
+
+        public void WriteExcel(string AppDir, string HtmlBody)
+        {
+            File.WriteAllText(Path.Combine(AppDir, "excel\\Result.xls"), HtmlBody);
         }
     }
 }
