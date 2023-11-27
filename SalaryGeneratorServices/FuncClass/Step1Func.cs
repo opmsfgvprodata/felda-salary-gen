@@ -331,7 +331,7 @@ namespace SalaryGeneratorServices.FuncClass
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             var tbl_SevicesProcess_Scheduler = db.tbl_SevicesProcess_Scheduler.Join(db.vw_NSWL, a => a.fld_LadangID, b => b.fld_LadangID, (a, b) =>
-            new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, companyCode = b.fld_CostCentre, startProcess = a.fld_DTProcess, endProcess = a.fld_DTProcess, result = a.fld_DataToProcess }).OrderBy(o => new { o.companyCode, o.regionName, o.estateName }).ToList();
+            new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, companyCode = b.fld_CostCentre, startProcess = a.fld_DTProcess, endProcess = a.fld_EndDTProcess, result = a.fld_DataToProcess }).OrderBy(o => new { o.companyCode, o.regionName, o.estateName }).ToList();
             string result = "";
             foreach (var item in tbl_SevicesProcess_Scheduler.ToList())
             {
