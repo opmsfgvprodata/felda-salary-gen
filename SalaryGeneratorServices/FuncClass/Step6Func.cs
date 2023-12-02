@@ -657,7 +657,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                         foreach (var GetOtherContributionIOs in adminSCTransM)
                         {
-                            var AvailableIO = AdminSCTransList.Where(x => x.fld_Nopkj == pkjamount.fld_Nopkj && x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt && x.fld_PaySheetID == GetOtherContributionIOs.fld_PaySheetID && x.fld_JnisAktvt == GetOtherContributionIOs.fld_JnsAktvt && x.fld_KodGL == GetOtherContributionIOs.fld_KodGL).FirstOrDefault();
+                            var AvailableIO = AdminSCTransList.Where(x => x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt).FirstOrDefault();
                             var amountAfterDivM = adminSCTransM.Where(x => x.fld_KodGL == GetOtherContributionIOs.fld_KodGL && x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt && x.fld_PaySheetID == GetOtherContributionIOs.fld_PaySheetID && x.fld_JnsAktvt == GetOtherContributionIOs.fld_JnsAktvt).Select(s => s.fld_Jumlah).FirstOrDefault();
 
                             AdminSCTransListForOtherContri.Add(new CustMod_AdminSCTrans() { fld_KodGL = GetOtherContributionIOs.fld_KodGL, fld_JumlahPkj = 0, fld_JumlahMjk = amountAfterDivM, fld_JumlahMix = 0, fld_Nopkj = pkjamount.fld_Nopkj, fld_SAPIO = GetOtherContributionIOs.fld_SAPIO, fld_KodPkt = GetOtherContributionIOs.fld_KodPkt, fld_PaySheetID = GetOtherContributionIOs.fld_PaySheetID, fld_JnisAktvt = GetOtherContributionIOs.fld_JnsAktvt, fld_SAPType = AvailableIO.fld_SAPType });
@@ -674,7 +674,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                         foreach (var GetOtherContributionIOs in adminSCTransP)
                         {
-                            var AvailableIO = AdminSCTransList.Where(x => x.fld_Nopkj == pkjamount.fld_Nopkj && x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt && x.fld_PaySheetID == GetOtherContributionIOs.fld_PaySheetID && x.fld_JnisAktvt == GetOtherContributionIOs.fld_JnsAktvt && x.fld_KodGL == GetOtherContributionIOs.fld_KodGL).FirstOrDefault();
+                            var AvailableIO = AdminSCTransList.Where(x => x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt).FirstOrDefault();
                             var amountAfterDivP = adminSCTransP.Where(x => x.fld_KodGL == GetOtherContributionIOs.fld_KodGL && x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt && x.fld_PaySheetID == GetOtherContributionIOs.fld_PaySheetID && x.fld_JnsAktvt == GetOtherContributionIOs.fld_JnsAktvt).Select(s => s.fld_Jumlah).FirstOrDefault();
                             AdminSCTransListForOtherContri.Add(new CustMod_AdminSCTrans() { fld_KodGL = GetOtherContributionIOs.fld_KodGL, fld_JumlahPkj = amountAfterDivP, fld_JumlahMjk = 0, fld_JumlahMix = 0, fld_Nopkj = pkjamount.fld_Nopkj, fld_SAPIO = GetOtherContributionIOs.fld_SAPIO, fld_KodPkt = GetOtherContributionIOs.fld_KodPkt, fld_PaySheetID = GetOtherContributionIOs.fld_PaySheetID, fld_JnisAktvt = GetOtherContributionIOs.fld_JnsAktvt, fld_SAPType = AvailableIO.fld_SAPType });
                             //if (AvailableIO != null)
@@ -690,7 +690,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                         foreach (var GetOtherContributionIOs in adminSCTransMix)
                         {
-                            var AvailableIO = AdminSCTransList.Where(x => x.fld_Nopkj == pkjamount.fld_Nopkj && x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt && x.fld_PaySheetID == GetOtherContributionIOs.fld_PaySheetID && x.fld_JnisAktvt == GetOtherContributionIOs.fld_JnsAktvt && x.fld_KodGL == GetOtherContributionIOs.fld_KodGL).FirstOrDefault();
+                            var AvailableIO = AdminSCTransList.Where(x => x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt).FirstOrDefault();
                             var amountAfterDivMix = adminSCTransMix.Where(x => x.fld_KodGL == GetOtherContributionIOs.fld_KodGL && x.fld_SAPIO == GetOtherContributionIOs.fld_SAPIO && x.fld_KodPkt == GetOtherContributionIOs.fld_KodPkt && x.fld_PaySheetID == GetOtherContributionIOs.fld_PaySheetID && x.fld_JnsAktvt == GetOtherContributionIOs.fld_JnsAktvt).Select(s => s.fld_Jumlah).FirstOrDefault();
                             AdminSCTransListForOtherContri.Add(new CustMod_AdminSCTrans() { fld_KodGL = GetOtherContributionIOs.fld_KodGL, fld_JumlahPkj = 0, fld_JumlahMjk = 0, fld_JumlahMix = amountAfterDivMix, fld_Nopkj = pkjamount.fld_Nopkj, fld_SAPIO = GetOtherContributionIOs.fld_SAPIO, fld_KodPkt = GetOtherContributionIOs.fld_KodPkt, fld_PaySheetID = GetOtherContributionIOs.fld_PaySheetID, fld_JnisAktvt = GetOtherContributionIOs.fld_JnsAktvt, fld_SAPType = AvailableIO.fld_SAPType });
                             //if (AvailableIO != null)
