@@ -186,7 +186,8 @@ namespace SalaryGeneratorServices.FuncClass
             Contribution = false;
 
             var ScTrans = db2.tbl_Sctran.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_Keterangan, s.fld_JnisAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
-            var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
+            //modified by faeza on 01.12.2023 - add fld_KodAktvt.Substring(0, 1) == "2"
+            var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1" || x.fld_KodAktvt.Substring(0, 1) == "2").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
             var GetWorkActvtDistincts = GetWorkActvt.Select(s => new { s.fld_GL, s.fld_IO, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
             var GetEstateCOde = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahID && x.fld_ID == LadangID).Select(s => s.fld_LdgCode).FirstOrDefault();
 
@@ -371,7 +372,8 @@ namespace SalaryGeneratorServices.FuncClass
             var GetEstateCOde = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahID && x.fld_ID == LadangID).Select(s => s.fld_LdgCode).FirstOrDefault();
             var GetNotWorkActs = db.tbl_CustomerVendorGLMap.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_TypeCode == "GL" && x.fld_compcode == compCode).ToList();
             var ScTrans = db2.tbl_Sctran.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_Keterangan, s.fld_JnisAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
-            var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_SAPType }).ToList();
+            //modified by faeza on 01.12.2023 - add fld_KodAktvt.Substring(0, 1) == "2"
+            var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1" || x.fld_KodAktvt.Substring(0, 1) == "2").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_SAPType }).ToList();
 
             var GetNotWorkAct4s = GetNotWorkActs.Where(x => x.fld_Flag == "3" && x.fld_TypeCode == "GL").Select(s => s.fld_KodAktiviti).Distinct().ToList();
             var CheckNotWorkAct4 = ScTrans.Where(x => GetNotWorkAct4s.Contains(x.fld_KodAktvt)).ToList();
@@ -524,8 +526,14 @@ namespace SalaryGeneratorServices.FuncClass
             //3503 - POTONGAN BEKALAN ELEKTRIK
             //3505 - POTONGAN PENDAHULUAN GAJI
             //3510 - POTONGAN AIPS 
+            //3504 - POTONGAN RAWATAN PERUBATAN
+            //3506 - POTONGAN RAWATAN PERUBATAN
+            //3507 - Potongan Pendahuluan Cuti Tahunan
+            //3508 - Potongan Terlebih Sip/sbkp/socso/kwsp
+            //3509 - Potongan Terlebih Bayar Gaji
 
-            string[] deduction = new string[] { "3502", "3503", "3505", "3510" };
+
+            string[] deduction = new string[] { "3502", "3503", "3505", "3510", "3504", "3506", "3507", "3508", "3509" };
 
             var scTranDeductions = ScTrans.Where(x => deduction.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_Keterangan, s.fld_GL, s.fld_KodAktvt }).Distinct().ToList();
 
