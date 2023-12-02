@@ -751,7 +751,7 @@ namespace SalaryGeneratorScheduler
                                 }
                                 else
                                 {
-                                    Step1Func.RemoveServiceProcessSchedulerDetail(SevicesProcess);
+                                    Step1Func.UpdateServiceProcessDTScheduler(SevicesProcess, DateTimeFunc.GetDateTime(), false);
                                 }
 
                             }

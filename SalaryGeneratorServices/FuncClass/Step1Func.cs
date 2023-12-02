@@ -322,7 +322,10 @@ namespace SalaryGeneratorServices.FuncClass
         public void UpdateServicesProcessSchedulerPercFunc(ModelsHQ.tbl_SevicesProcess_Scheduler tbl_SevicesProcess, decimal Percentage, int Flag, GenSalaryModelHQ db, int TotalData, int RunningData)
         {
             string DataToProcess = RunningData + "/" + TotalData;
-            Percentage = decimal.Parse(RunningData.ToString()) / decimal.Parse(TotalData.ToString()) * (decimal)100;
+            if (TotalData > 0)
+            {
+                Percentage = decimal.Parse(RunningData.ToString()) / decimal.Parse(TotalData.ToString()) * (decimal)100;
+            }
             tbl_SevicesProcess.fld_ProcessPercentage = Percentage;
             tbl_SevicesProcess.fld_DataToProcess = DataToProcess;
             tbl_SevicesProcess.fld_Flag = Flag;
@@ -368,7 +371,7 @@ namespace SalaryGeneratorServices.FuncClass
                 Attachment file = new Attachment(attachmentFile);
                 mailMessage.Attachments.Add(file);
             }
-            
+
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Host = "mx.felda.net.my";
             smtpClient.Port = 25;
