@@ -464,7 +464,7 @@ namespace SalaryGeneratorServices.FuncClass
                 i++;
 
                 var vendor = vendorList.Where(x => x.fld_VendorInd == "MTA").FirstOrDefault();
-                DescActvt = "JPPT - PEMBAYARAN GAJI BURUH ASING LADANG " + " (" + GetEstateCOde + ") " + Month + "/" + Year;
+                DescActvt = "MERCHANTRADE ASIA " + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 Amount = db.tblSokPermhnWang.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Sum(s => s.fld_JumlahEwallet);
                 if (Amount != 0)
                 {
