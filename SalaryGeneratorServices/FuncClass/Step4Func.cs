@@ -237,7 +237,7 @@ namespace SalaryGeneratorServices.FuncClass
             {
                 foreach (var pkjamount in NoPkjList)
                 {
-                    Amount = Leave.fld_KodCuti != "C22" ? db2.vw_Kerja_Hdr_Cuti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == Leave.fld_KodCuti && x.fld_Nopkj == pkjamount).Sum(s => s.fld_Jumlah)
+                    Amount = Leave.fld_KodCuti != "C99" ? db2.vw_Kerja_Hdr_Cuti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == Leave.fld_KodCuti && x.fld_Nopkj == pkjamount).Sum(s => s.fld_Jumlah)
               :
                   db2.tbl_KerjahdrCutiTahunan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Year == Year && x.fld_KodCuti == Leave.fld_KodCuti && x.fld_Nopkj == pkjamount).Sum(s => s.fld_JumlahAmt);
                     Amount = Amount == null ? 0 : Amount;

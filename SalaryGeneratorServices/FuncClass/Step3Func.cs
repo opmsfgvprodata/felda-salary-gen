@@ -708,7 +708,7 @@ namespace SalaryGeneratorServices.FuncClass
                     LeavePayment = Kong;
                     TotalPaidLeave3 = LeavePayment * bakiCuti;
                     KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
-                    KerjahdrCutiTahunan.fld_KodCuti = "C22";
+                    KerjahdrCutiTahunan.fld_KodCuti = "C99";
                     KerjahdrCutiTahunan.fld_Kum = WorkerPaidLeaveLists.Select(s => s.fld_Kum).FirstOrDefault();
                     KerjahdrCutiTahunan.fld_JumlahCuti = bakiCuti;
                     KerjahdrCutiTahunan.fld_JumlahAmt = TotalPaidLeave3;
