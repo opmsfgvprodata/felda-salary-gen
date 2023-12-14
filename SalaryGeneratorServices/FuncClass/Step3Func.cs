@@ -524,6 +524,7 @@ namespace SalaryGeneratorServices.FuncClass
                         //    KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary, fld_Jumlah = LeavePayment, fld_Nopkj = WorkerPaidLeaveList.fld_Nopkj, fld_KerjahdrID = WorkerPaidLeaveList.fld_KerjahdrID, fld_Kum = WorkerPaidLeaveList.fld_Kum, fld_Tarikh = WorkerPaidLeaveList.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
                         //}
                     }
+                    //else if (WorkerPaidLeaveList.fld_Kdhdct == "C02" && Month < 12) //faeza commented 11.12.2023
                     else if (WorkerPaidLeaveList.fld_Kdhdct == "C02")
                     {
                         //modified by Faeza on 03.09.2020
@@ -667,7 +668,7 @@ namespace SalaryGeneratorServices.FuncClass
                     LeavePayment = AverageSalary12Month;
                     TotalPaidLeave3 = LeavePayment * CheckPeruntukkan;
                     KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
-                    KerjahdrCutiTahunan.fld_KodCuti = KodCutiTahunan.fld_KodCuti;
+                    KerjahdrCutiTahunan.fld_KodCuti = "C22";
                     KerjahdrCutiTahunan.fld_Kum = WorkerPaidLeaveLists.Select(s => s.fld_Kum).FirstOrDefault();
                     KerjahdrCutiTahunan.fld_JumlahCuti = CheckPeruntukkan;
                     KerjahdrCutiTahunan.fld_JumlahAmt = TotalPaidLeave3;
@@ -688,45 +689,44 @@ namespace SalaryGeneratorServices.FuncClass
             }
 
             // cuti tahunan sahaja
-            //else if (PkjStatus.fld_Kdaktf == "1" && Month == 12) //faeza commented 11.12.2023
-            //{
-            //    //var PaidLeaveCode = CutiKategoriList.Where(x => x.fld_WaktuBayaranCuti == 0).Select(s => s.fld_KodCuti).ToList();
-            //    var TakeLeaves = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
-            //    var PeruntukkanCtTahunan = tbl_CutiPeruntukan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_NoPkj == NoPkj && x.fld_Tahun == Year && x.fld_KodCuti == KodCutiTahunan.fld_KodCuti).Select(s => s.fld_JumlahCuti).FirstOrDefault();
+            else if (PkjStatus.fld_Kdaktf == "1" && Month == 12) //faeza commented 11.12.2023
+            {
+                //var PaidLeaveCode = CutiKategoriList.Where(x => x.fld_WaktuBayaranCuti == 0).Select(s => s.fld_KodCuti).ToList();
+                var TakeLeaves = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
+                var PeruntukkanCtTahunan = tbl_CutiPeruntukan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_NoPkj == NoPkj && x.fld_Tahun == Year && x.fld_KodCuti == KodCutiTahunan.fld_KodCuti).Select(s => s.fld_JumlahCuti).FirstOrDefault();
 
-            //    foreach (var TakeLeave in TakeLeaves)
-            //    {
-            //        LeavePayment = AverageSalary12Month;
-            //        KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary12Month, fld_Jumlah = LeavePayment, fld_Nopkj = TakeLeave.fld_Nopkj, fld_KerjahdrID = TakeLeave.fld_UniqueID, fld_Kum = TakeLeave.fld_Kum, fld_Tarikh = TakeLeave.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
-            //        TotalPaidLeave2 = TotalPaidLeave2 + LeavePayment;
-            //        LeavePayment = 0;
-            //    }
-
-                //if (PeruntukkanCtTahunan > TakeLeaves.Count)
+                //foreach (var TakeLeave in TakeLeaves)
                 //{
-                CheckPeruntukkan = PeruntukkanCtTahunan - TakeLeaves.Count;
-                LeavePayment = AverageSalary12Month;
-                TotalPaidLeave3 = LeavePayment * CheckPeruntukkan;
-                KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
-                KerjahdrCutiTahunan.fld_KodCuti = KodCutiTahunan.fld_KodCuti;
-                KerjahdrCutiTahunan.fld_Kum = WorkerPaidLeaveLists.Select(s => s.fld_Kum).FirstOrDefault();
-                KerjahdrCutiTahunan.fld_JumlahCuti = CheckPeruntukkan;
-                KerjahdrCutiTahunan.fld_JumlahAmt = TotalPaidLeave3;
-                KerjahdrCutiTahunan.fld_NegaraID = NegaraID;
-                KerjahdrCutiTahunan.fld_SyarikatID = SyarikatID;
-                KerjahdrCutiTahunan.fld_WilayahID = WilayahID;
-                KerjahdrCutiTahunan.fld_LadangID = LadangID;
-                KerjahdrCutiTahunan.fld_Nopkj = NoPkj;
-                KerjahdrCutiTahunan.fld_Month = Month;
-                KerjahdrCutiTahunan.fld_Year = Year;
-                KerjahdrCutiTahunan.fld_CreatedBy = UserID;
-                KerjahdrCutiTahunan.fld_CreatedDT = DTProcess;
-                KerjahdrCutiTahunan.fld_StatusAmbil = false;
+                //    LeavePayment = AverageSalary12Month;
+                //    KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary12Month, fld_Jumlah = LeavePayment, fld_Nopkj = TakeLeave.fld_Nopkj, fld_KerjahdrID = TakeLeave.fld_UniqueID, fld_Kum = TakeLeave.fld_Kum, fld_Tarikh = TakeLeave.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
+                //    TotalPaidLeave2 = TotalPaidLeave2 + LeavePayment;
+                //    LeavePayment = 0;
+                //}
+                var bakiCuti = PeruntukkanCtTahunan - TakeLeaves.Count;
+                if (bakiCuti > 0)
+                {
+                    LeavePayment = Kong;
+                    TotalPaidLeave3 = LeavePayment * bakiCuti;
+                    KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
+                    KerjahdrCutiTahunan.fld_KodCuti = KodCutiTahunan.fld_KodCuti;
+                    KerjahdrCutiTahunan.fld_Kum = WorkerPaidLeaveLists.Select(s => s.fld_Kum).FirstOrDefault();
+                    KerjahdrCutiTahunan.fld_JumlahCuti = bakiCuti;
+                    KerjahdrCutiTahunan.fld_JumlahAmt = TotalPaidLeave3;
+                    KerjahdrCutiTahunan.fld_NegaraID = NegaraID;
+                    KerjahdrCutiTahunan.fld_SyarikatID = SyarikatID;
+                    KerjahdrCutiTahunan.fld_WilayahID = WilayahID;
+                    KerjahdrCutiTahunan.fld_LadangID = LadangID;
+                    KerjahdrCutiTahunan.fld_Nopkj = NoPkj;
+                    KerjahdrCutiTahunan.fld_Month = Month;
+                    KerjahdrCutiTahunan.fld_Year = Year;
+                    KerjahdrCutiTahunan.fld_CreatedBy = UserID;
+                    KerjahdrCutiTahunan.fld_CreatedDT = DTProcess;
+                    KerjahdrCutiTahunan.fld_StatusAmbil = false;
 
-            //    db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
-            //    db2.SaveChanges();
-            //    //}
-            //}
+                    db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
+                    db2.SaveChanges();
+                }
+            }
             var jsonSerialiser = new JavaScriptSerializer();
             var json = jsonSerialiser.Serialize(KerjahdrCutiList);
             //LogFunc LogFunc = new LogFunc();
@@ -745,7 +745,8 @@ namespace SalaryGeneratorServices.FuncClass
             OverAllPaidLeave = TotalPaidLeave + TotalPaidLeave3;
 
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
-            AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 8, OverAllPaidLeave, DTProcess, UserID, GajiBulanan);
+            AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 8, TotalPaidLeave, DTProcess, UserID, GajiBulanan);
+            AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 21, TotalPaidLeave3, DTProcess, UserID, GajiBulanan);
 
             db2.Dispose();
 
@@ -775,7 +776,7 @@ namespace SalaryGeneratorServices.FuncClass
                 var GetInsetifEffectCode = tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_JenisInsentif == "P" && x.fld_AdaCaruman == true && x.fld_Deleted == false).Select(s => s.fld_KodInsentif).ToArray();
                 TotalInsentifEfected = tbl_Insentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && GetInsetifEffectCode.Contains(x.fld_KodInsentif) && x.fld_Deleted == false && x.fld_Month == Month && x.fld_Year == Year).Sum(s => s.fld_NilaiInsentif);
                 TotalInsentifEfected = TotalInsentifEfected == null ? 0 : TotalInsentifEfected;
-                TotalSalaryForKWSP = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_BonusHarian + TotalInsentifEfected + GajiBulanan.fld_AIPS;// + GajiBulanan.fld_ByrKwsnSkr;
+                TotalSalaryForKWSP = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_BonusHarian + TotalInsentifEfected + GajiBulanan.fld_AIPS + GajiBulanan.fld_BakiCutiTahunan;// + GajiBulanan.fld_ByrKwsnSkr;
 
                 var GetCarumanKWSP = tbl_Kwsp.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodCaruman == KodCaruman && TotalSalaryForKWSP >= x.fld_KdrLower && TotalSalaryForKWSP <= x.fld_KdrUpper).FirstOrDefault();
                 //KWSPMjk = GetCarumanKWSP.fld_Mjkn;
@@ -823,7 +824,7 @@ namespace SalaryGeneratorServices.FuncClass
                 var GetInsetifEffectCode = tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_JenisInsentif == "P" && x.fld_AdaCaruman == true && x.fld_Deleted == false).Select(s => s.fld_KodInsentif).ToArray();
                 TotalInsentifEfected = tbl_Insentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && GetInsetifEffectCode.Contains(x.fld_KodInsentif) && x.fld_Deleted == false && x.fld_Month == Month && x.fld_Year == Year).Sum(s => s.fld_NilaiInsentif);
                 TotalInsentifEfected = TotalInsentifEfected == null ? 0 : TotalInsentifEfected;
-                TotalSalaryForSocso = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_OT + TotalInsentifEfected + GajiBulanan.fld_AIPS + GajiBulanan.fld_BonusHarian;// + GajiBulanan.fld_ByrKwsnSkr;
+                TotalSalaryForSocso = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_OT + TotalInsentifEfected + GajiBulanan.fld_AIPS + GajiBulanan.fld_BonusHarian + GajiBulanan.fld_BakiCutiTahunan;// + GajiBulanan.fld_ByrKwsnSkr;
 
                 var GetCarumanSocso = tbl_Socso.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodCaruman == KodCaruman && TotalSalaryForSocso >= x.fld_KdrLower && TotalSalaryForSocso <= x.fld_KdrUpper).FirstOrDefault();
                 //SocsoMjk = GetCarumanSocso.fld_SocsoMjkn;
@@ -872,7 +873,7 @@ namespace SalaryGeneratorServices.FuncClass
             var GetInsetifEffectCode = tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_JenisInsentif == "P" && x.fld_AdaCaruman == true && x.fld_Deleted == false).Select(s => s.fld_KodInsentif).ToArray();
             TotalInsentifEfected = tbl_Insentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && GetInsetifEffectCode.Contains(x.fld_KodInsentif) && x.fld_Deleted == false && x.fld_Month == Month && x.fld_Year == Year).Sum(s => s.fld_NilaiInsentif);
             TotalInsentifEfected = TotalInsentifEfected == null ? 0 : TotalInsentifEfected;
-            TotalSalaryForOtherContribution = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_OT + TotalInsentifEfected + GajiBulanan.fld_AIPS + GajiBulanan.fld_BonusHarian;
+            TotalSalaryForOtherContribution = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_OT + TotalInsentifEfected + GajiBulanan.fld_AIPS + GajiBulanan.fld_BonusHarian + GajiBulanan.fld_BakiCutiTahunan;
             decimal? ContriMjk = 0;
             decimal? ContriPkj = 0;
             foreach (var GetOtherContribution in GetOtherContributions)
@@ -938,7 +939,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             decimal? OtherContr = 0;
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
-            OverallSalary = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_BonusHarian + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_LainInsentif + GajiBulanan.fld_AIPS + GajiBulanan.fld_OT; //+ GajiBulanan.fld_ByrKwsnSkr;// + GajiBulanan.fld_KWSPMjk + GajiBulanan.fld_SocsoMjk;
+            OverallSalary = GajiBulanan.fld_ByrKerja + GajiBulanan.fld_BonusHarian + GajiBulanan.fld_ByrCuti + GajiBulanan.fld_LainInsentif + GajiBulanan.fld_AIPS + GajiBulanan.fld_OT + GajiBulanan.fld_BakiCutiTahunan; //+ GajiBulanan.fld_ByrKwsnSkr;// + GajiBulanan.fld_KWSPMjk + GajiBulanan.fld_SocsoMjk;
             OtherContr = db2.tbl_ByrCarumanTambahan.Where(x => x.fld_GajiID == Guid).Sum(s => s.fld_CarumanPekerja);
             if (OtherContr == null)
             {
@@ -1146,6 +1147,11 @@ namespace SalaryGeneratorServices.FuncClass
 
                 case 20: // ORP
                     GajiBulanan.fld_ORP = PaymentAmount;
+                    db.Entry(GajiBulanan).State = EntityState.Modified;
+                    db.SaveChanges();
+                    break;
+                case 21: // Baki Cuti
+                    GajiBulanan.fld_BakiCutiTahunan = PaymentAmount;
                     db.Entry(GajiBulanan).State = EntityState.Modified;
                     db.SaveChanges();
                     break;

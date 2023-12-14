@@ -108,5 +108,8 @@ namespace SalaryGeneratorServices.ModelsEstate
 
         [Column(TypeName = "numeric")]
         public decimal? fld_ORP { get; set; }
+
+        [Column(TypeName = "numeric")]
+        public decimal? fld_BakiCutiTahunan {  get; set; }
     }
 }

@@ -192,12 +192,12 @@ namespace SalaryGeneratorServices.FuncClass
 
             var GetLeave = db.tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
             var NoPkjList = AdminSCTransList.Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
-
+            
             foreach (var Leave in GetLeave)
             {
                 foreach (var pkjamount in NoPkjList)
                 {
-                    Amount = Leave.fld_WaktuBayaranCuti == 1 ? db2.vw_Kerja_Hdr_Cuti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == Leave.fld_KodCuti && x.fld_Nopkj == pkjamount.fld_Nopkj).Sum(s => s.fld_Jumlah)
+                    Amount = Leave.fld_KodCuti != "C22" ? db2.vw_Kerja_Hdr_Cuti.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == Leave.fld_KodCuti && x.fld_Nopkj == pkjamount.fld_Nopkj).Sum(s => s.fld_Jumlah)
               :
                   db2.tbl_KerjahdrCutiTahunan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Year == Year && x.fld_KodCuti == Leave.fld_KodCuti && x.fld_Nopkj == pkjamount.fld_Nopkj).Sum(s => s.fld_JumlahAmt);
                     Amount = Amount == null ? 0 : Amount;
