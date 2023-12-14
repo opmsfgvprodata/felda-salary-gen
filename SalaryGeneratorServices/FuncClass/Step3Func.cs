@@ -688,19 +688,19 @@ namespace SalaryGeneratorServices.FuncClass
             }
 
             // cuti tahunan sahaja
-            else if (PkjStatus.fld_Kdaktf == "1" && Month == 12)
-            {
-                //var PaidLeaveCode = CutiKategoriList.Where(x => x.fld_WaktuBayaranCuti == 0).Select(s => s.fld_KodCuti).ToList();
-                var TakeLeaves = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
-                var PeruntukkanCtTahunan = tbl_CutiPeruntukan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_NoPkj == NoPkj && x.fld_Tahun == Year && x.fld_KodCuti == KodCutiTahunan.fld_KodCuti).Select(s => s.fld_JumlahCuti).FirstOrDefault();
+            //else if (PkjStatus.fld_Kdaktf == "1" && Month == 12) //faeza commented 11.12.2023
+            //{
+            //    //var PaidLeaveCode = CutiKategoriList.Where(x => x.fld_WaktuBayaranCuti == 0).Select(s => s.fld_KodCuti).ToList();
+            //    var TakeLeaves = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
+            //    var PeruntukkanCtTahunan = tbl_CutiPeruntukan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_NoPkj == NoPkj && x.fld_Tahun == Year && x.fld_KodCuti == KodCutiTahunan.fld_KodCuti).Select(s => s.fld_JumlahCuti).FirstOrDefault();
 
-                foreach (var TakeLeave in TakeLeaves)
-                {
-                    LeavePayment = AverageSalary12Month;
-                    KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary12Month, fld_Jumlah = LeavePayment, fld_Nopkj = TakeLeave.fld_Nopkj, fld_KerjahdrID = TakeLeave.fld_UniqueID, fld_Kum = TakeLeave.fld_Kum, fld_Tarikh = TakeLeave.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
-                    TotalPaidLeave2 = TotalPaidLeave2 + LeavePayment;
-                    LeavePayment = 0;
-                }
+            //    foreach (var TakeLeave in TakeLeaves)
+            //    {
+            //        LeavePayment = AverageSalary12Month;
+            //        KerjahdrCutiList.Add(new tbl_KerjahdrCuti() { fld_Kadar = AverageSalary12Month, fld_Jumlah = LeavePayment, fld_Nopkj = TakeLeave.fld_Nopkj, fld_KerjahdrID = TakeLeave.fld_UniqueID, fld_Kum = TakeLeave.fld_Kum, fld_Tarikh = TakeLeave.fld_Tarikh, fld_NegaraID = NegaraID, fld_SyarikatID = SyarikatID, fld_WilayahID = WilayahID, fld_LadangID = LadangID, fld_CreatedBy = UserID, fld_CreatedDT = DTProcess });
+            //        TotalPaidLeave2 = TotalPaidLeave2 + LeavePayment;
+            //        LeavePayment = 0;
+            //    }
 
                 //if (PeruntukkanCtTahunan > TakeLeaves.Count)
                 //{
@@ -723,10 +723,10 @@ namespace SalaryGeneratorServices.FuncClass
                 KerjahdrCutiTahunan.fld_CreatedDT = DTProcess;
                 KerjahdrCutiTahunan.fld_StatusAmbil = false;
 
-                db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
-                db2.SaveChanges();
-                //}
-            }
+            //    db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
+            //    db2.SaveChanges();
+            //    //}
+            //}
             var jsonSerialiser = new JavaScriptSerializer();
             var json = jsonSerialiser.Serialize(KerjahdrCutiList);
             //LogFunc LogFunc = new LogFunc();
