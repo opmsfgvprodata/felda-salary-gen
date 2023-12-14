@@ -153,7 +153,7 @@ namespace SalaryGeneratorServices.FuncClass
             var getKodCutiBrbayar = tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).Select(s => s.fld_KodCuti).ToList();
             var vw_KerjaInfoDetails2 = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode) && getKodCutiBrbayar.Contains(x.fld_Kdhdct)).ToList();
             var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode }).Distinct().ToList();
-            var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID).ToList();
+            var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).ToList();
 
             foreach (var WorkDistinct in WorkDistincts2)
             {

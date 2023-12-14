@@ -141,9 +141,9 @@ namespace SalaryGeneratorServices.FuncClass
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
             var vw_KerjaInfoDetails = db2.vw_KerjaInfoDetails.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && x.fld_KodAktvt != null).ToList();
-            var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID).ToList();
-            var getSubPkts = db2.tbl_SubPkt.Where(x => x.fld_LadangID == LadangID).ToList();
-            var getBlokPkts = db2.tbl_Blok.Where(x => x.fld_LadangID == LadangID).ToList();
+            var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).ToList();
+            var getSubPkts = db2.tbl_SubPkt.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).ToList();
+            var getBlokPkts = db2.tbl_Blok.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).ToList();
             var WorkDistincts = vw_KerjaInfoDetails.Select(s => new { s.fld_Nopkj, s.fld_KodPkt, s.fld_IOKod, s.fld_PaySheetID, s.fld_SAPType, s.fld_JnsPkt }).Distinct().ToList();
 
             foreach (var WorkDistinct in WorkDistincts)
