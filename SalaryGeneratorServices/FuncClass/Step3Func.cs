@@ -668,9 +668,9 @@ namespace SalaryGeneratorServices.FuncClass
                 var bakiCuti = CheckPeruntukkan - TakeLeaves.Count;
                 if (bakiCuti > 0)
                 {
-                    var gajiSatuTahun = tbl_GajiBulananList.Where(x=>x.fld_Month <= 11).ToList();
+                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => (x.fld_Year == Year && x.fld_Month <= 11) || (x.fld_Year == lastYear && x.fld_Month == 12)).ToList();
                     LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
-                    TotalPaidLeave3 = LeavePayment * bakiCuti;
+                    TotalPaidLeave3 = decimal.Round(LeavePayment.Value, 2) * bakiCuti;
                     KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
                     KerjahdrCutiTahunan.fld_KodCuti = KodCutiTahunan.fld_KodCuti;
                     KerjahdrCutiTahunan.fld_Kum = WorkerPaidLeaveLists.Select(s => s.fld_Kum).FirstOrDefault();
@@ -709,9 +709,9 @@ namespace SalaryGeneratorServices.FuncClass
                 var bakiCuti = PeruntukkanCtTahunan - TakeLeaves.Count;
                 if (bakiCuti > 0)
                 {
-                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => x.fld_Month <= 11).ToList();
+                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => (x.fld_Year == Year && x.fld_Month <= 11) || (x.fld_Year == lastYear && x.fld_Month == 12)).ToList();
                     LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
-                    TotalPaidLeave3 = LeavePayment * bakiCuti;
+                    TotalPaidLeave3 = decimal.Round(LeavePayment.Value, 2) * bakiCuti;
                     KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
                     KerjahdrCutiTahunan.fld_KodCuti = "C99";
                     KerjahdrCutiTahunan.fld_Kum = WorkerPaidLeaveLists.Select(s => s.fld_Kum).FirstOrDefault();
