@@ -668,7 +668,7 @@ namespace SalaryGeneratorServices.FuncClass
                 var bakiCuti = CheckPeruntukkan - TakeLeaves.Count;
                 if (bakiCuti > 0)
                 {
-                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => (x.fld_Year == Year && x.fld_Month <= 11) || (x.fld_Year == lastYear && x.fld_Month == 12)).ToList();
+                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => x.fld_Year == Year && x.fld_Month <= 12).ToList();
                     LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
                     TotalPaidLeave3 = decimal.Round(LeavePayment.Value, 2) * bakiCuti;
                     KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
@@ -689,6 +689,8 @@ namespace SalaryGeneratorServices.FuncClass
 
                     db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
                     db2.SaveChanges();
+                    AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 18, TotalPaidLeave3, DTProcess, UserID, GajiBulanan);
+                    //ashahri
                 }
             }
 
@@ -709,7 +711,7 @@ namespace SalaryGeneratorServices.FuncClass
                 var bakiCuti = PeruntukkanCtTahunan - TakeLeaves.Count;
                 if (bakiCuti > 0)
                 {
-                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => (x.fld_Year == Year && x.fld_Month <= 11) || (x.fld_Year == lastYear && x.fld_Month == 12)).ToList();
+                    var gajiSatuTahun = tbl_GajiBulananList.Where(x => x.fld_Year == Year && x.fld_Month <= 12).ToList();
                     LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
                     TotalPaidLeave3 = decimal.Round(LeavePayment.Value, 2) * bakiCuti;
                     KerjahdrCutiTahunan.fld_Kadar = LeavePayment;
@@ -730,6 +732,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                     db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
                     db2.SaveChanges();
+                    AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 18, TotalPaidLeave3, DTProcess, UserID, GajiBulanan);
                 }
             }
             var jsonSerialiser = new JavaScriptSerializer();
