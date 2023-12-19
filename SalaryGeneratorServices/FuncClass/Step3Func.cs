@@ -382,7 +382,7 @@ namespace SalaryGeneratorServices.FuncClass
             return ProdInsentif;
         }
 
-        public decimal? GetPaidLeaveFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<CustMod_WorkerPaidLeave> WorkerPaidLeaveLists, DateTime? StartWorkDate, bool NoLeave, List<tbl_CutiKategori> CutiKategoriList, tbl_Pkjmast tbl_Pkjmast, tbl_GajiMinimaLdg tbl_GajiMinimaLdg, List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas, List<tbl_Kerjahdr> tbl_Kerjahdr, List<tblOptionConfigsWeb> tblOptionConfigsWeb, List<tbl_CutiPeruntukan> tbl_CutiPeruntukan, string compCode)
+        public decimal? GetPaidLeaveFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<CustMod_WorkerPaidLeave> WorkerPaidLeaveLists, DateTime? StartWorkDate, bool NoLeave, List<tbl_CutiKategori> CutiKategoriList, tbl_Pkjmast tbl_Pkjmast, tbl_GajiMinimaLdg tbl_GajiMinimaLdg, List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas, List<tbl_Kerjahdr> tbl_Kerjahdr, List<tblOptionConfigsWeb> tblOptionConfigsWeb, List<tbl_CutiPeruntukan> tbl_CutiPeruntukan, string compCode, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus)
         {
             GetConnectFunc conn = new GetConnectFunc();
             Step2Func Step2Func = new Step2Func();
@@ -529,6 +529,12 @@ namespace SalaryGeneratorServices.FuncClass
                 LeavePayment = 0;
             }
 
+            GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
+            AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 8, TotalPaidLeave, DTProcess, UserID, GajiBulanan);
+
+            var oRP = GetORPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DTProcess, Month, Year, processname, servicesname, ClientID, NoPkj, Guid, WorkerIncentifs, IncentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus, CutiKategoriList, tbl_Kerjahdr, WorkerPaidLeaveLists);
+            //WriteLog("Get ORP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + oRP + ")", false, processname, ServiceProcessID);
+
             var GetStatusXActv = tblOptionConfigsWeb.Where(x => x.fldOptConfFlag1 == "sbbTakAktif" && x.fldOptConfFlag2 == "1" && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).Select(s => s.fldOptConfValue).ToArray();
             var PkjStatus = tbl_Pkjmast; 
             var KodCutiTahunan = CutiKategoriList.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodCuti == "C02").FirstOrDefault();
@@ -645,8 +651,6 @@ namespace SalaryGeneratorServices.FuncClass
 
             OverAllPaidLeave = TotalPaidLeave + TotalPaidLeave3;
 
-            GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
-            AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 8, TotalPaidLeave, DTProcess, UserID, GajiBulanan);
             AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 21, TotalPaidLeave3, DTProcess, UserID, GajiBulanan);
 
             db2.Dispose();
