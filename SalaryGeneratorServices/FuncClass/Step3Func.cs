@@ -599,7 +599,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                     db2.tbl_KerjahdrCutiTahunan.Add(KerjahdrCutiTahunan);
                     db2.SaveChanges();
-                    AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 18, TotalPaidLeave3, DTProcess, UserID, GajiBulanan);
+                    AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 18, LeavePayment, DTProcess, UserID, GajiBulanan);
                     
                 }
             }
