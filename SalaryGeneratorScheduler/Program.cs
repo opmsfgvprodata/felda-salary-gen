@@ -268,6 +268,7 @@ namespace SalaryGeneratorScheduler
                                     var vw_KerjaInfoDetails = Step2Func.vw_KerjaInfoDetails(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                                     var tbl_Kerja = Step2Func.tbl_Kerja(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                                     var tbl_Kerjahdr = Step2Func.tbl_Kerjahdr(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
+                                    var tbl_Kerjahdr12Month = Step2Func.tbl_Kerjahdr12Month(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                                     var tbl_GajiBulanan_Lepas = Step2Func.tbl_GajiBulanan_Lepas(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
                                     var tbl_PkjIncrmntSalary = Step2Func.tbl_PkjIncrmntSalary(NegaraID, SyarikatID, WilayahID, LadangID);
                                     var tbl_Insentif = Step2Func.tbl_Insentif(NegaraID, SyarikatID, WilayahID, LadangID, Month, Year);
@@ -368,13 +369,13 @@ namespace SalaryGeneratorScheduler
                                                     if (WorkerPaidLeaveLists.Count > 0)
                                                     {
                                                         //modified by kamalia 1/6/2021
-                                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, false, CutiKategoriList, Pkjmstlist, tbl_GajiMinimaLdg, tbl_GajiBulanan_Lepas, tbl_Kerjahdr, tblOptionConfigsWeb, tbl_CutiPeruntukan, compCode, workerIncentifs, incentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus);
+                                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, false, CutiKategoriList, Pkjmstlist, tbl_GajiMinimaLdg, tbl_GajiBulanan_Lepas, tbl_Kerjahdr, tblOptionConfigsWeb, tbl_CutiPeruntukan, compCode, workerIncentifs, incentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus, tbl_Kerjahdr12Month);
                                                         WriteLog("Get Leave Payment (Have Count Leave). (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + LeavePayment + ")", false, ServiceName, ServiceProcessID);
                                                     }
                                                     else
                                                     {
                                                         //modified by kamalia 1/6/2021
-                                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, true, CutiKategoriList, Pkjmstlist, tbl_GajiMinimaLdg, tbl_GajiBulanan_Lepas, tbl_Kerjahdr, tblOptionConfigsWeb, tbl_CutiPeruntukan, compCode, workerIncentifs, incentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus);
+                                                        LeavePayment = Step3Func.GetPaidLeaveFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), MonthSalaryID, WorkerPaidLeaveLists, StartWorkDate, true, CutiKategoriList, Pkjmstlist, tbl_GajiMinimaLdg, tbl_GajiBulanan_Lepas, tbl_Kerjahdr, tblOptionConfigsWeb, tbl_CutiPeruntukan, compCode, workerIncentifs, incentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus, tbl_Kerjahdr12Month);
                                                         WriteLog("Get Leave Payment (No Count Leave). (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + LeavePayment + ")", false, ServiceName, ServiceProcessID);
                                                     }
 

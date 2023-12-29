@@ -382,7 +382,7 @@ namespace SalaryGeneratorServices.FuncClass
             return ProdInsentif;
         }
 
-        public decimal? GetPaidLeaveFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<CustMod_WorkerPaidLeave> WorkerPaidLeaveLists, DateTime? StartWorkDate, bool NoLeave, List<tbl_CutiKategori> CutiKategoriList, tbl_Pkjmast tbl_Pkjmast, tbl_GajiMinimaLdg tbl_GajiMinimaLdg, List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas, List<tbl_Kerjahdr> tbl_Kerjahdr, List<tblOptionConfigsWeb> tblOptionConfigsWeb, List<tbl_CutiPeruntukan> tbl_CutiPeruntukan, string compCode, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus)
+        public decimal? GetPaidLeaveFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, Guid Guid, List<CustMod_WorkerPaidLeave> WorkerPaidLeaveLists, DateTime? StartWorkDate, bool NoLeave, List<tbl_CutiKategori> CutiKategoriList, tbl_Pkjmast tbl_Pkjmast, tbl_GajiMinimaLdg tbl_GajiMinimaLdg, List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas, List<tbl_Kerjahdr> tbl_Kerjahdr, List<tblOptionConfigsWeb> tblOptionConfigsWeb, List<tbl_CutiPeruntukan> tbl_CutiPeruntukan, string compCode, List<tbl_Insentif> WorkerIncentifs, List<tbl_JenisInsentif> IncentifsType, List<vw_KerjaInfoDetails> vw_KerjaInfoDetails, List<vw_Kerja_Bonus> vw_Kerja_Bonus, List<tbl_Kerjahdr> tbl_Kerjahdr12Month)
         {
             GetConnectFunc conn = new GetConnectFunc();
             Step2Func Step2Func = new Step2Func();
@@ -429,7 +429,7 @@ namespace SalaryGeneratorServices.FuncClass
             //modified by kamalia 2/3/2021
             foreach (var WorkerPaidLeaveList in WorkerPaidLeaveLists)
             {
-                if (WorkerPaidLeaveList.fld_PaidPeriod != 0) 
+                if (WorkerPaidLeaveList.fld_PaidPeriod != 0)
                 {
                     if (WorkerPaidLeaveList.fld_Kdhdct == "C01")
                     {
@@ -536,12 +536,12 @@ namespace SalaryGeneratorServices.FuncClass
             //WriteLog("Get ORP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + oRP + ")", false, processname, ServiceProcessID);
 
             var GetStatusXActv = tblOptionConfigsWeb.Where(x => x.fldOptConfFlag1 == "sbbTakAktif" && x.fldOptConfFlag2 == "1" && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).Select(s => s.fldOptConfValue).ToArray();
-            var PkjStatus = tbl_Pkjmast; 
+            var PkjStatus = tbl_Pkjmast;
             var KodCutiTahunan = CutiKategoriList.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodCuti == "C02").FirstOrDefault();
 
             var gajiSatuTahun = tbl_GajiBulananList.Where(x => x.fld_Year == Year && x.fld_Month <= 12).ToList();
             LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
-
+            
             // cuti tahunan sahaja
             if (GetStatusXActv.Contains(PkjStatus.fld_Sbtakf) == true && PkjStatus.fld_Kdaktf == "2" && Month <= 12)
             {
@@ -577,7 +577,7 @@ namespace SalaryGeneratorServices.FuncClass
                 {
                     CheckPeruntukkan = MonthWorking * PeruntukkanSbulan;
                 }
-                var TakeLeaves = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
+                var TakeLeaves = db2.tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
                 var bakiCuti = CheckPeruntukkan - TakeLeaves.Count;
                 if (bakiCuti > 0)
                 {
@@ -604,9 +604,9 @@ namespace SalaryGeneratorServices.FuncClass
             }
 
             // cuti tahunan sahaja
-            else if (PkjStatus.fld_Kdaktf == "1" && Month == 12) //faeza commented 11.12.2023
+            else if (PkjStatus.fld_Kdaktf == "1" && Month == 12) 
             {
-                var TakeLeaves = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
+                var TakeLeaves = tbl_Kerjahdr12Month.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Tarikh.Value.Year == Year && x.fld_Kdhdct == KodCutiTahunan.fld_KodCuti).ToList();
                 var PeruntukkanCtTahunan = tbl_CutiPeruntukan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_NoPkj == NoPkj && x.fld_Tahun == Year && x.fld_KodCuti == KodCutiTahunan.fld_KodCuti).Select(s => s.fld_JumlahCuti).FirstOrDefault();
 
                 var bakiCuti = PeruntukkanCtTahunan - TakeLeaves.Count;

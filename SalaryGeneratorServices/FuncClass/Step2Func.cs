@@ -312,6 +312,20 @@ namespace SalaryGeneratorServices.FuncClass
             return db2.tbl_Kerjahdr.Where(x => x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year).ToList();
         }
 
+        public List<tbl_Kerjahdr> tbl_Kerjahdr12Month(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? Month, int? Year)
+        {
+            GetConnectFunc conn = new GetConnectFunc();
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+            var tbl_Kerjahdr = new List<tbl_Kerjahdr>();
+            if (Month == 12)
+            {
+                tbl_Kerjahdr = db2.tbl_Kerjahdr.Where(x => x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Year == Year).ToList();
+            }
+            return tbl_Kerjahdr;
+        }
+
         public List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? Month, int? Year)
         {
             GetConnectFunc conn = new GetConnectFunc();
