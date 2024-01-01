@@ -358,7 +358,7 @@ namespace SalaryGeneratorServices
                             WriteLog("Get Work Data By Activity & Peringkat. (Data - Total Data : " + WorkSCTransList.Count + ")", false, ServiceName, ServiceProcessID);
 
                             //added by kamalia 16/2/22
-                            AdminSCTransList = Step6Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, CutiKategoriList, tbl_Kerjahdr);
+                            AdminSCTransList = Step6Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, CutiKategoriList, tbl_Kerjahdr, tbl_Kerja);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             Percentage = ((DataCount / TotalDataCount) * 19.5m) + 80;
