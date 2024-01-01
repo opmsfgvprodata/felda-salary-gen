@@ -14,7 +14,7 @@ namespace SalaryGeneratorServices.FuncClass
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
 
-        public void AddTo_tbl_SAPPostRef(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, out string Log, short Purpose, string PurMsg, List<tbl_Pkjmast> Pkjmstlists, string compCode)
+        public void AddTo_tbl_SAPPostRef(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, out string Log, short Purpose, string PurMsg, List<tbl_Pkjmast> Pkjmstlists, string compCode, List<tbl_JenisInsentif> incentifsType)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             GetConnectFunc conn = new GetConnectFunc();
@@ -131,7 +131,7 @@ namespace SalaryGeneratorServices.FuncClass
                         db2.Entry(CheckStatusProceed2).State = EntityState.Modified;
                         db2.SaveChanges();
 
-                        Add_To_tbl_SAPPostRef2(db, db2, Month, Year, NegaraID, SyarikatID, WilayahID, LadangID, SAPPostID2, GajiKawalan, GLGajiKawalan, GLKeteranganGajiKawalan, GajiKawalan2, GLGajiKawalan2, GLKeteranganGajiKawalan2, out DeductionStatus, out BalAmountDeduct, compCode);
+                        Add_To_tbl_SAPPostRef2(db, db2, Month, Year, NegaraID, SyarikatID, WilayahID, LadangID, SAPPostID2, GajiKawalan, GLGajiKawalan, GLKeteranganGajiKawalan, GajiKawalan2, GLGajiKawalan2, GLKeteranganGajiKawalan2, out DeductionStatus, out BalAmountDeduct, compCode, incentifsType);
                     }
                 }
                 else
@@ -157,7 +157,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                     SAPPostID2 = tbl_SAPPostRef2.fld_ID;
 
-                    Add_To_tbl_SAPPostRef2(db, db2, Month, Year, NegaraID, SyarikatID, WilayahID, LadangID, SAPPostID2, GajiKawalan, GLGajiKawalan, GLKeteranganGajiKawalan, GajiKawalan2, GLGajiKawalan2, GLKeteranganGajiKawalan2, out DeductionStatus, out BalAmountDeduct, compCode);
+                    Add_To_tbl_SAPPostRef2(db, db2, Month, Year, NegaraID, SyarikatID, WilayahID, LadangID, SAPPostID2, GajiKawalan, GLGajiKawalan, GLKeteranganGajiKawalan, GajiKawalan2, GLGajiKawalan2, GLKeteranganGajiKawalan2, out DeductionStatus, out BalAmountDeduct, compCode, incentifsType);
                 }
                 message = PurMsg + " (Created SAP Data Step 2)";
                 Log += i == 1 ? DateTimeFunc.GetDateTime() + " - " + message : "\r\n" + DateTimeFunc.GetDateTime() + " - " + message;
@@ -402,7 +402,7 @@ namespace SalaryGeneratorServices.FuncClass
         }
 
         //modified whole function by kamalia 15/2/22
-        public void Add_To_tbl_SAPPostRef2(GenSalaryModelHQ db, GenSalaryModelEstate db2, int? Month, int? Year, int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, Guid SAPPostID2, decimal? GajiKawalan, string GLGajiKawalan, string GLKeteranganGajiKawalan, decimal? GajiKawalan2, string GLGajiKawalan2, string GLKeteranganGajiKawalan2, out bool DeductionStatus, out decimal? BalAmountDeduct, string compCode)
+        public void Add_To_tbl_SAPPostRef2(GenSalaryModelHQ db, GenSalaryModelEstate db2, int? Month, int? Year, int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, Guid SAPPostID2, decimal? GajiKawalan, string GLGajiKawalan, string GLKeteranganGajiKawalan, decimal? GajiKawalan2, string GLGajiKawalan2, string GLKeteranganGajiKawalan2, out bool DeductionStatus, out decimal? BalAmountDeduct, string compCode, List<tbl_JenisInsentif> incentifsType)
         {
             List<tbl_SAPPostDataDetails> tbl_SAPPostDataDetails = new List<tbl_SAPPostDataDetails>();
             int i = 1; // Modified by kamalia 18/11/21
@@ -506,7 +506,7 @@ namespace SalaryGeneratorServices.FuncClass
             //3808 - SIP(Pekerja Dan Majikan)
             //3805 - Socso(Pekerja Dan Majikan)
             //3802 - KWSP(Pekerja Dan Majikan)
-            string[] contribution = new string[] { "3811", "3808", "3805", "3802" };
+            string[] contribution = incentifsType.Select(s => s.fld_KodAktvt).ToArray();// new string[] { "3811", "3808", "3805", "3802" };
 
             var scTranContributions = ScTrans.Where(x => contribution.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_Keterangan, s.fld_GL, s.fld_KodAktvt }).Distinct().ToList();
 

@@ -475,7 +475,7 @@ namespace SalaryGeneratorServices
                             WriteLog2(Log, ServiceName, ServiceProcessID);
 
                             //Added by kamalia 28/8/2021
-                            Step7Func.AddTo_tbl_SAPPostRef(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, out Log, 1, "SAP Data Creat.", Pkjmstlists, compCode);
+                            Step7Func.AddTo_tbl_SAPPostRef(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, out Log, 1, "SAP Data Creat.", Pkjmstlists, compCode, incentifsType.Where(x=>x.fld_JenisInsentif == "T").ToList());
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021
