@@ -157,17 +157,15 @@ namespace SalaryGeneratorServices.FuncClass
 
             foreach (var WorkDistinct in WorkDistincts2)
             {
-                if(!tbl_Kerja.Any(x=>x.fld_Nopkj == WorkDistinct.fld_Nopkj))
+                if (!AdminSCTransList.Any(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPIO == WorkDistinct.fld_SAPChargeCode))
                 {
-                    if (!AdminSCTransList.Any(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPIO == WorkDistinct.fld_SAPChargeCode))
-                    {
-                        var PktUtama = new tbl_PktUtama();
-                        PktUtama = getMainPkts.Where(x => x.fld_IOcode == WorkDistinct.fld_SAPChargeCode).FirstOrDefault();
-                        var fld_SAPType = PktUtama.fld_SAPType;
-                        var sapType = string.IsNullOrEmpty(fld_SAPType) ? "IO" : fld_SAPType;
-                        var GetPaySheetID = PkjMastList.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj).Select(s => s.fld_Kdrkyt).FirstOrDefault() == "MA" ? "PT" : "PA";
-                        var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
-                        AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = "05" });
+                    var PktUtama = new tbl_PktUtama();
+                    PktUtama = getMainPkts.Where(x => x.fld_IOcode == WorkDistinct.fld_SAPChargeCode).FirstOrDefault();
+                    var fld_SAPType = PktUtama.fld_SAPType;
+                    var sapType = string.IsNullOrEmpty(fld_SAPType) ? "IO" : fld_SAPType;
+                    var GetPaySheetID = PkjMastList.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj).Select(s => s.fld_Kdrkyt).FirstOrDefault() == "MA" ? "PT" : "PA";
+                    var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
+                    AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = "05" });
 
                     }
                 }
@@ -195,7 +193,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             var GetLeave = db.tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
             var NoPkjList = AdminSCTransList.Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
-            
+
             foreach (var Leave in GetLeave)
             {
                 foreach (var pkjamount in NoPkjList)
@@ -375,7 +373,7 @@ namespace SalaryGeneratorServices.FuncClass
             decimal? AmountMkjDistribute = 0;
 
             var GetKWSP = db.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "kwsp" && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).ToList();
-            var NoPkjList = AdminSCTransList.Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
+            var NoPkjList = AdminSCTransList.Where(x => x.fld_PaySheetID == "PT").Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
             foreach (var KWSP in GetKWSP)
             {
                 foreach (var pkjamount in NoPkjList)
@@ -407,7 +405,7 @@ namespace SalaryGeneratorServices.FuncClass
                         }
                     }
                 }
-                var getGL = AdminSCTransList.Where(x => x.fld_KodGL != null).Select(s => new { s.fld_KodGL, s.fld_SAPIO, s.fld_KodPkt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
+                var getGL = AdminSCTransList.Where(x => x.fld_KodGL != null && x.fld_PaySheetID == "PT").Select(s => new { s.fld_KodGL, s.fld_SAPIO, s.fld_KodPkt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
                 foreach (var GetKWSPIOs in getGL)
                 {
                     var getAmount = AdminSCTransList.Where(x => x.fld_KodGL == GetKWSPIOs.fld_KodGL && x.fld_SAPIO == GetKWSPIOs.fld_SAPIO && x.fld_KodPkt == GetKWSPIOs.fld_KodPkt && x.fld_PaySheetID == GetKWSPIOs.fld_PaySheetID).Sum(s => s.fld_Jumlah);
@@ -420,7 +418,7 @@ namespace SalaryGeneratorServices.FuncClass
                         i++;
                     }
                 }
-                AdminSCTransList.Where(c => c.fld_KodGL != null).ToList().ForEach(cc => cc.fld_Jumlah = 0);
+                AdminSCTransList.Where(c => c.fld_KodGL != null && c.fld_PaySheetID == "PT").ToList().ForEach(cc => cc.fld_Jumlah = 0);
             }
             var KWSPMix = db.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "kwspmix" && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).FirstOrDefault();
 
@@ -455,7 +453,7 @@ namespace SalaryGeneratorServices.FuncClass
                     }
                 }
             }
-            var getGLMix = AdminSCTransList.Where(x => x.fld_KodGL != null).Select(s => new { s.fld_KodGL, s.fld_SAPIO, s.fld_KodPkt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
+            var getGLMix = AdminSCTransList.Where(x => x.fld_KodGL != null && x.fld_PaySheetID == "PT").Select(s => new { s.fld_KodGL, s.fld_SAPIO, s.fld_KodPkt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
             foreach (var GetKWSPMixIOs in getGLMix)
             {
                 var getAmount = AdminSCTransList.Where(x => x.fld_KodGL == GetKWSPMixIOs.fld_KodGL && x.fld_SAPIO == GetKWSPMixIOs.fld_SAPIO && x.fld_KodPkt == GetKWSPMixIOs.fld_KodPkt && x.fld_PaySheetID == GetKWSPMixIOs.fld_PaySheetID).Sum(s => s.fld_Jumlah);
