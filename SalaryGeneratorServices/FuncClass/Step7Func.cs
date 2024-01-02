@@ -506,7 +506,7 @@ namespace SalaryGeneratorServices.FuncClass
             //3808 - SIP(Pekerja Dan Majikan)
             //3805 - Socso(Pekerja Dan Majikan)
             //3802 - KWSP(Pekerja Dan Majikan)
-            string[] contribution = incentifsType.Select(s => s.fld_KodAktvt).ToArray();// new string[] { "3811", "3808", "3805", "3802" };
+            string[] contribution = new string[] { "3811", "3808", "3805", "3802" };
 
             var scTranContributions = ScTrans.Where(x => contribution.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_Keterangan, s.fld_GL, s.fld_KodAktvt }).Distinct().ToList();
 
@@ -533,7 +533,7 @@ namespace SalaryGeneratorServices.FuncClass
             //3509 - Potongan Terlebih Bayar Gaji
 
 
-            string[] deduction = new string[] { "3502", "3503", "3505", "3510", "3504", "3506", "3507", "3508", "3509" };
+            string[] deduction = incentifsType.Where(x => !contribution.Contains(x.fld_KodAktvt)).Select(s => s.fld_KodAktvt).Distinct().ToArray();
 
             var scTranDeductions = ScTrans.Where(x => deduction.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_Keterangan, s.fld_GL, s.fld_KodAktvt }).Distinct().ToList();
 
