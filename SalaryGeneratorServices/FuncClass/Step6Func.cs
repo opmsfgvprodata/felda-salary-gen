@@ -172,9 +172,9 @@ namespace SalaryGeneratorServices.FuncClass
                     }
                 }
 
-            db.Dispose();
-            db2.Dispose();
-
+                db.Dispose();
+                db2.Dispose();
+            }
             return AdminSCTransList;
         }
 
@@ -194,7 +194,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             var GetLeave = db.tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
             var NoPkjList = AdminSCTransList.Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
-            
+
             foreach (var Leave in GetLeave)
             {
                 foreach (var pkjamount in NoPkjList)
