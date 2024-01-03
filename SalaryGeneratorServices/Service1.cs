@@ -358,7 +358,7 @@ namespace SalaryGeneratorServices
                             WriteLog("Get Work Data By Activity & Peringkat. (Data - Total Data : " + WorkSCTransList.Count + ")", false, ServiceName, ServiceProcessID);
 
                             //added by kamalia 16/2/22
-                            AdminSCTransList = Step6Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, CutiKategoriList, tbl_Kerjahdr, tbl_Kerja);
+                            AdminSCTransList = Step6Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, CutiKategoriList, tbl_Kerjahdr, tbl_Kerja); ;
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             Percentage = ((DataCount / TotalDataCount) * 19.5m) + 80;
@@ -475,7 +475,7 @@ namespace SalaryGeneratorServices
                             WriteLog2(Log, ServiceName, ServiceProcessID);
 
                             //Added by kamalia 28/8/2021
-                            Step7Func.AddTo_tbl_SAPPostRef(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, out Log, 1, "SAP Data Creat.", Pkjmstlists, compCode, incentifsType.Where(x=>x.fld_JenisInsentif == "T").ToList());
+                            Step7Func.AddTo_tbl_SAPPostRef(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, out Log, 1, "SAP Data Creat.", Pkjmstlists, compCode, incentifsType.Where(x => x.fld_JenisInsentif == "T").ToList());
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021
@@ -518,7 +518,7 @@ namespace SalaryGeneratorServices
                             WriteLog("Get Work Data By Activity & Peringkat. (Data - Total Data : " + WorkSCTransList.Count + ")", false, ServiceName, ServiceProcessID);
 
                             //added by kamalia 16/2/22
-                            AdminSCTransList = Step4Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode);
+                            AdminSCTransList = Step4Func.GetWorkAdminPktFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlists, compCode, tbl_Kerja);
                             DataCount = DataCount + 1;
                             DataCount2 = DataCount2 + 1;
                             Percentage = ((DataCount / TotalDataCount) * 19.5m) + 80;
