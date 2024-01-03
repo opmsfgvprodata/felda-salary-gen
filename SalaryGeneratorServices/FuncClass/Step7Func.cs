@@ -542,7 +542,9 @@ namespace SalaryGeneratorServices.FuncClass
             foreach (var scTranDeduction in scTranDeductions)
             {
                 i++;
-                var amount = ScTrans.Where(x => x.fld_KodAktvt == scTranDeduction.fld_KodAktvt).Sum(s => s.fld_Amt);
+                //var amount = ScTrans.Where(x => x.fld_KodAktvt == scTranDeduction.fld_KodAktvt).Sum(s => s.fld_Amt);
+                //modified by faeza 03.01.2024
+                var amount = ScTrans.Where(x => x.fld_KodAktvt == scTranDeduction.fld_KodAktvt && x.fld_GL == scTranDeduction.fld_GL).Sum(s => s.fld_Amt);
                 descActivity = scTranDeduction.fld_Keterangan + " (" + GetEstateCOde + ") " + Month + "/" + Year;
                 tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = amount, fld_Currency = "RM", fld_Desc = descActivity.ToUpper(), fld_GL = scTranDeduction.fld_GL, fld_ItemNo = i, fld_Purpose = "2", fld_SAPActivityCode = scTranDeduction.fld_KodAktvt, fld_SAPPostRefID = SAPPostID2, fld_flag = flag });
                 amountDeduction += amount.Value;

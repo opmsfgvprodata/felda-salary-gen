@@ -169,7 +169,6 @@ namespace SalaryGeneratorServices.FuncClass
 
                     }
                 }
-            }
 
             db.Dispose();
             db2.Dispose();
