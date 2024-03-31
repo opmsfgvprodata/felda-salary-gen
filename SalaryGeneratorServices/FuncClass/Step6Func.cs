@@ -150,8 +150,9 @@ namespace SalaryGeneratorServices.FuncClass
                 AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_SAPIO = WorkDistinct.fld_IOKod, fld_PaySheetID = WorkDistinct.fld_PaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = WorkDistinct.fld_JnisAktvt });
             }
 
-            var getKodCutiBrbayar = tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).Select(s => s.fld_KodCuti).ToList();
-            var vw_KerjaInfoDetails2 = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode) && getKodCutiBrbayar.Contains(x.fld_Kdhdct)).ToList();
+            string[] excludeLeave = new string[] { "C01", "C02" };
+            var getKodCutiBrbayar = tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && !excludeLeave.Contains(x.fld_KodCuti)).Select(s => s.fld_KodCuti).ToList();
+            var vw_KerjaInfoDetails2 = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode) && !string.IsNullOrEmpty(x.fld_SAPGLCode) && getKodCutiBrbayar.Contains(x.fld_Kdhdct)).ToList();
             var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode, s.fld_SAPGLCode }).Distinct().ToList();
             var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).ToList();
 
