@@ -1162,7 +1162,15 @@ namespace SalaryGeneratorServices.FuncClass
                 var glCode = "";
                 if (adminSCTrans.fld_JnisAktvt == "999")
                 {
-                    glCode = adminSCTrans.fld_KodGL;
+                   var glCodeDetail = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).FirstOrDefault();
+                    if(glCodeDetail != null)
+                    {
+                        glCode = glCodeDetail.fld_SAPCode;
+                    }
+                    else
+                    {
+                        glCode = adminSCTrans.fld_KodGL;
+                    }
                 }
                 else
                 {

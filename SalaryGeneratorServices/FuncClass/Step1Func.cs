@@ -333,11 +333,11 @@ namespace SalaryGeneratorServices.FuncClass
             db.SaveChanges();
         }
 
-        public string ResultAfterProcess()
+        public string ResultAfterProcess(int? Year, int? Month)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
-            var tbl_SevicesProcess_Scheduler = db.tbl_SevicesProcess_Scheduler.Join(db.vw_NSWL, a => a.fld_LadangID, b => b.fld_LadangID, (a, b) =>
-            new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, companyCode = b.fld_CostCentre, startProcess = a.fld_DTProcess, endProcess = a.fld_EndDTProcess, result = a.fld_DataToProcess, percentage = a.fld_ProcessPercentage }).OrderBy(o => new { o.companyCode, o.regionName, o.estateName }).ToList();
+            var tbl_SevicesProcess_Scheduler = db.tbl_SevicesProcess_Scheduler.Where(x => x.fld_Year == Year && x.fld_Month == Month).Join(db.vw_NSWL, a => a.fld_LadangID, b => b.fld_LadangID, (a, b) =>
+             new { estateName = b.fld_NamaLadang, regionName = b.fld_NamaWilayah, companyCode = b.fld_CostCentre, startProcess = a.fld_DTProcess, endProcess = a.fld_EndDTProcess, result = a.fld_DataToProcess, percentage = a.fld_ProcessPercentage }).OrderBy(o => new { o.companyCode, o.regionName, o.estateName }).ToList();
             string result = "";
             foreach (var item in tbl_SevicesProcess_Scheduler.ToList())
             {
