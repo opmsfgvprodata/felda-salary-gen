@@ -150,9 +150,10 @@ namespace SalaryGeneratorServices.FuncClass
                 AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = WorkDistinct.fld_KodPkt, fld_SAPIO = WorkDistinct.fld_IOKod, fld_PaySheetID = WorkDistinct.fld_PaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = WorkDistinct.fld_JnisAktvt });
             }
 
-            var getKodCutiBrbayar = tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).Select(s => s.fld_KodCuti).ToList();
-            var vw_KerjaInfoDetails2 = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode) && getKodCutiBrbayar.Contains(x.fld_Kdhdct)).ToList();
-            var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode }).Distinct().ToList();
+            string[] excludeLeave = new string[] { "C01", "C02" };
+            var getKodCutiBrbayar = tbl_CutiKategori.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && !excludeLeave.Contains(x.fld_KodCuti)).Select(s => s.fld_KodCuti).ToList();
+            var vw_KerjaInfoDetails2 = tbl_Kerjahdr.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Tarikh.Value.Month == Month && x.fld_Tarikh.Value.Year == Year && !string.IsNullOrEmpty(x.fld_SAPChargeCode) && !string.IsNullOrEmpty(x.fld_SAPGLCode) && getKodCutiBrbayar.Contains(x.fld_Kdhdct)).ToList();
+            var WorkDistincts2 = vw_KerjaInfoDetails2.Select(s => new { s.fld_Nopkj, s.fld_SAPChargeCode, s.fld_SAPGLCode }).Distinct().ToList();
             var getMainPkts = db2.tbl_PktUtama.Where(x => x.fld_LadangID == LadangID && x.fld_Deleted == false).ToList();
 
             foreach (var WorkDistinct in WorkDistincts2)
@@ -166,8 +167,8 @@ namespace SalaryGeneratorServices.FuncClass
                         var fld_SAPType = PktUtama.fld_SAPType;
                         var sapType = string.IsNullOrEmpty(fld_SAPType) ? "IO" : fld_SAPType;
                         var GetPaySheetID = PkjMastList.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj).Select(s => s.fld_Kdrkyt).FirstOrDefault() == "MA" ? "PT" : "PA";
-                        var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode).Count();
-                        AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = GLKod, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = "05" });
+                        var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode && x.fld_SAPGLCode == WorkDistinct.fld_SAPGLCode).Count();
+                        AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = WorkDistinct.fld_SAPGLCode, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = "999" });
 
                     }
                 }
@@ -1158,7 +1159,23 @@ namespace SalaryGeneratorServices.FuncClass
             int i = 1;
             foreach (var adminSCTrans in adminSCTransList)
             {
-                var glCode = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).Select(s => s.fld_SAPCode).FirstOrDefault();
+                var glCode = "";
+                if (adminSCTrans.fld_JnisAktvt == "999")
+                {
+                   var glCodeDetail = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).FirstOrDefault();
+                    if(glCodeDetail != null)
+                    {
+                        glCode = glCodeDetail.fld_SAPCode;
+                    }
+                    else
+                    {
+                        glCode = adminSCTrans.fld_KodGL;
+                    }
+                }
+                else
+                {
+                    glCode = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).Select(s => s.fld_SAPCode).FirstOrDefault();
+                }
                 var amountB = (Convert.ToDecimal(adminSCTrans.fld_TotalWorking) / Convert.ToDecimal(totalWorkingWorker)) * amount.Value;
                 amountB = Math.Round(amountB, 2);
                 amountA += amountB;

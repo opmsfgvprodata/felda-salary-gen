@@ -781,7 +781,7 @@ namespace SalaryGeneratorScheduler
                         }
                     }
                     sendEmailBody = File.ReadAllText(Path.Combine(appDir, "html\\EndProcessEmailSend.html"));
-                    string result = Step1Func.ResultAfterProcess();
+                    string result = Step1Func.ResultAfterProcess(Year, Month);
                     Step1Func.WriteExcel(appDir, sendEmailBody);
                     sendEmailBody = sendEmailBody.Replace("[[GENERATE_RESULT]]", result);
 
@@ -792,7 +792,7 @@ namespace SalaryGeneratorScheduler
                     Step1Func.SendEmail(emailToSend, "Generate Salary Ended", sendEmailBody, Path.Combine(appDir, "excel\\Result.xls"));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogFunc.WriteErrorLog(ex.Message, ex.StackTrace, ex.Source, ex.TargetSite.ToString(), ServiceName, ServiceProcessID);
             }
