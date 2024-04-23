@@ -53,7 +53,7 @@ namespace SalaryGeneratorServices.ModelsEstate
 
         public DateTime? fld_CreatedDT { get; set; }
 
-        [StringLength(20)]
+        [StringLength(25)]
         public string fld_IO { get; set; }
 
         [StringLength(10)]
