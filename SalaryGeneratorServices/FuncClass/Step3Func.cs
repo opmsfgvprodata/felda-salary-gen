@@ -1061,6 +1061,7 @@ namespace SalaryGeneratorServices.FuncClass
                     break;
             }
 
+            db.Entry(GajiBulanan).State = EntityState.Detached;
             return MonthSalaryID;
         }
 
