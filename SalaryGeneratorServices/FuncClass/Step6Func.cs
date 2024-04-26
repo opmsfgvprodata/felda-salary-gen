@@ -14,6 +14,7 @@ namespace SalaryGeneratorServices.FuncClass
     public class Step6Func
     {
         private DateTimeFunc DateTimeFunc = new DateTimeFunc();
+        public List<CustMod_AdminSCTrans> AdminSCTransListActType999 = new List<CustMod_AdminSCTrans>();
         public List<CustMod_WorkSCTrans> GetWorkActvtyPktFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> PkjMastList, string compCode, List<tbl_UpahAktiviti> tbl_UpahAktiviti)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
@@ -169,7 +170,7 @@ namespace SalaryGeneratorServices.FuncClass
                         var GetPaySheetID = PkjMastList.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj).Select(s => s.fld_Kdrkyt).FirstOrDefault() == "MA" ? "PT" : "PA";
                         var totalWorking = vw_KerjaInfoDetails2.Where(x => x.fld_Nopkj == WorkDistinct.fld_Nopkj && x.fld_SAPChargeCode == WorkDistinct.fld_SAPChargeCode && x.fld_SAPGLCode == WorkDistinct.fld_SAPGLCode).Count();
                         AdminSCTransList.Add(new CustMod_AdminSCTrans() { fld_KodGL = WorkDistinct.fld_SAPGLCode, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = "999" });
-
+                        AdminSCTransListActType999.Add(new CustMod_AdminSCTrans() { fld_KodGL = WorkDistinct.fld_SAPGLCode, fld_KodPkt = PktUtama.fld_PktUtama, fld_SAPIO = WorkDistinct.fld_SAPChargeCode, fld_PaySheetID = GetPaySheetID, fld_Nopkj = WorkDistinct.fld_Nopkj, fld_TotalWorking = totalWorking, fld_SAPType = sapType, fld_JnisAktvt = "999" });
                     }
                 }
 
@@ -469,6 +470,29 @@ namespace SalaryGeneratorServices.FuncClass
             }
             AdminSCTransList.Where(c => c.fld_KodGL != null).ToList().ForEach(cc => cc.fld_Jumlah = 0);
 
+            if (AdminSCTransListActType999.Count() > 0)
+            {
+                var AdminSCTransList999 = AdminSCTransList.Where(x => x.fld_JnisAktvt == "999").ToList();
+                foreach (var item in AdminSCTransList999)
+                {
+                    AdminSCTransList.Remove(item);
+                }
+                foreach (var item in AdminSCTransListActType999)
+                {
+                    AdminSCTransList.Add(new CustMod_AdminSCTrans
+                    {
+                        fld_KodGL = item.fld_KodGL,
+                        fld_KodPkt = item.fld_KodPkt,
+                        fld_SAPIO = item.fld_SAPIO,
+                        fld_PaySheetID = item.fld_PaySheetID,
+                        fld_Nopkj = item.fld_Nopkj,
+                        fld_TotalWorking = item.fld_TotalWorking,
+                        fld_SAPType = item.fld_SAPType,
+                        fld_JnisAktvt = item.fld_JnisAktvt
+                    });
+                }
+            }
+
             db.Dispose();
             db2.Dispose();
         }
@@ -490,7 +514,6 @@ namespace SalaryGeneratorServices.FuncClass
 
             var GetSocso = db.tblOptionConfigsWebs.Where(x => x.fldOptConfFlag1 == "socso" && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fldDeleted == false).ToList();
             var NoPkjList = AdminSCTransList.Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
-
             foreach (var Socso in GetSocso)
             {
                 foreach (var pkjamount in NoPkjList)
@@ -586,6 +609,29 @@ namespace SalaryGeneratorServices.FuncClass
                 }
             }
             AdminSCTransList.Where(c => c.fld_KodGL != null).ToList().ForEach(cc => cc.fld_Jumlah = 0);
+
+            if (AdminSCTransListActType999.Count() > 0)
+            {
+                var AdminSCTransList999 = AdminSCTransList.Where(x => x.fld_JnisAktvt == "999").ToList();
+                foreach (var item in AdminSCTransList999)
+                {
+                    AdminSCTransList.Remove(item);
+                }
+                foreach (var item in AdminSCTransListActType999)
+                {
+                    AdminSCTransList.Add(new CustMod_AdminSCTrans
+                    {
+                        fld_KodGL = item.fld_KodGL,
+                        fld_KodPkt = item.fld_KodPkt,
+                        fld_SAPIO = item.fld_SAPIO,
+                        fld_PaySheetID = item.fld_PaySheetID,
+                        fld_Nopkj = item.fld_Nopkj,
+                        fld_TotalWorking = item.fld_TotalWorking,
+                        fld_SAPType = item.fld_SAPType,
+                        fld_JnisAktvt = item.fld_JnisAktvt
+                    });
+                }
+            }
 
             db.Dispose();
             db2.Dispose();
@@ -740,6 +786,29 @@ namespace SalaryGeneratorServices.FuncClass
                     }
                 }
                 AdminSCTransListForOtherContri.Where(c => c.fld_KodGL != null).ToList().ForEach(cc => { cc.fld_JumlahPkj = 0; cc.fld_JumlahMjk = 0; cc.fld_JumlahMix = 0; });
+                
+                if (AdminSCTransListActType999.Count() > 0)
+                {
+                    var AdminSCTransList999 = AdminSCTransList.Where(x => x.fld_JnisAktvt == "999").ToList();
+                    foreach (var item in AdminSCTransList999)
+                    {
+                        AdminSCTransList.Remove(item);
+                    }
+                    foreach (var item in AdminSCTransListActType999)
+                    {
+                        AdminSCTransList.Add(new CustMod_AdminSCTrans
+                        {
+                            fld_KodGL = item.fld_KodGL,
+                            fld_KodPkt = item.fld_KodPkt,
+                            fld_SAPIO = item.fld_SAPIO,
+                            fld_PaySheetID = item.fld_PaySheetID,
+                            fld_Nopkj = item.fld_Nopkj,
+                            fld_TotalWorking = item.fld_TotalWorking,
+                            fld_SAPType = item.fld_SAPType,
+                            fld_JnisAktvt = item.fld_JnisAktvt
+                        });
+                    }
+                }
             }
             db.Dispose();
             db2.Dispose();
@@ -1162,8 +1231,8 @@ namespace SalaryGeneratorServices.FuncClass
                 var glCode = "";
                 if (adminSCTrans.fld_JnisAktvt == "999")
                 {
-                   var glCodeDetail = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).FirstOrDefault();
-                    if(glCodeDetail != null)
+                    var glCodeDetail = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).FirstOrDefault();
+                    if (glCodeDetail != null)
                     {
                         glCode = glCodeDetail.fld_SAPCode;
                     }
