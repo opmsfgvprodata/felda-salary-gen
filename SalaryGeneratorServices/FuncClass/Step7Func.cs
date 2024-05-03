@@ -241,17 +241,20 @@ namespace SalaryGeneratorServices.FuncClass
 
             //Kira Caruman Majikan flag = 1
             var GetNotWorkAct2s = GetNotWorkActs.Where(x => x.fld_Flag == "1" && x.fld_TypeCode == "GL").Select(s => s.fld_KodAktiviti).ToList();
-            var CheckNotWorkAct2 = ScTrans.Where(x => GetNotWorkAct2s.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_GL, s.fld_IO, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
+            var CheckNotWorkAct2 = ScTrans.Where(x => GetNotWorkAct2s.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_GL, s.fld_IO, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
+            //var CheckNotWorkAct2 = ScTrans.Where(x => GetNotWorkAct2s.Contains(x.fld_KodAktvt)).Select(s => new { s.fld_GL, s.fld_IO, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
             if (CheckNotWorkAct2.Count > 0)
             {
                 foreach (var CheckNotWorkAct2Data in CheckNotWorkAct2)
                 {
                     var paySheetId = CheckNotWorkAct2Data.fld_PaySheetID == "PT" ? "TKT" : "TKA";
-                    DescActvt = ScTrans.Where(x => x.fld_GL == CheckNotWorkAct2Data.fld_GL && x.fld_IO == CheckNotWorkAct2Data.fld_IO && x.fld_KodAktvt == CheckNotWorkAct2Data.fld_KodAktvt && x.fld_SAPType == CheckNotWorkAct2Data.fld_SAPType && x.fld_PaySheetID == CheckNotWorkAct2Data.fld_PaySheetID).Select(s => s.fld_Keterangan).FirstOrDefault() + " " + paySheetId + " (" + GetEstateCOde + ") " + Month + "/" + Year;
-                    Amount = ScTrans.Where(x => x.fld_GL == CheckNotWorkAct2Data.fld_GL && x.fld_IO == CheckNotWorkAct2Data.fld_IO && x.fld_KodAktvt == CheckNotWorkAct2Data.fld_KodAktvt && x.fld_SAPType == CheckNotWorkAct2Data.fld_SAPType && x.fld_PaySheetID == CheckNotWorkAct2Data.fld_PaySheetID).Sum(s => s.fld_Amt);
+                    DescActvt = "Caruman KWSP/SOCSO/SIP/SBKP " + paySheetId + " (" + GetEstateCOde + ") " + Month + "/" + Year; //ScTrans.Where(x => x.fld_GL == CheckNotWorkAct2Data.fld_GL && x.fld_IO == CheckNotWorkAct2Data.fld_IO && x.fld_SAPType == CheckNotWorkAct2Data.fld_SAPType && x.fld_PaySheetID == CheckNotWorkAct2Data.fld_PaySheetID).Select(s => s.fld_Keterangan).FirstOrDefault() + " " + paySheetId + " (" + GetEstateCOde + ") " + Month + "/" + Year;
+                    Amount = ScTrans.Where(x => x.fld_GL == CheckNotWorkAct2Data.fld_GL && x.fld_IO == CheckNotWorkAct2Data.fld_IO && x.fld_SAPType == CheckNotWorkAct2Data.fld_SAPType && x.fld_PaySheetID == CheckNotWorkAct2Data.fld_PaySheetID).Sum(s => s.fld_Amt);
+                    //DescActvt = ScTrans.Where(x => x.fld_GL == CheckNotWorkAct2Data.fld_GL && x.fld_IO == CheckNotWorkAct2Data.fld_IO && x.fld_KodAktvt == CheckNotWorkAct2Data.fld_KodAktvt && x.fld_SAPType == CheckNotWorkAct2Data.fld_SAPType && x.fld_PaySheetID == CheckNotWorkAct2Data.fld_PaySheetID).Select(s => s.fld_Keterangan).FirstOrDefault() + " " + paySheetId + " (" + GetEstateCOde + ") " + Month + "/" + Year;
+                    //Amount = ScTrans.Where(x => x.fld_GL == CheckNotWorkAct2Data.fld_GL && x.fld_IO == CheckNotWorkAct2Data.fld_IO && x.fld_KodAktvt == CheckNotWorkAct2Data.fld_KodAktvt && x.fld_SAPType == CheckNotWorkAct2Data.fld_SAPType && x.fld_PaySheetID == CheckNotWorkAct2Data.fld_PaySheetID).Sum(s => s.fld_Amt);
                     if (Amount != 0)
                     {
-                        tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = CheckNotWorkAct2Data.fld_GL, fld_IO = CheckNotWorkAct2Data.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPActivityCode = CheckNotWorkAct2Data.fld_KodAktvt, fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = CheckNotWorkAct2Data.fld_SAPType });
+                        tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt.ToUpper(), fld_GL = CheckNotWorkAct2Data.fld_GL, fld_IO = CheckNotWorkAct2Data.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPActivityCode = "9999", fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = CheckNotWorkAct2Data.fld_SAPType });
                         i++;
                         Contribution = true;
                     }
