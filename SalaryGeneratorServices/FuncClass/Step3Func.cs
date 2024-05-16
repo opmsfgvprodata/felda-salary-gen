@@ -531,7 +531,10 @@ namespace SalaryGeneratorServices.FuncClass
 
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
             AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 8, TotalPaidLeave, DTProcess, UserID, GajiBulanan);
+            if(NoPkj == "TI33823007")
+            {
 
+            }
             var oRP = GetORPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DTProcess, Month, Year, processname, servicesname, ClientID, NoPkj, Guid, WorkerIncentifs, IncentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus, CutiKategoriList, tbl_Kerjahdr, WorkerPaidLeaveLists);
             //WriteLog("Get ORP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + oRP + ")", false, processname, ServiceProcessID);
 
@@ -882,7 +885,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             decimal? WorkingPayment = 0m;
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
-            var codeCuti = tbl_CutiKategori.Select(s => s.fld_KodCuti).ToList();
+            var codeCuti = tbl_CutiKategori.Where(x=> x.fld_KodCuti != "C01").Select(s => s.fld_KodCuti).ToList();
             var kerjaList = vw_KerjaInfoDetails.Where(x => x.fld_Nopkj == NoPkj && x.fld_Kdhdct == "H01").ToList();
             var cutiBerbayarCount = tbl_Kerjahdr.Where(x => x.fld_Nopkj == NoPkj && codeCuti.Contains(x.fld_Kdhdct)).Count();
             var oRPIncentifsCode = IncentifsType.Where(x => x.fld_AdaORP == true).Select(s => s.fld_KodInsentif).ToList();
