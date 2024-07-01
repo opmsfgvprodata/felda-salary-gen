@@ -199,7 +199,6 @@ namespace SalaryGeneratorServices.FuncClass
                 {
                     if (KerjaData2.fld_JamOT != 0)
                     {
-                        KerjaOTData = new tbl_KerjaOT();
 
                         OTPay = KerjaData2.fld_JamOT * Math.Round(decimal.Parse(OTRate.ToString()), 2);
 
