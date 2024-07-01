@@ -326,7 +326,7 @@ namespace SalaryGeneratorScheduler
 
                                                         Step2Func.GetOTFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), DateList.Date, out KerjaOT, AttCode, JenisAktiviti, tbl_Kerja, tbl_GajiBulanan_Lepas, tblOptionConfigsWeb, tbl_GajiMinimaLdg, tbl_PkjIncrmntSalary, tbl_UpahAktiviti);
 
-                                                        if (KerjaOT.Count > 0)
+                                                        if (KerjaOT.Count() > 0)
                                                         {
                                                             WriteLog("Get Daily OT. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", OT Price : RM " + KerjaOT.Sum(s=>s.fld_Jumlah) + ")", false, ServiceName, ServiceProcessID);
                                                             KerjaOTList.AddRange(KerjaOT);
