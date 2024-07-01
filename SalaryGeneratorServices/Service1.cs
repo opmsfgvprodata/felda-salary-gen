@@ -48,7 +48,7 @@ namespace SalaryGeneratorServices
             List<tbl_JenisInsentif> incentifsType = new List<tbl_JenisInsentif>();
             tbl_KerjaBonus KerjaBonus = new tbl_KerjaBonus();
             List<tbl_KerjaBonus> KerjaBonusList = new List<tbl_KerjaBonus>();
-            tbl_KerjaOT KerjaOT = new tbl_KerjaOT();
+            List<tbl_KerjaOT> KerjaOT = new List<tbl_KerjaOT>();
             List<tbl_KerjaOT> KerjaOTList = new List<tbl_KerjaOT>();
             List<CustMod_WorkSCTrans> WorkSCTransList = new List<CustMod_WorkSCTrans>();
             //add by kamalia 15/2/22
@@ -236,8 +236,8 @@ namespace SalaryGeneratorServices
 
                                         if (KerjaOT != null)
                                         {
-                                            WriteLog("Get Daily OT. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", OT Price : RM " + KerjaOT.fld_Jumlah + ")", false, ServiceName, ServiceProcessID);
-                                            KerjaOTList.Add(KerjaOT);
+                                            WriteLog("Get Daily OT. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", OT Price : RM " + KerjaOT.Sum(s => s.fld_Jumlah) + ")", false, ServiceName, ServiceProcessID);
+                                            KerjaOTList.AddRange(KerjaOT);
                                         }
                                         else
                                         {

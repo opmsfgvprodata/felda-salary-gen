@@ -120,12 +120,13 @@ namespace SalaryGeneratorServices.FuncClass
             db2.SaveChanges();
             db2.Dispose();
         }
-        public void GetOTFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, out tbl_KerjaOT KerjaOT, string AttCode, List<tbl_JenisAktiviti> JenisAktiviti, List<tbl_Kerja> tbl_Kerja, List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas, List<tblOptionConfigsWeb> tblOptionConfigsWeb, tbl_GajiMinimaLdg tbl_GajiMinimaLdg, List<tbl_PkjIncrmntSalary> tbl_PkjIncrmntSalary, List<tbl_UpahAktiviti> tbl_UpahAktiviti)
+        public void GetOTFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, DateTime tarikh, out List<tbl_KerjaOT> KerjaOT, string AttCode, List<tbl_JenisAktiviti> JenisAktiviti, List<tbl_Kerja> tbl_Kerja, List<tbl_GajiBulanan> tbl_GajiBulanan_Lepas, List<tblOptionConfigsWeb> tblOptionConfigsWeb, tbl_GajiMinimaLdg tbl_GajiMinimaLdg, List<tbl_PkjIncrmntSalary> tbl_PkjIncrmntSalary, List<tbl_UpahAktiviti> tbl_UpahAktiviti)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             GetConnectFunc conn = new GetConnectFunc();
 
             tbl_KerjaOT KerjaOTData = new tbl_KerjaOT();
+            KerjaOT = new List<tbl_KerjaOT>();
 
             string host, catalog, user, pass = "";
             //added by kamalia 19/3/2021
@@ -193,37 +194,34 @@ namespace SalaryGeneratorServices.FuncClass
 
             if (KerjaData.Count != 0)
             {
-                var KerjaData2 = KerjaData.OrderByDescending(o => o.fld_JamOT).First();
-                if (KerjaData2.fld_JamOT != 0)
+                //var KerjaData2 = KerjaData.OrderByDescending(o => o.fld_JamOT).First();
+                foreach (var KerjaData2 in KerjaData)
                 {
-                    //if (AttCode == "H01" || (AttCode == "H02" && tbl_JenisAktiviti == "KONG") || (AttCode == "H03" && tbl_JenisAktiviti == "KONG"))
-                    //{
-                    //    OTPay = KerjaData2.fld_JamOT * Math.Round(decimal.Parse(OTRate.ToString()), 2);
-                    //}
-                    //else if ((AttCode == "H02" && tbl_JenisAktiviti != "KONG") || (AttCode == "H03" && tbl_JenisAktiviti != "KONG"))
-                    //{
-                    //    OTPay = KerjaData2.fld_JamOT * Math.Round(decimal.Parse(OTRate.ToString()), 2);
-                    //}
-                    OTPay = KerjaData2.fld_JamOT * Math.Round(decimal.Parse(OTRate.ToString()), 2);
+                    if (KerjaData2.fld_JamOT != 0)
+                    {
+                        KerjaOTData = new tbl_KerjaOT();
 
-                    KerjaOTData.fld_KerjaID = KerjaData2.fld_ID;
-                    KerjaOTData.fld_JamOT = KerjaData2.fld_JamOT;
-                    KerjaOTData.fld_Kadar = Math.Round(decimal.Parse(OTRate.ToString()), 2);
-                    KerjaOTData.fld_Jumlah = Math.Round(decimal.Parse(OTPay.ToString()), 2);
-                    KerjaOTData.fld_Kum = KerjaData2.fld_Kum;
-                    KerjaOTData.fld_LadangID = LadangID;
-                    KerjaOTData.fld_WilayahID = WilayahID;
-                    KerjaOTData.fld_SyarikatID = SyarikatID;
-                    KerjaOTData.fld_NegaraID = NegaraID;
-                    KerjaOTData.fld_Nopkj = NoPkj;
-                    KerjaOTData.fld_Tarikh = tarikh;
-                    KerjaOTData.fld_CreatedBy = UserID;
-                    KerjaOTData.fld_CreatedDT = DTProcess;
-                    KerjaOT = KerjaOTData;
-                }
-                else
-                {
-                    KerjaOT = null;
+                        OTPay = KerjaData2.fld_JamOT * Math.Round(decimal.Parse(OTRate.ToString()), 2);
+
+                        KerjaOTData.fld_KerjaID = KerjaData2.fld_ID;
+                        KerjaOTData.fld_JamOT = KerjaData2.fld_JamOT;
+                        KerjaOTData.fld_Kadar = Math.Round(decimal.Parse(OTRate.ToString()), 2);
+                        KerjaOTData.fld_Jumlah = Math.Round(decimal.Parse(OTPay.ToString()), 2);
+                        KerjaOTData.fld_Kum = KerjaData2.fld_Kum;
+                        KerjaOTData.fld_LadangID = LadangID;
+                        KerjaOTData.fld_WilayahID = WilayahID;
+                        KerjaOTData.fld_SyarikatID = SyarikatID;
+                        KerjaOTData.fld_NegaraID = NegaraID;
+                        KerjaOTData.fld_Nopkj = NoPkj;
+                        KerjaOTData.fld_Tarikh = tarikh;
+                        KerjaOTData.fld_CreatedBy = UserID;
+                        KerjaOTData.fld_CreatedDT = DTProcess;
+                        KerjaOT.Add(KerjaOTData);
+                    }
+                    else
+                    {
+                        KerjaOT = null;
+                    }
                 }
             }
             else
