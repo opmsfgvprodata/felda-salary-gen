@@ -194,7 +194,6 @@ namespace SalaryGeneratorServices.FuncClass
 
             if (KerjaData.Count != 0)
             {
-                //var KerjaData2 = KerjaData.OrderByDescending(o => o.fld_JamOT).First();
                 foreach (var KerjaData2 in KerjaData)
                 {
                     if (KerjaData2.fld_JamOT != 0)
@@ -217,15 +216,7 @@ namespace SalaryGeneratorServices.FuncClass
                         KerjaOTData.fld_CreatedDT = DTProcess;
                         KerjaOT.Add(KerjaOTData);
                     }
-                    else
-                    {
-                        KerjaOT = null;
-                    }
                 }
-            }
-            else
-            {
-                KerjaOT = null;
             }
             db.Dispose();
             db2.Dispose();
