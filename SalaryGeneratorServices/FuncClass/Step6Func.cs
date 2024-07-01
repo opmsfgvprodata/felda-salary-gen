@@ -1023,7 +1023,7 @@ namespace SalaryGeneratorServices.FuncClass
             db2.Dispose();
         }
 
-        public void GetDebitCreditBalanceFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, out string Log)
+        public void GetDebitCreditBalanceFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tblOptionConfigsWeb> tblOptionConfigsWeb, out string Log)
         {
             GetConnectFunc conn = new GetConnectFunc();
             string host, catalog, user, pass = "";
@@ -1036,9 +1036,11 @@ namespace SalaryGeneratorServices.FuncClass
             int i = 1;
 
             var CheckCloseBizTable = db2.tbl_TutupUrusNiaga.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Month == Month && x.fld_Year == Year).FirstOrDefault();
+            var activitiesExcludeTL = tblOptionConfigsWeb.Where(x => x.fldOptConfFlag1 == "aktvtexcludeTL").FirstOrDefault();
+            string[] activitiesExcludeTLArr = activitiesExcludeTL.fldOptConfValue.Split(',');
 
             var TransactionListingList = db2.tbl_Sctran
-                    .Where(x => x.fld_KodAktvt != "3803" && x.fld_KodAktvt != "3800" && x.fld_Month == Month &&
+                    .Where(x => !activitiesExcludeTLArr.Contains(x.fld_KodAktvt) && x.fld_Month == Month &&
                                 x.fld_Year == Year && x.fld_NegaraID == NegaraID &&
                                 x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID &&
                                 x.fld_LadangID == LadangID).ToList();
