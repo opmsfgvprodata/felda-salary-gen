@@ -556,7 +556,7 @@ namespace SalaryGeneratorScheduler
                                             Step1Func.UpdateServicesProcessSchedulerPercFunc(SevicesProcess, Percentage, 1, db, TotalDataCount2, DataCount2);
                                             WriteLog2(Log, ServiceName, ServiceProcessID);
 
-                                            Step6Func.GetDebitCreditBalanceFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, out Log);
+                                            Step6Func.GetDebitCreditBalanceFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, tblOptionConfigsWeb, out Log);
                                             DataCount = DataCount + 1;
                                             DataCount2 = DataCount2 + 1;
                                             //Percentage = Math.Round((LoopCountData++ / CountData) * 100, 2); //commented by faeza 08.10.2021
