@@ -531,10 +531,7 @@ namespace SalaryGeneratorServices.FuncClass
 
             GajiBulanan = db2.tbl_GajiBulanan.Find(Guid);
             AddTo_tbl_GajiBulanan(db2, NegaraID, SyarikatID, WilayahID, LadangID, Month, Year, NoPkj, 8, TotalPaidLeave, DTProcess, UserID, GajiBulanan);
-            if(NoPkj == "TI33823007")
-            {
-
-            }
+      
             var oRP = GetORPFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DTProcess, Month, Year, processname, servicesname, ClientID, NoPkj, Guid, WorkerIncentifs, IncentifsType, vw_KerjaInfoDetails, vw_Kerja_Bonus, CutiKategoriList, tbl_Kerjahdr, WorkerPaidLeaveLists);
             //WriteLog("Get ORP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Total Payment : RM " + oRP + ")", false, processname, ServiceProcessID);
 
@@ -543,8 +540,9 @@ namespace SalaryGeneratorServices.FuncClass
             var KodCutiTahunan = CutiKategoriList.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_KodCuti == "C02").FirstOrDefault();
 
             var gajiSatuTahun = tbl_GajiBulananList.Where(x => x.fld_Year == Year && x.fld_Month <= 12).ToList();
-            LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
-            
+            //LeavePayment = compCode == "1000" ? gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count : Kong;
+            LeavePayment = gajiSatuTahun.Sum(s => s.fld_PurataGaji) / gajiSatuTahun.Count;
+
             // cuti tahunan sahaja
             if (GetStatusXActv.Contains(PkjStatus.fld_Sbtakf) == true && PkjStatus.fld_Kdaktf == "2" && Month <= 12)
             {
