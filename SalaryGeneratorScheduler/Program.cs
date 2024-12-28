@@ -246,7 +246,7 @@ namespace SalaryGeneratorScheduler
                                     incentifsType = Step1Func.GetIncentifsTypeFunc(NegaraID, SyarikatID);
                                     var bonusHarian = Step1Func.GetBonusHarianBukanMenuai(NegaraID, SyarikatID);
                                     var tbl_HargaSawitSemasa = Step1Func.GetHargaSawitSemasa(NegaraID, SyarikatID, Month, Year);
-                                    string[] flag1 = new string[] { "kadarot", "kiraot", "cuti", "sbbTakAktif" };
+                                    string[] flag1 = new string[] { "kadarot", "kiraot", "cuti", "sbbTakAktif", "aktvtexcludeTL" };
                                     List<tblOptionConfigsWeb> tblOptionConfigsWeb = Step1Func.GetWebConfigList(flag1, NegaraID, SyarikatID);
                                     var tbl_GajiMinimaLdg = Step1Func.GetGajiMinimaLdg(LadangID);
                                     var tbl_UpahAktiviti = Step1Func.tbl_UpahAktiviti(NegaraID, SyarikatID);
