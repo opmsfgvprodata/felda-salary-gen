@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.ServiceProcess;
 
@@ -660,6 +661,25 @@ namespace SalaryGeneratorServices
                 string status = "success";
                 SendStatusToWeb(LadangID.Value, hdrmsg, msg, status);
                 //Ashahri - 27/02/2022
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var err = "";
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        err += $"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}\n";
+
+                    }
+                }
+                LogFunc.WriteErrorLog(err, ex.StackTrace, ex.Source, ex.TargetSite.ToString(), ServiceName, ServiceProcessID);
+                string hdrmsg = "Generate Not Completed!";
+                string msg = "Error on generate:<b/>";
+                msg += "Error on - " + logMessage + "<b/>";
+                msg += "Error Trace: " + err;
+                string status = "warning";
+                SendStatusToWeb(LadangID.Value, hdrmsg, msg, status);
             }
             catch (Exception ex)
             {

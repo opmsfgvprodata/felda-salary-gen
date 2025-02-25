@@ -5,6 +5,7 @@ using SalaryGeneratorServices.ModelsHQ;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -791,6 +792,19 @@ namespace SalaryGeneratorScheduler
 
                     Step1Func.SendEmail(emailToSend, "Generate Salary Ended", sendEmailBody, Path.Combine(appDir, "excel\\Result.xls"));
                 }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var err = "";
+                foreach (var validationErrors in ex.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        err += $"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}\n";
+                        
+                    }
+                }
+                LogFunc.WriteErrorLog(err, "DbEntityValidationException", "", "", ServiceName, ServiceProcessID);
             }
             catch (Exception ex)
             {
