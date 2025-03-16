@@ -2,6 +2,7 @@
 using SalaryGeneratorServices.ModelsHQ;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -368,6 +369,73 @@ namespace SalaryGeneratorServices.FuncClass
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
             return db2.tbl_CutiPeruntukan.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).ToList();
+        }
+
+        public void GetSpecialInsentifFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, out tbl_SpecialInsentif SpecialInsentif, List<tbl_JenisInsentif> tbl_JenisInsentifSpecial, List<tbl_Insentif> tbl_Insentif)
+        {
+            string host, catalog, user, pass = "";
+            GetConnectFunc conn = new GetConnectFunc();
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+
+            tbl_SpecialInsentif SpecialInsentifData = new tbl_SpecialInsentif();
+
+            var KodInsentifSpecial = tbl_JenisInsentifSpecial.Select(s => s.fld_KodInsentif).ToList();
+            var SpecialInsentifList = tbl_Insentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Nopkj == NoPkj && x.fld_Month == Month && x.fld_Year == Year && x.fld_Deleted == false && KodInsentifSpecial.Contains(x.fld_KodInsentif)).ToList();
+
+            if (SpecialInsentifList.Count != 0)
+            {
+                var SpecialInsentifList2 = SpecialInsentifList.First();
+                SpecialInsentifData.fld_Nopkj = SpecialInsentifList2.fld_Nopkj;
+                SpecialInsentifData.fld_KodInsentif = SpecialInsentifList2.fld_KodInsentif;
+                SpecialInsentifData.fld_NilaiInsentif = SpecialInsentifList2.fld_NilaiInsentif;
+                SpecialInsentifData.fld_Year = SpecialInsentifList2.fld_Year;
+                SpecialInsentifData.fld_Month = SpecialInsentifList2.fld_Month;
+                SpecialInsentifData.fld_NegaraID = NegaraID;
+                SpecialInsentifData.fld_SyarikatID = SyarikatID;
+                SpecialInsentifData.fld_WilayahID = WilayahID;
+                SpecialInsentifData.fld_LadangID = LadangID;
+                SpecialInsentifData.fld_Deleted = SpecialInsentifList2.fld_Deleted;
+                SpecialInsentifData.fld_CreatedBy = UserID;
+                SpecialInsentifData.fld_CreatedDT = DTProcess;
+                SpecialInsentifData.fld_InsentifID = SpecialInsentifList2.fld_InsentifID;
+                SpecialInsentifData.fld_KWSPMjk = 0;
+                SpecialInsentifData.fld_KWSPPkj = 0;
+                SpecialInsentifData.fld_SocsoMjk = 0;
+                SpecialInsentifData.fld_SocsoPkj = 0;
+                SpecialInsentifData.fld_GajiKasar = SpecialInsentifList2.fld_NilaiInsentif;
+                SpecialInsentifData.fld_GajiBersih = 0;
+                SpecialInsentif = SpecialInsentifData;
+            }
+            else
+            {
+                SpecialInsentif = null;
+            }
+            db2.Dispose();
+        }
+
+        public void AddTo_tbl_SpecialInsentif(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, List<tbl_SpecialInsentif> SpecialInsentif)
+        {
+            GetConnectFunc conn = new GetConnectFunc();
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+
+            db2.tbl_SpecialInsentif.AddRange(SpecialInsentif);
+            db2.SaveChanges();
+            db2.Dispose();
+        }
+
+        public List<tbl_SpecialInsentif> GetSpecialInsentif(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? Month, int? Year)
+        {
+            GetConnectFunc conn = new GetConnectFunc();
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+
+            var specialInsentif = db2.tbl_SpecialInsentif.Where(x => x.fld_LadangID == LadangID && x.fld_Year == Year).ToList();
+            db2.Dispose();
+            return specialInsentif;
         }
     }
 }

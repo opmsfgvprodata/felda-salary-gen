@@ -394,5 +394,30 @@ namespace SalaryGeneratorServices.FuncClass
         {
             File.WriteAllText(Path.Combine(AppDir, "excel\\Result.xls"), HtmlBody);
         }
+
+        public List<tbl_Insentif> GetWorkerSpecialInsentifFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_JenisInsentif> tbl_JenisInsentifSpecial, List<tbl_Insentif> tbl_Insentif)
+        {
+            GenSalaryModelHQ db = new GenSalaryModelHQ();
+            GetConnectFunc conn = new GetConnectFunc();
+            LogFunc LogFunc = new LogFunc();
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            List<tbl_Insentif> Pkjmstlist = new List<tbl_Insentif>();
+
+            var KodInsentifSpecial = tbl_JenisInsentifSpecial.Select(s => s.fld_KodInsentif).ToList();
+            Pkjmstlist = tbl_Insentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Month == Month && x.fld_Year == Year && x.fld_Deleted == false && KodInsentifSpecial.Contains(x.fld_KodInsentif)).ToList();
+
+            return Pkjmstlist;
+        }
+
+        public List<tbl_Pkjmast> GetAllWorkerFunc(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> tbl_Pkjmast)
+        {
+            List<tbl_Pkjmast> Pkjmstlist = new List<tbl_Pkjmast>();
+
+            Pkjmstlist = tbl_Pkjmast.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).ToList();
+
+
+            return Pkjmstlist;
+        }
     }
 }

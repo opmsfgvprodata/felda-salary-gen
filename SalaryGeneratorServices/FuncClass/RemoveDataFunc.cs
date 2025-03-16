@@ -160,5 +160,26 @@ namespace SalaryGeneratorServices.FuncClass
                   db.SaveChanges();
               }*/
         }
+
+        public int RemoveData_tbl_SpecialInsentif(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, List<tbl_Pkjmast> Pkjmstlists, List<tbl_JenisInsentif> tbl_JenisInsentifSpecial)
+        {
+            int totalcount = 0;
+            string host, catalog, user, pass = "";
+            conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+            GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
+            var specialIncentiveCode = tbl_JenisInsentifSpecial.Select(s => s.fld_KodInsentif).ToArray();
+            var GetPkjNo = Pkjmstlists.Select(s => s.fld_Nopkj).ToList();
+            var SpecialInsentif = db2.tbl_SpecialInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Year == Year && x.fld_Month == Month && GetPkjNo.Contains(x.fld_Nopkj) && specialIncentiveCode.Contains(x.fld_KodInsentif)).ToList();
+            var SpecialInsentif1 = db2.tbl_SpecialInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Year == Year && x.fld_Month == Month && specialIncentiveCode.Contains(x.fld_KodInsentif)).ToList();
+
+            totalcount = SpecialInsentif.Count;
+            if (totalcount != 0)
+            {
+                db2.tbl_SpecialInsentif.RemoveRange(SpecialInsentif);
+                db2.SaveChanges();
+            }
+            db2.Dispose();
+            return totalcount;
+        }
     }
 }

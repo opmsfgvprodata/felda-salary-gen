@@ -79,6 +79,7 @@
     <Compile Include="FuncClass\Step7Func.cs" />
     <Compile Include="ModelsCustom\CustMod_AdminSCTrans.cs" />
     <Compile Include="ModelsCustom\CustMod_DistributeAmount.cs" />
+    <Compile Include="ModelsCustom\CustMod_General.cs" />
     <Compile Include="ModelsCustom\CustMod_MonthYearList.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkerPaidLeave.cs" />
     <Compile Include="ModelsCustom\CustMod_WorkSCTrans.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="ModelsEstate\tbl_SevicesProcess.cs" />
     <Compile Include="ModelsEstate\tbl_SevicesProcessHistory.cs" />
     <Compile Include="ModelsEstate\tbl_Skb.cs" />
+    <Compile Include="ModelsEstate\tbl_SpecialInsentif.cs" />
     <Compile Include="ModelsEstate\tbl_SubPkt.cs" />
     <Compile Include="ModelsEstate\tbl_TutupUrusNiaga.cs" />
     <Compile Include="ModelsEstate\vw_GajiBulananPekerja.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="ModelsEstate\vw_MaklumatProduktiviti.cs" />
     <Compile Include="ModelsEstate\vw_PaySheetPekerja.cs" />
     <Compile Include="ModelsEstate\vw_RptSctran.cs" />
+    <Compile Include="ModelsEstate\vw_SpecialInsentive.cs" />
     <Compile Include="ModelsHQ\C__MigrationHistory.cs" />
     <Compile Include="ModelsHQ\dbo_tbl_Upah.cs" />
     <Compile Include="ModelsHQ\GenSalaryModelHQ.cs" />

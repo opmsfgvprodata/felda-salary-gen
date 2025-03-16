@@ -88,6 +88,9 @@ namespace SalaryGeneratorServices.ModelsEstate
         //Added by kamalia 15/2/2022
         public virtual DbSet<vw_PaySheetPekerja> vw_PaySheetPekerja { get; set; }
 
+        public virtual DbSet<tbl_SpecialInsentif> tbl_SpecialInsentif { get; set; }
+        public virtual DbSet<vw_SpecialInsentive> vw_SpecialInsentive { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<tbl_AktvtKerja>()

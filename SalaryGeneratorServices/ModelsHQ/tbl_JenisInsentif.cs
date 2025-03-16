@@ -47,5 +47,9 @@ namespace SalaryGeneratorServices.ModelsHQ
         public bool? fld_Deleted { get; set; }
 
         public bool? fld_AdaORP { get; set; }
+
+        public bool? fld_InclSecondPayslip { get; set; }
+
+        public DateTime? fld_ProcessDT { get; set; }
     }
 }
