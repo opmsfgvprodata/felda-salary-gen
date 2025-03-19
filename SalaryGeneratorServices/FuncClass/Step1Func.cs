@@ -66,7 +66,7 @@ namespace SalaryGeneratorServices.FuncClass
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             ModelsHQ.tbl_SevicesProcess SevicesProcess = new ModelsHQ.tbl_SevicesProcess();
 
-            SevicesProcess = db.tbl_SevicesProcess.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_ServicesName == servicesname && x.fld_ProcessName == processname && x.fld_Flag == 1).FirstOrDefault();
+            SevicesProcess = db.tbl_SevicesProcess.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_ServicesName == servicesname && x.fld_Flag == 1).FirstOrDefault();
 
             return SevicesProcess;
         }
