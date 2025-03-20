@@ -662,6 +662,11 @@ namespace SalaryGeneratorServices
                     #region Special Incentive
                     else if (SevicesProcess.fld_ProcessName == "LadangSalaryGenBonus")
                     {
+                        GetConnectFunc conn = new GetConnectFunc();
+                        string host, catalog, user, pass = "";
+                        conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
+
+                        GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
                         var tbl_Pkjmast = db2.tbl_Pkjmast.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).ToList();
                         var PkjmstlistsAll = Step1Func.GetAllWorkerFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, tbl_Pkjmast);
                         var tbl_Insentif = db2.tbl_Insentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID && x.fld_Month == Month && x.fld_Year == Year && x.fld_Deleted == false).ToList();
@@ -706,6 +711,8 @@ namespace SalaryGeneratorServices
                             {
                                 var Pkjmstlist = PkjmstlistsAll.Where(x => x.fld_Nopkj == item.fld_Nopkj).FirstOrDefault();
                                 var workerSpecialInsentif = workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj && x.fld_Month == Month && x.fld_KodInsentif == item.fld_KodInsentif).FirstOrDefault();
+                                KWSPPkj = 0;
+                                SocsoPkj = 0;
                                 if (Pkjmstlist.fld_StatusKwspSocso == "1" && workerSpecialInsentif != null)
                                 {
                                     var CustMod_KWSP = Step3Func.GetKWSPForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodKWSP, false, tbl_Kwsp, workerSpecialInsentif);
@@ -722,7 +729,7 @@ namespace SalaryGeneratorServices
                                 if (workerSpecialInsentif != null)
                                 {
                                     //var taxWorkerInfo = tbl_TaxWorkerInfo.Where(x => x.fld_NopkjPermanent == Pkjmstlist.fld_NopkjPermanent).FirstOrDefault();
-                                    Step3Func.Update_SpecialInsentif(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj).ToList(), item.fld_KodInsentif);
+                                    Step3Func.Update_SpecialInsentif(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj).ToList(), item.fld_KodInsentif, KWSPPkj.Value, SocsoPkj.Value, workerSpecialInsentif);
                                 }
                             }
                         }

@@ -13,8 +13,8 @@ namespace SalaryGeneratorServices.FuncClass
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             var getconnection = db.tblConnections.Where(x => x.wilayahID == wlyhID && x.syarikatID == syrktID && x.negaraID == ngrID).FirstOrDefault();
-           host = getconnection.DataSource;
-           //  host = getconnection.DataSourceInternal;
+            host = getconnection.DataSource;
+            //host = getconnection.DataSourceInternal;
             catalog = getconnection.InitialCatalog;
             user = getconnection.userID;
             pass = getconnection.Password;

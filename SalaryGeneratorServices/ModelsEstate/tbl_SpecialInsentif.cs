@@ -9,6 +9,7 @@ namespace SalaryGeneratorServices.ModelsEstate
     public partial class tbl_SpecialInsentif
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid fld_SpecialInsentifID { get; set; }
 
         [StringLength(20)]

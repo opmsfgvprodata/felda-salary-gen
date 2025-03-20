@@ -1203,7 +1203,7 @@ namespace SalaryGeneratorServices.FuncClass
             return CustMod_Socso;
         }
 
-        public void Update_SpecialInsentif(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, List<tbl_SpecialInsentif> tbl_SpecialInsentif, string kodInsentif)
+        public void Update_SpecialInsentif(int? NegaraID, int? SyarikatID, int? WilayahID, int? LadangID, int? UserID, DateTime DTProcess, int? Month, int? Year, string processname, string servicesname, int? ClientID, string NoPkj, List<tbl_SpecialInsentif> tbl_SpecialInsentif, string kodInsentif, decimal kwsp, decimal  socso, tbl_SpecialInsentif workerSpecialInsentif)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
             GetConnectFunc conn = new GetConnectFunc();
@@ -1212,8 +1212,7 @@ namespace SalaryGeneratorServices.FuncClass
             conn.GetConnection(out host, out catalog, out user, out pass, WilayahID, SyarikatID, NegaraID);
             GenSalaryModelEstate db2 = GenSalaryModelEstate.ConnectToSqlServer(host, catalog, user, pass);
 
-            var workerSpecialInsentif = tbl_SpecialInsentif.Where(x => x.fld_Month == Month && x.fld_KodInsentif == kodInsentif).FirstOrDefault();
-            workerSpecialInsentif.fld_GajiBersih = workerSpecialInsentif.fld_GajiKasar;
+            workerSpecialInsentif.fld_GajiBersih = workerSpecialInsentif.fld_GajiKasar - kwsp - socso;
             db2.Entry(workerSpecialInsentif).State = EntityState.Modified;
             db2.SaveChanges();
         }
