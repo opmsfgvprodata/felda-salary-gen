@@ -711,27 +711,53 @@ namespace SalaryGeneratorServices
                             {
                                 var Pkjmstlist = PkjmstlistsAll.Where(x => x.fld_Nopkj == item.fld_Nopkj).FirstOrDefault();
                                 var workerSpecialInsentif = workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj && x.fld_Month == Month && x.fld_KodInsentif == item.fld_KodInsentif).FirstOrDefault();
-                                KWSPPkj = 0;
-                                SocsoPkj = 0;
                                 if (Pkjmstlist.fld_StatusKwspSocso == "1" && workerSpecialInsentif != null)
                                 {
-                                    var CustMod_KWSP = Step3Func.GetKWSPForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodKWSP, false, tbl_Kwsp, workerSpecialInsentif);
-                                    KWSPMjkn = CustMod_KWSP.KWSPMjk;
-                                    KWSPPkj = CustMod_KWSP.KWSPPkj;
-                                    WriteLog("Get KWSP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + KWSPMjkn + ", Employee : RM " + KWSPPkj + ")", false, ServiceName, ServiceProcessID);
+                                    if (tbl_JenisInsentifSpecial.Any(x => x.fld_AdaCaruman == true))
+                                    {
+                                        var CustMod_KWSP = Step3Func.GetKWSPForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodKWSP, false, tbl_Kwsp, workerSpecialInsentif);
+                                        KWSPMjkn = CustMod_KWSP.KWSPMjk;
+                                        KWSPPkj = CustMod_KWSP.KWSPPkj;
+                                        WriteLog("Get KWSP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + KWSPMjkn + ", Employee : RM " + KWSPPkj + ")", false, ServiceName, ServiceProcessID);
 
-                                    var CustMod_Socso = Step3Func.GetSocsoForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodSocso, false, tbl_Socso, workerSpecialInsentif);
-                                    SocsoMjkn = CustMod_Socso.SocsoMjk;
-                                    SocsoPkj = CustMod_Socso.SocsoPkj;
-                                    WriteLog("Get Socso. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + SocsoMjkn + ", Employee : RM " + SocsoPkj + ")", false, ServiceName, ServiceProcessID);
+                                        var CustMod_Socso = Step3Func.GetSocsoForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodSocso, false, tbl_Socso, workerSpecialInsentif);
+                                        SocsoMjkn = CustMod_Socso.SocsoMjk;
+                                        SocsoPkj = CustMod_Socso.SocsoPkj;
+                                        WriteLog("Get Socso. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + SocsoMjkn + ", Employee : RM " + SocsoPkj + ")", false, ServiceName, ServiceProcessID);
+                                    }
+
                                 }
-
                                 if (workerSpecialInsentif != null)
                                 {
-                                    //var taxWorkerInfo = tbl_TaxWorkerInfo.Where(x => x.fld_NopkjPermanent == Pkjmstlist.fld_NopkjPermanent).FirstOrDefault();
                                     Step3Func.Update_SpecialInsentif(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj).ToList(), item.fld_KodInsentif, KWSPPkj.Value, SocsoPkj.Value, workerSpecialInsentif);
                                 }
                             }
+
+                            //foreach (var item in PkjmstlistsSpecialInsentif)
+                            //{
+                            //    var Pkjmstlist = PkjmstlistsAll.Where(x => x.fld_Nopkj == item.fld_Nopkj).FirstOrDefault();
+                            //    var workerSpecialInsentif = workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj && x.fld_Month == Month && x.fld_KodInsentif == item.fld_KodInsentif).FirstOrDefault();
+                            //    KWSPPkj = 0;
+                            //    SocsoPkj = 0;
+                            //    if (Pkjmstlist.fld_StatusKwspSocso == "1" && workerSpecialInsentif != null)
+                            //    {
+                            //        var CustMod_KWSP = Step3Func.GetKWSPForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodKWSP, false, tbl_Kwsp, workerSpecialInsentif);
+                            //        KWSPMjkn = CustMod_KWSP.KWSPMjk;
+                            //        KWSPPkj = CustMod_KWSP.KWSPPkj;
+                            //        WriteLog("Get KWSP. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + KWSPMjkn + ", Employee : RM " + KWSPPkj + ")", false, ServiceName, ServiceProcessID);
+
+                            //        var CustMod_Socso = Step3Func.GetSocsoForBonusFunc(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), Pkjmstlist.fld_KodSocso, false, tbl_Socso, workerSpecialInsentif);
+                            //        SocsoMjkn = CustMod_Socso.SocsoMjk;
+                            //        SocsoPkj = CustMod_Socso.SocsoPkj;
+                            //        WriteLog("Get Socso. (Data - No Pkj : " + Pkjmstlist.fld_Nopkj.Trim() + ", Employer : RM " + SocsoMjkn + ", Employee : RM " + SocsoPkj + ")", false, ServiceName, ServiceProcessID);
+                            //    }
+
+                            //    if (workerSpecialInsentif != null)
+                            //    {
+                            //        //var taxWorkerInfo = tbl_TaxWorkerInfo.Where(x => x.fld_NopkjPermanent == Pkjmstlist.fld_NopkjPermanent).FirstOrDefault();
+                            //        Step3Func.Update_SpecialInsentif(NegaraID, SyarikatID, WilayahID, LadangID, UserID, DateTimeFunc.GetDateTime(), Month, Year, getservicesdetail.fld_SevicesActivity, getservicesdetail.fld_ServicesName, getservicesdetail.fld_ClientID, Pkjmstlist.fld_Nopkj.Trim(), workerSpecialInsentifs.Where(x => x.fld_Nopkj == Pkjmstlist.fld_Nopkj).ToList(), item.fld_KodInsentif, KWSPPkj.Value, SocsoPkj.Value, workerSpecialInsentif);
+                            //    }
+                            //}
                         }
                     }
                     #endregion Special Incentive
