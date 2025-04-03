@@ -303,7 +303,7 @@ namespace SalaryGeneratorServices.FuncClass
             int j = 0;
             decimal? Amount = 0;
 
-            var GetInsentif = db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && x.fld_JenisInsentif == "P").ToList();
+            var GetInsentif = db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && x.fld_JenisInsentif == "P" && x.fld_InclSecondPayslip == false).ToList();
             var NoPkjList = AdminSCTransList.Select(s => s.fld_Nopkj).Distinct().ToArray();
 
             foreach (var Insentif in GetInsentif)

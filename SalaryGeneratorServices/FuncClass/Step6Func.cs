@@ -260,7 +260,7 @@ namespace SalaryGeneratorServices.FuncClass
             int j = 0;
             decimal? Amount = 0;
 
-            var GetInsentif = db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && x.fld_JenisInsentif == "P").ToList();
+            var GetInsentif = db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && x.fld_JenisInsentif == "P" && x.fld_InclSecondPayslip == false).ToList();
             var NoPkjList = AdminSCTransList.Select(s => new { s.fld_Nopkj, s.fld_PaySheetID }).Distinct().ToArray();
 
             foreach (var Insentif in GetInsentif)
@@ -274,6 +274,7 @@ namespace SalaryGeneratorServices.FuncClass
 
                         var GetIoPkj = AdminSCTransList.Where(x => pkjamount.fld_Nopkj.Contains(x.fld_Nopkj)).ToList();
                         var adminSCTrans = GetAmountAfterDevide(GetIoPkj, Amount, tbl_CustomerVendorGLMap, Insentif.fld_KodAktvt);
+                        var totalAmount = adminSCTrans.Sum(s => s.fld_Jumlah);
 
                         foreach (var GetAddInsentifs in adminSCTrans)
                         {
@@ -291,6 +292,8 @@ namespace SalaryGeneratorServices.FuncClass
                         }
                     }
                 }
+                var totalAmount2 = AdminSCTransList.Sum(s => s.fld_Jumlah);
+                var glnull = AdminSCTransList.Where(x => x.fld_KodGL == null).Sum(s => s.fld_Jumlah);
                 var getGL = AdminSCTransList.Where(x => x.fld_KodGL != null).Select(s => new { s.fld_KodGL, s.fld_SAPIO, s.fld_KodPkt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
 
                 foreach (var GetAddInsentifs in getGL)
@@ -1247,6 +1250,10 @@ namespace SalaryGeneratorServices.FuncClass
                 else
                 {
                     glCode = tbl_CustomerVendorGLMap.Where(x => x.fld_Paysheet == adminSCTrans.fld_PaySheetID && x.fld_JnsLot == adminSCTrans.fld_JnisAktvt && x.fld_KodAktiviti == kodActiviti).Select(s => s.fld_SAPCode).FirstOrDefault();
+                    if(glCode == null)
+                    {
+
+                    }
                 }
                 var amountB = (Convert.ToDecimal(adminSCTrans.fld_TotalWorking) / Convert.ToDecimal(totalWorkingWorker)) * amount.Value;
                 amountB = Math.Round(amountB, 2);

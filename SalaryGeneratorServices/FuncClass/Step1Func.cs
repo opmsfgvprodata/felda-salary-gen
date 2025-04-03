@@ -234,7 +234,7 @@ namespace SalaryGeneratorServices.FuncClass
         public List<tbl_JenisInsentif> tbl_JenisInsentif(int? NegaraID, int? SyarikatID)
         {
             GenSalaryModelHQ db = new GenSalaryModelHQ();
-            return db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false).ToList();
+            return db.tbl_JenisInsentif.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_Deleted == false && x.fld_InclSecondPayslip == false).ToList();
         }
 
         public List<tbl_Kwsp> tbl_Kwsp(int? NegaraID, int? SyarikatID)
