@@ -187,18 +187,22 @@ namespace SalaryGeneratorServices.FuncClass
 
             var ScTrans = db2.tbl_Sctran.Where(x => x.fld_Month == Month && x.fld_Year == Year && x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WilayahID == WilayahID && x.fld_LadangID == LadangID).Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_Keterangan, s.fld_JnisAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
             //modified by faeza on 01.12.2023 - add fld_KodAktvt.Substring(0, 1) == "2"
-            var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1" || x.fld_KodAktvt.Substring(0, 1) == "2").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
-            var GetWorkActvtDistincts = GetWorkActvt.Select(s => new { s.fld_GL, s.fld_IO, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
+            //var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1" || x.fld_KodAktvt.Substring(0, 1) == "2").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
+            var GetWorkActvt = ScTrans.Where(x => x.fld_KodAktvt.Substring(0, 1) == "0" || x.fld_KodAktvt.Substring(0, 1) == "1" || x.fld_KodAktvt.Substring(0, 1) == "2").Select(s => new { s.fld_GL, s.fld_IO, s.fld_Amt, s.fld_SAPType, s.fld_PaySheetID }).ToList();
+            //var GetWorkActvtDistincts = GetWorkActvt.Select(s => new { s.fld_GL, s.fld_IO, s.fld_KodAktvt, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
+            var GetWorkActvtDistincts = GetWorkActvt.Select(s => new { s.fld_GL, s.fld_IO, s.fld_SAPType, s.fld_PaySheetID }).Distinct().ToList();
             var GetEstateCOde = db.tbl_Ladang.Where(x => x.fld_NegaraID == NegaraID && x.fld_SyarikatID == SyarikatID && x.fld_WlyhID == WilayahID && x.fld_ID == LadangID).Select(s => s.fld_LdgCode).FirstOrDefault();
 
             foreach (var GetWorkActvtDistinctsTKT in GetWorkActvtDistincts.Where(x => x.fld_PaySheetID == "PT").ToList())
             {
                 DescActvt = "3" + GetEstateCOde + "- GAJI BURUH TKT BERHASIL" + "(" + GetEstateCOde + ") " + Month + "/" + Year;
                 //modified by kamalia 8/12/2021
-                Amount = GetWorkActvt.Where(x => x.fld_GL == GetWorkActvtDistinctsTKT.fld_GL && x.fld_IO == GetWorkActvtDistinctsTKT.fld_IO && x.fld_KodAktvt == GetWorkActvtDistinctsTKT.fld_KodAktvt && x.fld_SAPType == GetWorkActvtDistinctsTKT.fld_SAPType && x.fld_PaySheetID == GetWorkActvtDistinctsTKT.fld_PaySheetID).Sum(s => s.fld_Amt);//end
+                //Amount = GetWorkActvt.Where(x => x.fld_GL == GetWorkActvtDistinctsTKT.fld_GL && x.fld_IO == GetWorkActvtDistinctsTKT.fld_IO && x.fld_KodAktvt == GetWorkActvtDistinctsTKT.fld_KodAktvt && x.fld_SAPType == GetWorkActvtDistinctsTKT.fld_SAPType && x.fld_PaySheetID == GetWorkActvtDistinctsTKT.fld_PaySheetID).Sum(s => s.fld_Amt);//end
+                Amount = GetWorkActvt.Where(x => x.fld_GL == GetWorkActvtDistinctsTKT.fld_GL && x.fld_IO == GetWorkActvtDistinctsTKT.fld_IO && x.fld_SAPType == GetWorkActvtDistinctsTKT.fld_SAPType && x.fld_PaySheetID == GetWorkActvtDistinctsTKT.fld_PaySheetID).Sum(s => s.fld_Amt);//end
                 if (Amount != 0)
                 {
-                    tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = GetWorkActvtDistinctsTKT.fld_GL, fld_IO = GetWorkActvtDistinctsTKT.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPActivityCode = GetWorkActvtDistinctsTKT.fld_KodAktvt, fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = GetWorkActvtDistinctsTKT.fld_SAPType });
+                    //tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = GetWorkActvtDistinctsTKT.fld_GL, fld_IO = GetWorkActvtDistinctsTKT.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPActivityCode = GetWorkActvtDistinctsTKT.fld_KodAktvt, fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = GetWorkActvtDistinctsTKT.fld_SAPType });
+                    tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = GetWorkActvtDistinctsTKT.fld_GL, fld_IO = GetWorkActvtDistinctsTKT.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = GetWorkActvtDistinctsTKT.fld_SAPType });
                     i++;
                 }
             }
@@ -207,10 +211,12 @@ namespace SalaryGeneratorServices.FuncClass
             {
                 DescActvt = "3" + GetEstateCOde + "- GAJI BURUH TKA BERHASIL" + "(" + GetEstateCOde + ") " + Month + "/" + Year;
                 //modified by kamalia 8/12/2021
-                Amount = GetWorkActvt.Where(x => x.fld_GL == GetWorkActvtDistinctsTKT.fld_GL && x.fld_IO == GetWorkActvtDistinctsTKT.fld_IO && x.fld_KodAktvt == GetWorkActvtDistinctsTKT.fld_KodAktvt && x.fld_SAPType == GetWorkActvtDistinctsTKT.fld_SAPType && x.fld_PaySheetID == GetWorkActvtDistinctsTKT.fld_PaySheetID).Sum(s => s.fld_Amt);//end
+                //Amount = GetWorkActvt.Where(x => x.fld_GL == GetWorkActvtDistinctsTKT.fld_GL && x.fld_IO == GetWorkActvtDistinctsTKT.fld_IO && x.fld_KodAktvt == GetWorkActvtDistinctsTKT.fld_KodAktvt && x.fld_SAPType == GetWorkActvtDistinctsTKT.fld_SAPType && x.fld_PaySheetID == GetWorkActvtDistinctsTKT.fld_PaySheetID).Sum(s => s.fld_Amt);//end
+                Amount = GetWorkActvt.Where(x => x.fld_GL == GetWorkActvtDistinctsTKT.fld_GL && x.fld_IO == GetWorkActvtDistinctsTKT.fld_IO && x.fld_SAPType == GetWorkActvtDistinctsTKT.fld_SAPType && x.fld_PaySheetID == GetWorkActvtDistinctsTKT.fld_PaySheetID).Sum(s => s.fld_Amt);//end
                 if (Amount != 0)
                 {
-                    tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = GetWorkActvtDistinctsTKT.fld_GL, fld_IO = GetWorkActvtDistinctsTKT.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPActivityCode = GetWorkActvtDistinctsTKT.fld_KodAktvt, fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = GetWorkActvtDistinctsTKT.fld_SAPType });
+                    //tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = GetWorkActvtDistinctsTKT.fld_GL, fld_IO = GetWorkActvtDistinctsTKT.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPActivityCode = GetWorkActvtDistinctsTKT.fld_KodAktvt, fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = GetWorkActvtDistinctsTKT.fld_SAPType });
+                    tbl_SAPPostDataDetails.Add(new tbl_SAPPostDataDetails() { fld_Amount = Amount, fld_Currency = "RM", fld_Desc = DescActvt, fld_GL = GetWorkActvtDistinctsTKT.fld_GL, fld_IO = GetWorkActvtDistinctsTKT.fld_IO, fld_ItemNo = i, fld_Purpose = "1", fld_SAPPostRefID = SAPPostID1, fld_flag = 0, fld_SAPType = GetWorkActvtDistinctsTKT.fld_SAPType });
                     i++;
                 }
             }
